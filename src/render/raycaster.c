@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 13:49:15 by vmuller           #+#    #+#             */
-/*   Updated: 2023/06/29 11:14:11 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/06/29 12:13:07 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,11 +36,11 @@ static inline void	__setup_plane(
 	plane->dir_x[x] = cosf(cam->rot[x] + M_PI_2);
 	plane->dir_x[y] = 0.0f;
 	plane->dir_x[z] = sinf(cam->rot[x] + M_PI_2);
-	plane->dir_x *= plane->dist;
+	plane->dir_x *= (float)ft_eng_size_x(eng) / 2.0f;
 	plane->dir_y[x] = cosf(cam->rot[x]) * cosf(cam->rot[y] - M_PI_2);
 	plane->dir_y[y] = sinf(cam->rot[y] - M_PI_2);
 	plane->dir_y[z] = sinf(cam->rot[x]) * cosf(cam->rot[y] - M_PI_2);
-	plane->dir_y *= plane->dist;
+	plane->dir_y *= (float)ft_eng_size_y(eng) / 2.0f;
 	plane->dir_y *= screen_ratio;
 }
 
@@ -119,8 +119,10 @@ void	ray_render(
 		while (pix[x] < (int)ft_eng_size_x(eng))
 		{
 			dir = plane.pos;
-			dir += plane.dir_x * (pix[x] / (float)ft_eng_size_x(eng) - 0.5f);
-			dir += plane.dir_y * (pix[y] / (float)ft_eng_size_y(eng) - 0.5f);
+			t_v2f pp = {(pix[x] / (float)ft_eng_size_x(eng) - 0.5f), (pix[y] / (float)ft_eng_size_y(eng) - 0.5f)};
+			//pp = pp + pp + pp;
+			dir += plane.dir_x * pp[x];
+			dir += plane.dir_y * pp[y];
 			ray = cast_ray(map, &cam->pos, &dir);
 			ft_draw(eng, pix, ray_to_pixel(map, &ray, 0));
 			pix[x]++;

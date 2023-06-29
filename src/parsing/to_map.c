@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 17:24:53 by vmuller           #+#    #+#             */
-/*   Updated: 2023/06/29 11:12:42 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/06/29 12:06:10 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,24 +24,27 @@ static inline int	__to_map_error(
 
 static inline t_color	__get_color(char *str)
 {
-	char	*ptr;
 	t_color	color;
+	int		err;
+	int		i;
 
-	color.a = 20;
-	ptr = ft_strchr(str, ',');
-	if (ptr == NULL || ptr == str)
-		return ((t_color){0xFF000000});
-	color.r = ft_atoi(str);
-	str = ptr + 1;
-	ptr = ft_strchr(str, ',');
-	if (ptr == NULL || ptr == str)
-		return ((t_color){0xFF000000});
-	color.g = ft_atoi(str);
-	str = ptr + 1;
-	ptr = ft_strchr(str, '\0');
-	if (ptr == NULL || ptr == str)
-		return ((t_color){0xFF000000});
-	color.b = ft_atoi(str);
+	color.d = 20;
+	i = 0;
+	while (i < 3)
+	{
+		if (!ft_isdigit(*str))
+			return ((t_color){0xFF000000});
+		color.d = (color.d << 8) | ft_ato_u8(str, &err);
+		while (ft_isdigit(*str))
+			str++;
+		printf("CECI EST UN %d'%c'\n", i, *str);
+		if ((i == 2 && *str != '\0') || err)
+			return ((t_color){0xFF000000});
+		if (i < 2 && *str != ',')
+			return ((t_color){0xFF000000});
+		str++;
+		i++;
+	}
 	return (color);
 }
 
@@ -74,10 +77,10 @@ static inline int	__pars_set_colors(
 	t_map *const map)
 {
 	map->sky_color = __get_color(pars->elements[5]);
-	if (map->sky_color.a == 0xFF)
+	if (map->sky_color.d == 0xFF000000)
 		return (__to_map_error(eng, pars, map, "invalid sky color format"));
 	map->ground_color = __get_color(pars->elements[4]);
-	if (map->ground_color.a == 0xFF)
+	if (map->ground_color.d == 0xFF000000)
 		return (__to_map_error(eng, pars, map, "invalid ground color format"));
 	map->sprites[4] = ft_sprite(eng, 1, 1);
 	if (map->sprites[4] == NULL)

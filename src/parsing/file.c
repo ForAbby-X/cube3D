@@ -6,13 +6,13 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 22:20:24 by vmuller           #+#    #+#             */
-/*   Updated: 2023/06/29 11:09:20 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/06/29 11:54:53 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
 
-static inline void	__pars_clear(t_pars *const pars)
+static inline int	__pars_clear(t_pars *const pars)
 {
 	t_length	index;
 
@@ -24,6 +24,7 @@ static inline void	__pars_clear(t_pars *const pars)
 	}
 	while (ft_vector_size(pars->data))
 		free(ft_vector_pop(pars->data));
+	return (1);
 }
 
 int	pars_error(t_pars *const pars, char *const str)
@@ -54,13 +55,12 @@ t_map	pars_file(
 	pars.data = ft_vector_create(16);
 	if (pars.data == NULL)
 		return (get_next_line(-1), ft_vector_destroy(pars.data), (t_map){0});
-	if (pars_elements(fd, &pars))
-		return (get_next_line(-1), ft_vector_destroy(pars.data), (t_map){0});
-	if (pars_map(fd, &pars))
+	if (pars_elements(fd, &pars) || pars_map(fd, &pars))
 		return (get_next_line(-1), ft_vector_destroy(pars.data), (t_map){0});
 	get_next_line(-1);
-	if (pars_to_map(eng, &pars, &map) || !is_map_closed(eng, &map))
-		return (__pars_clear(&pars), ft_vector_destroy(pars.data), (t_map){0});
+	if (pars_to_map(eng, &pars, &map)
+		|| (!is_map_closed(eng, &map) && __pars_clear(&pars)))
+		return (ft_vector_destroy(pars.data), (t_map){0});
 	__pars_clear(&pars);
 	ft_vector_destroy(pars.data);
 	return (map);

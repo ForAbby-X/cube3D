@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vmuller <vmuller@student.42.fr>            +#+  +:+       +#+        */
+/*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 20:57:21 by vmuller           #+#    #+#             */
-/*   Updated: 2023/06/27 18:09:50 by vmuller          ###   ########.fr       */
+/*   Updated: 2023/06/29 11:39:03 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ typedef struct s_pars
 }	t_pars;
 
 int		pars_error(t_pars *const pars, char *const str);
+
+int		ft_ato_u8(char const *const input, int *err);
 
 int		is_line_map_data(char *str);
 int		pars_map(int const fd, t_pars *const pars);

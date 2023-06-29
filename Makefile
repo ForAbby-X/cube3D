@@ -27,6 +27,7 @@ SRC		=	main.c \
 			 parsing/file.c \
 			 parsing/to_map.c \
 			 parsing/closed.c \
+			 parsing/utils.c \
 			 \
 			cast_ray.c \
 			 \

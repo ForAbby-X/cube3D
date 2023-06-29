@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   manager.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vmuller <vmuller@student.42.fr>            +#+  +:+       +#+        */
+/*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 10:48:47 by vmuller           #+#    #+#             */
-/*   Updated: 2023/06/27 17:43:40 by vmuller          ###   ########.fr       */
+/*   Updated: 2023/06/29 11:44:39 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,8 @@ t_map	map_create(t_v3i const size)
 
 void	map_destroy(t_engine *const eng, t_map *const map)
 {
-	t_v3i	pos;
+	t_v3i		pos;
+	t_length	i;
 
 	pos[x] = 0;
 	while (pos[x] < map->size[x])
@@ -56,10 +57,11 @@ void	map_destroy(t_engine *const eng, t_map *const map)
 	}
 	free(map->data);
 	map->size = (t_v3i){0, 0, 0};
-	ft_destroy_sprite(eng, map->sprites[0]);
-	ft_destroy_sprite(eng, map->sprites[1]);
-	ft_destroy_sprite(eng, map->sprites[2]);
-	ft_destroy_sprite(eng, map->sprites[3]);
-	ft_destroy_sprite(eng, map->sprites[4]);
-	ft_destroy_sprite(eng, map->sprites[5]);
+	i = 0;
+	while (i < 6)
+	{
+		if (map->sprites[i])
+			ft_destroy_sprite(eng, map->sprites[i]);
+		i++;
+	}
 }
