@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   to_map.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vmuller <vmuller@student.42.fr>            +#+  +:+       +#+        */
+/*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 17:24:53 by vmuller           #+#    #+#             */
-/*   Updated: 2023/06/27 18:45:24 by vmuller          ###   ########.fr       */
+/*   Updated: 2023/06/29 11:12:42 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ int	pars_to_map(
 	i = 0;
 	while (i < 4)
 	{
-		map->sprites[i] = ft_sprite(eng, 128, 128); // TO REPLACE WITH SPRITE_P
+		map->sprites[i] = ft_sprite_p(eng, pars->elements[i]);
 		if (map->sprites[i] == NULL)
 			return (__to_map_error(eng, pars, map,
 					"memory error on map creation"));

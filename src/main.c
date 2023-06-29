@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vmuller <vmuller@student.42.fr>            +#+  +:+       +#+        */
+/*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 10:36:00 by vmuller           #+#    #+#             */
-/*   Updated: 2023/06/27 18:49:09 by vmuller          ###   ########.fr       */
+/*   Updated: 2023/06/29 11:13:01 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,14 @@ static inline void	__control(
 	if (eng->keys[XK_Shift_L])
 		vel -= up;
 	cam->pos += v3fnorm(vel, dt * 4.0f);
+	if (eng->keys[XK_Right])
+		cam->rot[x] += dt;
+	if (eng->keys[XK_Left])
+		cam->rot[x] -= dt;
+	if (eng->keys[XK_Down])
+		cam->rot[y] -= dt;
+	if (eng->keys[XK_Up])
+		cam->rot[y] += dt;
 	cam->rot[x] += ((float)eng->mouse_x - 500) / 500.0f;
 	cam->rot[y] -= ((float)eng->mouse_y - 260) / 500.0f;
 	mlx_mouse_move(eng->mlx, eng->win, 500, 260);
@@ -67,27 +75,27 @@ static inline int	__loop(t_engine *eng, t_data *data, double dt)
 	return (1);
 }
 
-static inline void	__init_sprites(t_engine *const eng, t_map *const map)
-{
-	ft_eng_sel_spr(eng, map->sprites[0]);
-	for (int y = 0; y < 128; y++)for (int x = 0; x < 128; x++)
-		ft_draw(eng, (t_v2i){x, y}, ft_color(0, x, 255.0f
-			- (cosf((float)y / 128.0f * M_PI * 10) / 2.0f + 0.5f)
-			* (cosf((float)x / 128.0f * M_PI * 2) / 2.0f + 0.5f) * 255.0f, y));
-	ft_eng_sel_spr(eng, NULL);
-	ft_eng_sel_spr(eng, map->sprites[1]);
-	for (int y = 0; y < 128; y++)for (int x = 0; x < 128; x++)
-		ft_draw(eng, (t_v2i){x, y}, ft_color(0, x, (x * x + y * y) / 60, y));
-	ft_eng_sel_spr(eng, NULL);
-	ft_eng_sel_spr(eng, map->sprites[2]);
-	for (int y = 0; y < 128; y++)for (int x = 0; x < 128; x++)
-		ft_draw(eng, (t_v2i){x, y}, ft_color(0, y, x & y, x));
-	ft_eng_sel_spr(eng, NULL);
-	ft_eng_sel_spr(eng, map->sprites[3]);
-	for (int y = 0; y < 128; y++)for (int x = 0; x < 128; x++)
-		ft_draw(eng, (t_v2i){x, y}, ft_color(0, y, x, x));
-	ft_eng_sel_spr(eng, NULL);
-}
+// static inline void	__init_sprites(t_engine *const eng, t_map *const map)
+// {
+// 	ft_eng_sel_spr(eng, map->sprites[0]);
+// 	for (int y = 0; y < 128; y++)for (int x = 0; x < 128; x++)
+// 		ft_draw(eng, (t_v2i){x, y}, ft_color(0, x, 255.0f
+// 			- (cosf((float)y / 128.0f * M_PI * 10) / 2.0f + 0.5f)
+// 			* (cosf((float)x / 128.0f * M_PI * 2) / 2.0f + 0.5f) * 255.0f, y));
+// 	ft_eng_sel_spr(eng, NULL);
+// 	ft_eng_sel_spr(eng, map->sprites[1]);
+// 	for (int y = 0; y < 128; y++)for (int x = 0; x < 128; x++)
+// 		ft_draw(eng, (t_v2i){x, y}, ft_color(0, x, (x * x + y * y) / 60, y));
+// 	ft_eng_sel_spr(eng, NULL);
+// 	ft_eng_sel_spr(eng, map->sprites[2]);
+// 	for (int y = 0; y < 128; y++)for (int x = 0; x < 128; x++)
+// 		ft_draw(eng, (t_v2i){x, y}, ft_color(0, y, x & y, x));
+// 	ft_eng_sel_spr(eng, NULL);
+// 	ft_eng_sel_spr(eng, map->sprites[3]);
+// 	for (int y = 0; y < 128; y++)for (int x = 0; x < 128; x++)
+// 		ft_draw(eng, (t_v2i){x, y}, ft_color(0, y, x, x));
+// 	ft_eng_sel_spr(eng, NULL);
+// }
 
 int	main(int argc, char **argv)
 {
@@ -102,7 +110,7 @@ int	main(int argc, char **argv)
 		data.map = pars_file(eng, argv[1]);
 		if (data.map.data)
 		{
-			__init_sprites(eng, &data.map);
+			//__init_sprites(eng, &data.map);
 			data.cam = (t_camera){data.map.spawn, {0.0f, 0.0f}, M_PI_2};
 			ft_eng_play(eng, &data, __loop);
 			map_destroy(eng, &data.map);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   raycaster.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vmuller <vmuller@student.42.fr>            +#+  +:+       +#+        */
+/*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 13:49:15 by vmuller           #+#    #+#             */
-/*   Updated: 2023/06/28 13:39:17 by vmuller          ###   ########.fr       */
+/*   Updated: 2023/06/29 11:14:11 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ t_color	ray_to_pixel(
 	get_tex_pos(ray, &tex_pos);
 	pix_pos = (t_v2i){tex_pos[x] * spr->size[x], tex_pos[y] * spr->size[y]};
 	color = ft_get_color(spr, pix_pos);
-	if (color.g > 0 && reflections < 2)
+	if (color.g > 0 && reflections < 0)
 		color = ray_reflection(map, ray, color, reflections + 1);
 	return (ft_color_inter(color, (t_color){0}, dist / 255.0f));
 }

@@ -1,0 +1,6 @@
+{
+	"files.associations": {
+		"raycaster.h": "c",
+		"parsing.h": "c"
+	}
+}
