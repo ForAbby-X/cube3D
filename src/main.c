@@ -6,18 +6,20 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 10:36:00 by vmuller           #+#    #+#             */
-/*   Updated: 2023/06/29 11:13:01 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/07/04 12:59:11 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "raycaster.h"
 #include "parsing.h"
+#include "interface.h"
 
 struct s_data
 {
 	t_map		map;
 	t_sprite	*sub_screen;
 	t_camera	cam;
+	t_gui		gui;
 };
 
 //static inline void	__collision(
@@ -39,13 +41,13 @@ static inline void	__control(
 	t_v3f		vel;
 
 	vel = (t_v3f){0};
-	if (eng->keys[XK_z])
+	if (eng->keys[XK_w])
 		vel += dir;
 	if (eng->keys[XK_s])
 		vel -= dir;
 	if (eng->keys[XK_d])
 		vel += off;
-	if (eng->keys[XK_q])
+	if (eng->keys[XK_a])
 		vel -= off;
 	if (eng->keys[XK_space])
 		vel += up;
@@ -53,50 +55,51 @@ static inline void	__control(
 		vel -= up;
 	cam->pos += v3fnorm(vel, dt * 4.0f);
 	if (eng->keys[XK_Right])
-		cam->rot[x] += dt;
+		cam->rot[x] += dt * 2;
 	if (eng->keys[XK_Left])
-		cam->rot[x] -= dt;
+		cam->rot[x] -= dt * 2;
 	if (eng->keys[XK_Down])
-		cam->rot[y] -= dt;
+		cam->rot[y] -= dt * 2;
 	if (eng->keys[XK_Up])
-		cam->rot[y] += dt;
-	cam->rot[x] += ((float)eng->mouse_x - 500) / 500.0f;
-	cam->rot[y] -= ((float)eng->mouse_y - 260) / 500.0f;
-	mlx_mouse_move(eng->mlx, eng->win, 500, 260);
+		cam->rot[y] += dt * 2;
+	// cam->rot[x] += ((float)eng->mouse_x - 500) / 500.0f;
+	// cam->rot[y] -= ((float)eng->mouse_y - 260) / 500.0f;
+	// mlx_mouse_move(eng->mlx, eng->win, 500, 260);
 }
 
 static inline int	__loop(t_engine *eng, t_data *data, double dt)
 {
+	static float	time;
+
+	time += dt;
 	__control(eng, &data->cam, dt);
 	ft_eng_sel_spr(eng, data->sub_screen);
-	ray_render(eng, &data->map, &data->cam);
+	ray_render(eng, &data->map, &data->cam, time);
 	ft_eng_sel_spr(eng, NULL);
 	ft_put_sprite_s(eng, data->sub_screen, (t_v2i){0, 0}, 4);
+	gui_display(eng, &data->gui);
 	return (1);
 }
 
-// static inline void	__init_sprites(t_engine *const eng, t_map *const map)
-// {
-// 	ft_eng_sel_spr(eng, map->sprites[0]);
-// 	for (int y = 0; y < 128; y++)for (int x = 0; x < 128; x++)
-// 		ft_draw(eng, (t_v2i){x, y}, ft_color(0, x, 255.0f
-// 			- (cosf((float)y / 128.0f * M_PI * 10) / 2.0f + 0.5f)
-// 			* (cosf((float)x / 128.0f * M_PI * 2) / 2.0f + 0.5f) * 255.0f, y));
-// 	ft_eng_sel_spr(eng, NULL);
-// 	ft_eng_sel_spr(eng, map->sprites[1]);
-// 	for (int y = 0; y < 128; y++)for (int x = 0; x < 128; x++)
-// 		ft_draw(eng, (t_v2i){x, y}, ft_color(0, x, (x * x + y * y) / 60, y));
-// 	ft_eng_sel_spr(eng, NULL);
-// 	ft_eng_sel_spr(eng, map->sprites[2]);
-// 	for (int y = 0; y < 128; y++)for (int x = 0; x < 128; x++)
-// 		ft_draw(eng, (t_v2i){x, y}, ft_color(0, y, x & y, x));
-// 	ft_eng_sel_spr(eng, NULL);
-// 	ft_eng_sel_spr(eng, map->sprites[3]);
-// 	for (int y = 0; y < 128; y++)for (int x = 0; x < 128; x++)
-// 		ft_draw(eng, (t_v2i){x, y}, ft_color(0, y, x, x));
-// 	ft_eng_sel_spr(eng, NULL);
-// }
+static inline void	__init_sprites(t_engine *const eng, t_map *const map)
+{
+	t_color	color;
 
+	for (int i = 0; i < 6; i++)
+	{
+		ft_eng_sel_spr(eng, map->sprites[i]);
+		for (int y = 0; y < (int)ft_eng_size_y(eng); y++)
+		{
+			for (int x = 0; x < (int)ft_eng_size_x(eng); x++)
+			{
+				color = ft_get_color(eng->sel_spr, (t_v2i){x, y});
+				color.a = ft_color_med(color) >> 1;
+				ft_draw(eng, (t_v2i){x, y}, color);
+			}
+		}
+		ft_eng_sel_spr(eng, NULL);
+	}
+}
 int	main(int argc, char **argv)
 {
 	t_engine	*eng;
@@ -108,11 +111,14 @@ int	main(int argc, char **argv)
 	{
 		data.sub_screen = ft_sprite(eng, 250, 130);
 		data.map = pars_file(eng, argv[1]);
+		data.gui = gui_create(eng,
+				(t_v2i){0, 0}, (t_v2i){400, 230}, "Settings");
 		if (data.map.data)
 		{
-			//__init_sprites(eng, &data.map);
+			(void)__init_sprites;
 			data.cam = (t_camera){data.map.spawn, {0.0f, 0.0f}, M_PI_2};
 			ft_eng_play(eng, &data, __loop);
+			gui_destroy(eng, &data.gui);
 			map_destroy(eng, &data.map);
 		}
 		else

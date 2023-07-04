@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 18:17:19 by vmuller           #+#    #+#             */
-/*   Updated: 2023/06/29 11:09:06 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/07/04 13:04:52 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,14 +54,17 @@ static inline void	__get_real_pos(t_ray *const ray)
 	ray->end[z] = ray->start[z] + ray->dist * ray->dir[z];
 }
 
-static inline void	__loop_ray(t_map *const map, t_ray *const ray)
+static inline void	__loop_ray(
+	t_map *const map,
+	t_ray *const ray,
+	int max_dist)
 {
 	t_v3i	inc;
 	int		flag;
 
 	inc = (t_v3i){0, 0, 0};
 	flag = 1;
-	while (flag)
+	while (flag && max_dist)
 	{
 		inc[x] = (ray->side_dist[x] <= ray->side_dist[y])
 			&& (ray->side_dist[x] <= ray->side_dist[z]);
@@ -73,7 +76,8 @@ static inline void	__loop_ray(t_map *const map, t_ray *const ray)
 		ray->side_dist[y] += inc[y] * ray->delta_dist[y];
 		ray->side_dist[z] += inc[z] * ray->delta_dist[z];
 		ray->pos += inc * ray->step;
-		flag = map_get(map, ray->pos) == (t_cell){0};
+		flag = (map_get(map, ray->pos) == (t_cell){0});
+		max_dist--;
 	}
 	ray->side = (inc[y] * 1);
 	ray->side |= (inc[z] * 2);
@@ -81,11 +85,15 @@ static inline void	__loop_ray(t_map *const map, t_ray *const ray)
 	__get_real_pos(ray);
 }
 
-t_ray	cast_ray(t_map *const map, t_v3f *const pos, t_v3f *const dir)
+t_ray	cast_ray(
+	t_map *const map,
+	t_v3f *const pos,
+	t_v3f *const dir,
+	float const max_dist)
 {
 	t_ray	ray;
 
 	__setup_ray(&ray, pos, dir);
-	__loop_ray(map, &ray);
+	__loop_ray(map, &ray, max_dist);
 	return (ray);
 }

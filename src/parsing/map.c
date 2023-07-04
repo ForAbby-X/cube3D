@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 22:22:01 by vmuller           #+#    #+#             */
-/*   Updated: 2023/06/29 11:09:22 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/07/04 10:52:16 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static inline int	__line_get_map(char *str, t_pars *pars)
 			if (pars->rotation)
 				return (pars_error(pars, "two or more spawn locations"));
 			pars->rotation = *ptr;
-			pars->spawn = (t_v3i){ptr - str, 1, ft_vector_size(pars->data)};
+			pars->spawn = (t_v3i){ptr - str, 1, vector_size(&pars->data)};
 		}
 		ptr++;
 	}
@@ -57,7 +57,7 @@ int	pars_map(int const fd, t_pars *const pars)
 		tmp = ft_strdup(line);
 		if (tmp == NULL)
 			return (free(line), pars_error(pars, "map memory error"));
-		if (ft_vector_add(pars->data, tmp) == NULL)
+		if (vector_addback(&pars->data, &tmp) == NULL)
 			return (free(line), free(tmp),
 				pars_error(pars, "map memory error"));
 		free(line);
@@ -65,7 +65,7 @@ int	pars_map(int const fd, t_pars *const pars)
 	}
 	if (pars->rotation == 0)
 		return (pars_error(pars, "no spawn location detected"));
-	pars->size = (t_v3i){pars->size[x], 3, ft_vector_size(pars->data)};
+	pars->size = (t_v3i){pars->size[x], 3, vector_size(&pars->data)};
 	if (pars->size[x] < 3 || pars->size[z] < 3)
 		return (pars_error(pars, "no room for anything"));
 	return (0);

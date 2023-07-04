@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 17:24:53 by vmuller           #+#    #+#             */
-/*   Updated: 2023/06/29 12:06:10 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/07/04 13:45:06 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ static inline t_color	__get_color(char *str)
 		color.d = (color.d << 8) | ft_ato_u8(str, &err);
 		while (ft_isdigit(*str))
 			str++;
-		printf("CECI EST UN %d'%c'\n", i, *str);
 		if ((i == 2 && *str != '\0') || err)
 			return ((t_color){0xFF000000});
 		if (i < 2 && *str != ',')
@@ -55,9 +54,9 @@ static inline void	__pars_to_data(t_pars *const pars, t_map *const map)
 
 	map_fill(map, (t_v3i){0}, (t_v3i){pars->size[x], 2, pars->size[z]}, 255);
 	pos[y] = 0;
-	while (pos[y] < (int)ft_vector_size(pars->data))
+	while (pos[y] < (int)vector_size(&pars->data))
 	{
-		line = ft_vector_get(pars->data, (t_length)pos[y]);
+		line = *((char **)vector_get(&pars->data, (t_length)pos[y]));
 		pos[x] = 0;
 		while (line[pos[x]] && line[pos[x]] != '\n')
 		{

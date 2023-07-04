@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 20:57:07 by vmuller           #+#    #+#             */
-/*   Updated: 2023/06/29 11:17:32 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/07/04 10:29:12 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,8 @@ static inline int	__line_get_elem(
 	while (g_pars_look[index].str
 		&& ft_strncmp(g_pars_look[index].str, str, g_pars_look[index].len))
 		index++;
-	if (g_pars_look[index].str == NULL) // modifier
+	if (g_pars_look[index].str == NULL
+		|| !ft_strchr(" \t\v", str[g_pars_look[index].len]))
 		return (*str != '\n' && pars_error(pars, "unrecognised token"));
 	if (pars->elements[g_pars_look[index].index])
 		return (pars_error(pars, "double element detected"));
@@ -76,7 +77,9 @@ int	pars_elements(int const fd, t_pars *const pars)
 		free(line);
 		line = get_next_line(fd);
 	}
-	return (!(pars->elements[0] && pars->elements[1]
+	if (!(pars->elements[0] && pars->elements[1]
 			&& pars->elements[2] && pars->elements[3]
-			&& pars->elements[4] && pars->elements[5]));
+			&& pars->elements[4] && pars->elements[5]))
+		return (free(line), pars_error(pars, "missing one or more elements"));
+	return (0);
 }

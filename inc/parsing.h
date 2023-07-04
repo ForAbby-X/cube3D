@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 20:57:21 by vmuller           #+#    #+#             */
-/*   Updated: 2023/06/29 11:39:03 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/07/04 10:49:36 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 typedef struct s_pars
 {
 	char		*elements[6];
-	t_vector	*data;
+	t_vector	data;
 	t_v3i		size;
 	t_v3i		spawn;
 	char		rotation;

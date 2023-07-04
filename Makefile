@@ -38,6 +38,10 @@ SRC		=	main.c \
 			 \
 			render/raycaster.c \
 			render/reflection.c \
+			 \
+			interface/container.c \
+			interface/objects.c \
+			interface/button.c \
 
 INC		=	vec3.h \
 			camera.h \
@@ -45,6 +49,7 @@ INC		=	vec3.h \
 			cast_ray.h \
 			raycaster.h \
 			parsing.h \
+			interface.h \
 
 OBJ		= $(addprefix $(OBJDIR)/,$(SRC:.c=.o))
 

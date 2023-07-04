@@ -1,6 +1,7 @@
 {
 	"files.associations": {
 		"raycaster.h": "c",
-		"parsing.h": "c"
+		"parsing.h": "c",
+		"engine.h": "c"
 	}
 }
