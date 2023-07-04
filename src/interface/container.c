@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 11:00:48 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/07/04 16:05:03 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/07/04 16:15:51 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,8 +61,8 @@ void	gui_display(t_engine *const eng, t_gui *const gui)
 		(t_color){0x34495e});
 	spr = eng->sel_spr;
 	ft_eng_sel_spr(eng, gui->surface);
-	//DO_OBJECT
 	ft_clear(eng, (t_color){0xFF000000});
+	gui_obj_display(eng, vector_get(&gui->objects, 0), (t_v2i){0, 0});
 	ft_eng_sel_spr(eng, spr);
 	ft_put_sprite(eng, gui->surface, gui->pos + (t_v2i){2, 22});
 }

@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 10:36:00 by vmuller           #+#    #+#             */
-/*   Updated: 2023/07/04 12:59:11 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/07/04 16:20:53 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,6 +113,8 @@ int	main(int argc, char **argv)
 		data.map = pars_file(eng, argv[1]);
 		data.gui = gui_create(eng,
 				(t_v2i){0, 0}, (t_v2i){400, 230}, "Settings");
+		t_gui_obj obj = gui_obj_create("distance fog", BUTTON, NULL, NULL);
+		gui_add(&data.gui, &obj);
 		if (data.map.data)
 		{
 			(void)__init_sprites;

@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 15:23:29 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/07/04 15:55:59 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/07/04 16:09:53 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,10 @@ t_gui_obj	gui_obj_create(
 				int (*on_click)(t_gui_obj *self),
 				int *const value);
 void		gui_obj_destroy(void *const obj);
-void		gui_obj_display(t_engine *const eng, t_gui_obj *const obj);
+void		gui_obj_display(
+				t_engine *const eng,
+				t_gui_obj *const obj,
+				t_v2i const pos);
 
 t_gui		gui_create(
 				t_engine *const eng,
