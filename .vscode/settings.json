@@ -2,6 +2,7 @@
 	"files.associations": {
 		"raycaster.h": "c",
 		"parsing.h": "c",
-		"engine.h": "c"
+		"engine.h": "c",
+		"interface.h": "c"
 	}
 }

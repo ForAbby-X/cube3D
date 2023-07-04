@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 10:36:00 by vmuller           #+#    #+#             */
-/*   Updated: 2023/07/04 16:20:53 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/07/04 22:54:50 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,7 @@ static inline int	__loop(t_engine *eng, t_data *data, double dt)
 	ray_render(eng, &data->map, &data->cam, time);
 	ft_eng_sel_spr(eng, NULL);
 	ft_put_sprite_s(eng, data->sub_screen, (t_v2i){0, 0}, 4);
+	gui_update(eng, &data->gui);
 	gui_display(eng, &data->gui);
 	return (1);
 }
@@ -104,6 +105,7 @@ int	main(int argc, char **argv)
 {
 	t_engine	*eng;
 	t_data		data;
+	t_gui_obj	obj;
 
 	(void)argc;
 	eng = ft_eng_create(250 * 4, 130 * 4, "cube3D");
@@ -113,7 +115,11 @@ int	main(int argc, char **argv)
 		data.map = pars_file(eng, argv[1]);
 		data.gui = gui_create(eng,
 				(t_v2i){0, 0}, (t_v2i){400, 230}, "Settings");
-		t_gui_obj obj = gui_obj_create("distance fog", BUTTON, NULL, NULL);
+		obj = gui_obj_create("distance fog", BUTTON, NULL, NULL);
+		gui_add(&data.gui, &obj);
+		obj = gui_obj_create("bababoy", TEXT, NULL, NULL);
+		gui_add(&data.gui, &obj);
+		obj = gui_obj_create("reflections", BUTTON, NULL, NULL);
 		gui_add(&data.gui, &obj);
 		if (data.map.data)
 		{
