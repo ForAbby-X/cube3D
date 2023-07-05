@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 22:22:01 by vmuller           #+#    #+#             */
-/*   Updated: 2023/07/04 10:52:16 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/07/05 15:57:56 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static inline int	__line_get_map(char *str, t_pars *pars)
 			if (pars->rotation)
 				return (pars_error(pars, "two or more spawn locations"));
 			pars->rotation = *ptr;
-			pars->spawn = (t_v3i){ptr - str, 1, vector_size(&pars->data)};
+			pars->spawn = (t_v3i){ptr - str, 2, vector_size(&pars->data)};
 		}
 		ptr++;
 	}

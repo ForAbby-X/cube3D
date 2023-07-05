@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 11:00:48 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/07/04 23:05:27 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/07/05 12:57:43 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,12 +51,14 @@ t_gui_obj	*gui_add(t_gui *const gui, t_gui_obj *const obj)
 {
 	obj->from = gui;
 	obj->pos = g_gui_obj_size * (int)vector_size(&gui->objects);
-	obj->size = (t_v2i){gui->size[x] - 4, 20};
+	obj->size = (t_v2i){gui->size[x] - 4, 22};
 	return (vector_addback(&gui->objects, obj));
 }
 
 void	gui_update(t_engine *const eng, t_gui *const gui)
 {
+	t_length		index;
+
 	if (eng->mouse_x >= gui->pos[x] && eng->mouse_x < gui->pos[x] + gui->size[x]
 		&& eng->mouse_y >= gui->pos[y] && eng->mouse_y < gui->pos[y] + 20
 		&& gui->old_mouse_state == 0 && eng->mouse[1])
@@ -67,6 +69,12 @@ void	gui_update(t_engine *const eng, t_gui *const gui)
 		gui->pos += (t_v2i){eng->mouse_x, eng->mouse_y} - gui->old_mouse_pos;
 	gui->old_mouse_pos = (t_v2i){eng->mouse_x, eng->mouse_y};
 	gui->old_mouse_state = eng->mouse[1];
+	index = 0;
+	while (index < vector_size(&gui->objects))
+	{
+		gui_obj_update(eng, vector_get(&gui->objects, index));
+		index++;
+	}
 }
 
 void	gui_display(t_engine *const eng, t_gui *const gui)

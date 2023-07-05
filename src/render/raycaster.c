@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 13:49:15 by vmuller           #+#    #+#             */
-/*   Updated: 2023/07/04 13:20:22 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/07/05 16:07:06 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,29 +38,29 @@ static inline void	__setup_plane(
 	plane->dir_x[x] = -fsinx;
 	plane->dir_x[y] = 0.0f;
 	plane->dir_x[z] = fcosx;
-	plane->dir_x *= (float)ft_eng_size_x(eng);
+	plane->dir_x *= (float)eng->sel_spr->size[x];
 	plane->dir_y[x] = fcosx * fsiny;
 	plane->dir_y[y] = -fcosy;
 	plane->dir_y[z] = fsinx * fsiny;
-	plane->dir_y *= (float)ft_eng_size_y(eng);
+	plane->dir_y *= (float)eng->sel_spr->size[y];
 }
 
 void	get_tex_pos(t_ray *const ray, t_v2f *const tex_pos)
 {
 	if (ray->side == x)
 	{
-		(*tex_pos)[x] = ray->start[z] + ray->dist * ray->dir[z];
-		(*tex_pos)[y] = ray->start[y] + ray->dist * ray->dir[y];
+		(*tex_pos)[x] = ray->end[z];
+		(*tex_pos)[y] = ray->end[y];
 	}
 	else if (ray->side == y)
 	{
-		(*tex_pos)[x] = ray->start[x] + ray->dist * ray->dir[x];
-		(*tex_pos)[y] = ray->start[z] + ray->dist * ray->dir[z];
+		(*tex_pos)[x] = ray->end[x];
+		(*tex_pos)[y] = ray->end[z];
 	}
 	else
 	{
-		(*tex_pos)[x] = ray->start[x] + ray->dist * ray->dir[x];
-		(*tex_pos)[y] = ray->start[y] + ray->dist * ray->dir[y];
+		(*tex_pos)[x] = ray->end[x];
+		(*tex_pos)[y] = ray->end[y];
 	}
 	(*tex_pos)[x] -= floorf((*tex_pos)[x]);
 	(*tex_pos)[y] -= floorf((*tex_pos)[y]);
@@ -91,44 +91,44 @@ t_color	ray_to_pixel(
 	t_v2i			pix_pos;
 	t_color			color;
 	t_sprite *const	spr = map->sprites[get_real_side(ray)];
-	float const		dist = 1.0f - fmaxf(0.0f, fminf(1.0f, ray->dist * 10.0f));
+	float 		dist = 1.f - fmaxf(0.f, fminf(1.f, ray->dist * 50.f));
 
+	dist = 1.0f - fmaxf(0.f, fminf(1.f, v3fmag(ray->end - ray->start) / 10.f));
 	get_tex_pos(ray, &tex_pos);
 	pix_pos = (t_v2i){tex_pos[x] * spr->size[x], tex_pos[y] * spr->size[y]};
-	color = ft_get_color(spr, pix_pos);
+	if (map_get(map, ray->pos) != 255)
+		color = ft_get_color(spr, pix_pos);
+	else
+		color = (t_color){(pix_pos[x] + pix_pos[y]) << 16};
 	if (color.a > 0 && reflections < 2)
 		color = ray_reflection(map, ray, color, reflections + 1);
-	return (ft_color_inter(color, (t_color){0}, dist));
+	return (ft_color_inter(color, (t_color){0x13202e}, dist));
 }
 
 void	ray_render(
 	t_engine *const eng,
 	t_map *const map,
 	t_camera *const cam,
-	float time)
+	size_t const tick)
 {
 	t_v2i	pix;
 	t_ray	ray;
 	t_v3f	dir;
 	t_plane	plane;
 
-	(void)time;
 	__setup_plane(eng, &plane, cam);
 	pix[y] = 0;
-	while (pix[y] < (int)ft_eng_size_y(eng))
+	while (pix[y] < (int)eng->sel_spr->size[y])
 	{
-		pix[x] = 0;
-		while (pix[x] < (int)ft_eng_size_x(eng))
+		pix[x] = tick + pix[y] & 1;
+		while (pix[x] < (int)eng->sel_spr->size[x])
 		{
 			dir = plane.pos;
-			// float	val = sinf(ft_v2fmag(pp) * M_PI * 2.0f + cosf(pix[x] / (float)ft_eng_size_x(eng) * M_PI * 5 + time * 10)+ cosf(pix[y] / (float)ft_eng_size_y(eng) * M_PI * 3 + time * 10)) / 2.0f + 0.5f;
-			// val = fmax(0.5f, val);
-			// pp = pp + pp * (val * 5.0f);
-			dir += plane.dir_x * (pix[x] / (float)ft_eng_size_x(eng) - 0.5f);
-			dir += plane.dir_y * (pix[y] / (float)ft_eng_size_y(eng) - 0.5f);
+			dir += plane.dir_x * (pix[x] / (float)eng->sel_spr->size[x] - 0.5f);
+			dir += plane.dir_y * (pix[y] / (float)eng->sel_spr->size[y] - 0.5f);
 			ray = cast_ray(map, &cam->pos, &dir, 20);
 			ft_draw(eng, pix, ray_to_pixel(map, &ray, 0));
-			pix[x]++;
+			pix[x] += 2;
 		}
 		pix[y]++;
 	}

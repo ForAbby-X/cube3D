@@ -86,7 +86,7 @@ obj:
 
 $(NAME): $(OBJ)
 	@echo "\e[1;35mLinking...\e[0m"
-	@$(CC) -o $(NAME) $+ $(ENGINE_LNK) -lm
+	@$(CC) -o $(NAME) $+ $(ENGINE_LNK) -lm -pg
 	@echo "\e[1;32m➤" $@ "created succesfully !\e[0m"
 
 $(OBJDIR)/%.o: $(SRCDIR)/%.c .print

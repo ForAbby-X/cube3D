@@ -3,6 +3,8 @@
 		"raycaster.h": "c",
 		"parsing.h": "c",
 		"engine.h": "c",
-		"interface.h": "c"
+		"interface.h": "c",
+		"initializer_list": "c",
+		"utility": "c"
 	}
 }

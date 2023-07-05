@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 18:17:19 by vmuller           #+#    #+#             */
-/*   Updated: 2023/07/04 13:04:52 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/07/05 15:38:17 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,13 +47,6 @@ static inline void	__setup_ray(
 	__setup_ray_step_delta_dist(ray, z);
 }
 
-static inline void	__get_real_pos(t_ray *const ray)
-{
-	ray->end[x] = ray->start[x] + ray->dist * ray->dir[x];
-	ray->end[y] = ray->start[y] + ray->dist * ray->dir[y];
-	ray->end[z] = ray->start[z] + ray->dist * ray->dir[z];
-}
-
 static inline void	__loop_ray(
 	t_map *const map,
 	t_ray *const ray,
@@ -79,10 +72,9 @@ static inline void	__loop_ray(
 		flag = (map_get(map, ray->pos) == (t_cell){0});
 		max_dist--;
 	}
-	ray->side = (inc[y] * 1);
-	ray->side |= (inc[z] * 2);
+	ray->side = inc[y] | (inc[z] * 2);
 	ray->dist = ray->side_dist[ray->side] - ray->delta_dist[ray->side];
-	__get_real_pos(ray);
+	ray->end = ray->start + ray->dist * ray->dir;
 }
 
 t_ray	cast_ray(

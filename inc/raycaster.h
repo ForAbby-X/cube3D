@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/25 19:41:10 by vmuller           #+#    #+#             */
-/*   Updated: 2023/07/04 10:29:28 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/07/05 12:38:14 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void		ray_render(
 				t_engine *const eng,
 				t_map *const map,
 				t_camera *const cam,
-				float time);
+				size_t const tick);
 t_color		ray_reflection(
 				t_map *const map,
 				t_ray *const ray,

@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 10:36:00 by vmuller           #+#    #+#             */
-/*   Updated: 2023/07/04 22:54:50 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/07/05 16:12:06 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ struct s_data
 	t_sprite	*sub_screen;
 	t_camera	cam;
 	t_gui		gui;
+	size_t		tick;
 };
 
 //static inline void	__collision(
@@ -69,16 +70,14 @@ static inline void	__control(
 
 static inline int	__loop(t_engine *eng, t_data *data, double dt)
 {
-	static float	time;
-
-	time += dt;
 	__control(eng, &data->cam, dt);
 	ft_eng_sel_spr(eng, data->sub_screen);
-	ray_render(eng, &data->map, &data->cam, time);
+	ray_render(eng, &data->map, &data->cam, data->tick);
 	ft_eng_sel_spr(eng, NULL);
-	ft_put_sprite_s(eng, data->sub_screen, (t_v2i){0, 0}, 4);
+	ft_put_sprite_s(eng, data->sub_screen, (t_v2i){0, 0}, 2);
 	gui_update(eng, &data->gui);
 	gui_display(eng, &data->gui);
+	data->tick++;
 	return (1);
 }
 
@@ -89,18 +88,44 @@ static inline void	__init_sprites(t_engine *const eng, t_map *const map)
 	for (int i = 0; i < 6; i++)
 	{
 		ft_eng_sel_spr(eng, map->sprites[i]);
-		for (int y = 0; y < (int)ft_eng_size_y(eng); y++)
+		for (int y = 0; y < (int)eng->sel_spr->size[y]; y++)
 		{
-			for (int x = 0; x < (int)ft_eng_size_x(eng); x++)
+			for (int x = 0; x < (int)eng->sel_spr->size[x]; x++)
 			{
 				color = ft_get_color(eng->sel_spr, (t_v2i){x, y});
-				color.a = ft_color_med(color) >> 1;
+				color.a = ft_color_med(color);
 				ft_draw(eng, (t_v2i){x, y}, color);
 			}
 		}
 		ft_eng_sel_spr(eng, NULL);
 	}
 }
+
+static void	_fov_plus(t_gui_obj *const obj)
+{
+	float *const	fov = obj->value;
+
+	*fov += M_PI / 20.0f;
+	if (*fov >= M_PI - M_PI / 10.0f)
+		*fov = M_PI - M_PI / 10.0f;
+}
+
+static void	_fov_minus(t_gui_obj *const obj)
+{
+	float *const	fov = obj->value;
+
+	*fov -= M_PI / 20.0f;
+	if (*fov < M_PI / 10.0f)
+		*fov = M_PI / 10.0f;
+}
+
+static void	_fov_reset(t_gui_obj *const obj)
+{
+	float *const	fov = obj->value;
+
+	*fov = M_PI_2;
+}
+
 int	main(int argc, char **argv)
 {
 	t_engine	*eng;
@@ -111,19 +136,21 @@ int	main(int argc, char **argv)
 	eng = ft_eng_create(250 * 4, 130 * 4, "cube3D");
 	if (eng)
 	{
-		data.sub_screen = ft_sprite(eng, 250, 130);
+		data.sub_screen = ft_sprite(eng, 250 * 2, 130 * 2);
 		data.map = pars_file(eng, argv[1]);
 		data.gui = gui_create(eng,
 				(t_v2i){0, 0}, (t_v2i){400, 230}, "Settings");
 		obj = gui_obj_create("distance fog", BUTTON, NULL, NULL);
 		gui_add(&data.gui, &obj);
-		obj = gui_obj_create("bababoy", TEXT, NULL, NULL);
+		obj = gui_obj_create("increase fov", TEXT, &_fov_plus, &data.cam.fov);
 		gui_add(&data.gui, &obj);
-		obj = gui_obj_create("reflections", BUTTON, NULL, NULL);
+		obj = gui_obj_create("reduce fov", TEXT, &_fov_minus, &data.cam.fov);
+		gui_add(&data.gui, &obj);
+		obj = gui_obj_create("reset fov", TEXT, &_fov_reset, &data.cam.fov);
 		gui_add(&data.gui, &obj);
 		if (data.map.data)
 		{
-			(void)__init_sprites;
+			__init_sprites(eng, &data.map);
 			data.cam = (t_camera){data.map.spawn, {0.0f, 0.0f}, M_PI_2};
 			ft_eng_play(eng, &data, __loop);
 			gui_destroy(eng, &data.gui);

@@ -2,7 +2,7 @@ C 60,0,80
 NO ./assets/walls/NO.xpm  m
 SO ./assets/walls/SO.xpm
 EA   ./assets/walls/EA.xpm
-WE   ./assets/walls/EA.xpm
+WE   ./assets/walls/WE.xpm
        F    54,56,42          
        
        
