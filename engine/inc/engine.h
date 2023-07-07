@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/21 10:15:36 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/07/05 11:55:21 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/07/06 14:53:59 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@
 # include "vector.h"
 
 typedef struct s_engine	t_engine;
+typedef struct s_key	t_key;
 typedef union u_color	t_color;
 typedef struct s_sprite	t_sprite;
 typedef struct s_rect	t_rect;
@@ -45,6 +46,9 @@ int			ft_eng_play(t_engine *eng, t_data *data,
 size_t		ft_eng_size_x(t_engine *eng);
 size_t		ft_eng_size_y(t_engine *eng);
 void		ft_eng_sel_spr(t_engine *eng, t_sprite	*spr);
+
+t_key		ft_key(t_engine *eng, int key_code);
+t_key		ft_mouse(t_engine *eng, int key_code);
 
 /* ENGINE DRAWING */
 /* [1] SHAPES */
@@ -98,6 +102,13 @@ int			ft_max(int a, int b);
 void		ft_swap(void **a, void **b);
 float		ft_rand(float min, float max);
 
+struct	s_key
+{
+	char	pressed;
+	char	hold;
+	char	released;
+};
+
 struct	s_engine
 {
 	void			*mlx;
@@ -111,6 +122,8 @@ struct	s_engine
 	t_sprite		*ascii_spr;
 	char			keys[MAX_KEYS + 1];
 	char			mouse[MAX_MOUSE + 1];
+	char			old_keys[MAX_KEYS + 1];
+	char			old_mouse[MAX_MOUSE + 1];
 	int				mouse_x;
 	int				mouse_y;
 	int				(*on_repeat)(t_engine *, t_data *, double);

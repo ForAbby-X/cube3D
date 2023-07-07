@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 11:00:48 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/07/05 12:57:43 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/07/07 16:25:27 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ t_gui	gui_create(
 	gui.pos = pos;
 	gui.size = size;
 	gui.old_mouse_pos = (t_v2i){0, 0};
-	gui.old_mouse_state = 0;
 	gui.selected = 0;
 	gui.anchor = LEFT;
 	gui.title = ft_strdup(title);
@@ -61,14 +60,17 @@ void	gui_update(t_engine *const eng, t_gui *const gui)
 
 	if (eng->mouse_x >= gui->pos[x] && eng->mouse_x < gui->pos[x] + gui->size[x]
 		&& eng->mouse_y >= gui->pos[y] && eng->mouse_y < gui->pos[y] + 20
-		&& gui->old_mouse_state == 0 && eng->mouse[1])
+		&& ft_mouse(eng, 1).pressed)
 		gui->selected = 1;
-	else if (gui->old_mouse_state && eng->mouse[1] == 0)
+	else if (ft_mouse(eng, 1).released)
 		gui->selected = 0;
 	if (gui->selected)
 		gui->pos += (t_v2i){eng->mouse_x, eng->mouse_y} - gui->old_mouse_pos;
 	gui->old_mouse_pos = (t_v2i){eng->mouse_x, eng->mouse_y};
-	gui->old_mouse_state = eng->mouse[1];
+	gui->pos[x] = ft_max(0, gui->pos[x]);
+	gui->pos[y] = ft_max(0, gui->pos[y]);
+	gui->pos[x] = ft_min(ft_eng_size_x(eng) - gui->size[x], gui->pos[x]);
+	gui->pos[y] = ft_min(ft_eng_size_y(eng) - 20, gui->pos[y]);
 	index = 0;
 	while (index < vector_size(&gui->objects))
 	{

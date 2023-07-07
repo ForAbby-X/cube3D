@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 13:49:15 by vmuller           #+#    #+#             */
-/*   Updated: 2023/07/05 16:07:06 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/07/07 18:11:50 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,18 +91,20 @@ t_color	ray_to_pixel(
 	t_v2i			pix_pos;
 	t_color			color;
 	t_sprite *const	spr = map->sprites[get_real_side(ray)];
-	float 		dist = 1.f - fmaxf(0.f, fminf(1.f, ray->dist * 50.f));
 
-	dist = 1.0f - fmaxf(0.f, fminf(1.f, v3fmag(ray->end - ray->start) / 10.f));
 	get_tex_pos(ray, &tex_pos);
 	pix_pos = (t_v2i){tex_pos[x] * spr->size[x], tex_pos[y] * spr->size[y]};
 	if (map_get(map, ray->pos) != 255)
 		color = ft_get_color(spr, pix_pos);
 	else
-		color = (t_color){(pix_pos[x] + pix_pos[y]) << 16};
+		color = ft_color_f(0.f, 0.f, 0.f, tex_pos[x] + tex_pos[y]);
 	if (color.a > 0 && reflections < 2)
 		color = ray_reflection(map, ray, color, reflections + 1);
-	return (ft_color_inter(color, (t_color){0x13202e}, dist));
+	if (map->fog)
+		return (ft_color_inter(color, map->fog_color,
+			1.0f - fmaxf(0.f, fminf(1.f,
+					v3fmag(ray->end - ray->start) / 10.f))));
+	return (color);
 }
 
 void	ray_render(

@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 10:48:47 by vmuller           #+#    #+#             */
-/*   Updated: 2023/06/29 11:44:39 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/07/07 18:11:55 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,8 @@ t_map	map_create(t_v3i const size)
 	}
 	map.size = size;
 	ft_memset(map.sprites, 0, sizeof(t_sprite *) * 6);
+	map.fog = 1;
+	map.fog_color = (t_color){0x13202e};
 	return (map);
 }
 

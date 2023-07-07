@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 10:37:59 by vmuller           #+#    #+#             */
-/*   Updated: 2023/06/29 11:33:40 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/07/07 18:11:24 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,8 @@ struct s_map
 	t_sprite	*sprites[6];
 	t_color		sky_color;
 	t_color		ground_color;
+	int			fog;
+	t_color		fog_color;
 };
 
 #endif

@@ -6,11 +6,31 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/23 10:55:22 by alde-fre          #+#    #+#             */
-/*   Updated: 2022/12/10 15:59:03 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/07/06 14:40:50 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "engine.h"
+
+t_key	ft_key(t_engine *eng, int key_code)
+{
+	t_key	key;
+
+	key.pressed = (eng->keys[key_code] && !eng->old_keys[key_code]);
+	key.hold = eng->keys[key_code];
+	key.released = (!eng->keys[key_code] && eng->old_keys[key_code]);
+	return (key);
+}
+
+t_key	ft_mouse(t_engine *eng, int key_code)
+{
+	t_key	key;
+
+	key.pressed = (eng->mouse[key_code] && !eng->old_mouse[key_code]);
+	key.hold = eng->mouse[key_code];
+	key.released = (!eng->mouse[key_code] && eng->old_mouse[key_code]);
+	return (key);
+}
 
 void	ft_eng_destroy(t_engine *eng)
 {

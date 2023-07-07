@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 15:23:29 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/07/05 15:36:15 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/07/07 17:51:07 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,6 @@ struct s_gui_container
 	t_v2i			pos;
 	t_v2i			size;
 	t_v2i			old_mouse_pos;
-	int				old_mouse_state;
 	int				selected;
 	t_gui_anchor	anchor;
 	t_vector		objects;
@@ -66,10 +65,11 @@ struct s_gui_obj
 	t_v2i		pos;
 	t_v2i		size;
 	int			selected;
+	int			hovered;
 	t_v2i		old_mouse_pos;
-	int			old_mouse_state;
 	void		(*on_click)(t_gui_obj *self);
 	void		*value;
+	float		slide;
 	char		*str;
 	size_t		str_len;
 	t_gui_type	type;

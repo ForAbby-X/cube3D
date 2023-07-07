@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/07 09:29:30 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/02/11 11:53:26 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/07/07 14:38:10 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@ static	int	ft_eng_loop(t_engine *eng)
 		+ ((double)(eng->time_s.tv_nsec - eng->time_e.tv_nsec)) * 1e-9;
 	flag = eng->on_repeat(eng, eng->data, time_m);
 	mlx_put_image_to_window(eng->mlx, eng->win, eng->screen->img.image, 0, 0);
+	ft_memcpy(eng->old_keys, eng->keys, sizeof(eng->keys));
+	ft_memcpy(eng->old_mouse, eng->mouse, sizeof(eng->mouse));
 	eng->time_e = eng->time_s;
 	if (flag == 0 || eng->keys[XK_Escape])
 		ft_eng_close(eng);
