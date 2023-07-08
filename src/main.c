@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 10:36:00 by vmuller           #+#    #+#             */
-/*   Updated: 2023/07/07 18:17:02 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/07/08 16:35:17 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,37 +85,25 @@ static inline int	__loop(t_engine *eng, t_data *data, double dt)
 		}
 		data->show_settings = !data->show_settings;
 	}
+	(void)dt;
+	(void)__control;
 	__control(eng, &data->cam, data, dt);
+	if (data->show_settings)
+		gui_update(eng, &data->gui);
+
 	ft_eng_sel_spr(eng, data->sub_screen);
 	ray_render(eng, &data->map, &data->cam, data->tick);
 	ft_eng_sel_spr(eng, NULL);
 	ft_put_sprite_s(eng, data->sub_screen, (t_v2i){0}, 2);
-	if (data->show_settings)
-		gui_update(eng, &data->gui);
 	gui_display(eng, &data->gui);
 	data->tick++;
 	return (1);
-}
-
-static void	_fov_slide(t_gui_obj *const obj)
-{
-	float *const	fov = obj->value;
-
-	*fov = obj->slide * (M_PI - M_PI / 10) + M_PI / 20;
-}
-
-static void	_color_slide(t_gui_obj *const obj)
-{
-	uint8_t *const	col = obj->value;
-
-	*col = obj->slide * 255;
 }
 
 int	main(int argc, char **argv)
 {
 	t_engine	*eng;
 	t_data		data;
-	t_gui_obj	obj;
 
 	(void)argc;
 	eng = ft_eng_create(250 * 4, 130 * 4, "cube3D");
@@ -124,29 +112,33 @@ int	main(int argc, char **argv)
 		data.sub_screen = ft_sprite(eng, 250 * 2, 130 * 2);
 		data.map = pars_file(eng, argv[1]);
 		data.gui = gui_create(eng,
-				(t_v2i){10, 10}, (t_v2i){400, 500}, "Settings");
-		obj = gui_obj_create("fog", BUTTON, NULL, &data.map.fog);
-		gui_add(&data.gui, &obj);
-		obj = gui_obj_create("fog color:", TEXT, NULL, NULL);
-		gui_add(&data.gui, &obj);
-		obj = gui_obj_create("slider", SLIDER, &_color_slide, &data.map.fog_color.b);
-		gui_add(&data.gui, &obj);
-		obj = gui_obj_create("slider", SLIDER, &_color_slide, &data.map.fog_color.g);
-		gui_add(&data.gui, &obj);
-		obj = gui_obj_create("slider", SLIDER, &_color_slide, &data.map.fog_color.r);
-		gui_add(&data.gui, &obj);
-		obj = gui_obj_create("", TEXT, NULL, NULL);
-		gui_add(&data.gui, &obj);
-		obj = gui_obj_create("FOV:", TEXT, NULL, NULL);
-		gui_add(&data.gui, &obj);
-		obj = gui_obj_create("slider", SLIDER, &_fov_slide, &data.cam.fov);
-		gui_add(&data.gui, &obj);
-		obj = gui_obj_create("", TEXT, NULL, NULL);
-		gui_add(&data.gui, &obj);
-		obj = gui_obj_create("GROUND TRANSPARENCY:", TEXT, NULL, NULL);
-		gui_add(&data.gui, &obj);
-		obj = gui_obj_create("slider", SLIDER, &_color_slide, &data.map.sprites[4]->data[0].a);
-		gui_add(&data.gui, &obj);
+				(t_v2i){10, 10}, (t_v2i){600, 400}, "Settings");
+		gui_add_text(&data.gui, NULL);
+		gui_add_check(&data.gui, "fog", &data.map.fog);
+		gui_add_text(&data.gui, "fog color:");
+		gui_add_slider(&data.gui, (t_gui_data){.u_v = &data.map.fog_color.b,
+			.u_v_mi = 0, .u_v_ma = 255, .type = 2});
+		gui_add_slider(&data.gui, (t_gui_data){.u_v = &data.map.fog_color.g,
+			.u_v_mi = 0, .u_v_ma = 255, .type = 2});
+		gui_add_slider(&data.gui, (t_gui_data){.u_v = &data.map.fog_color.r,
+			.u_v_mi = 0, .u_v_ma = 255, .type = 2});
+		gui_add_text(&data.gui, "fog distance:");
+		gui_add_slider(&data.gui,
+			(t_gui_data){.f_v = &data.map.fog_distance,
+			.f_v_mi = 2.f, .f_v_ma = 20.f, .type = 0});
+		gui_add_text(&data.gui, NULL);
+		gui_add_text(&data.gui, "fov:");
+		gui_add_slider(&data.gui, (t_gui_data){.f_v = &data.cam.fov,
+			.f_v_mi = M_PI / 20.f, .f_v_ma = M_PI - M_PI / 20.f, .type = 0});
+		gui_add_text(&data.gui, NULL);
+		gui_add_text(&data.gui, "ground reflectivness:");
+		gui_add_slider(&data.gui,
+			(t_gui_data){.u_v = &data.map.sprites[4]->data[0].a,
+			.u_v_mi = 0, .u_v_ma = 255, .type = 2});
+		gui_add_text(&data.gui, "ceilling reflectivness:");
+		gui_add_slider(&data.gui,
+			(t_gui_data){.u_v = &data.map.sprites[5]->data[0].a,
+			.u_v_mi = 0, .u_v_ma = 255, .type = 2});
 		if (data.map.data)
 		{
 			data.cam = (t_camera){data.map.spawn, {0.0f, 0.0f}, M_PI_2};

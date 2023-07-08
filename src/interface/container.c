@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 11:00:48 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/07/07 16:25:27 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/07/08 16:33:09 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ t_gui	gui_create(
 	gui.size = size;
 	gui.old_mouse_pos = (t_v2i){0, 0};
 	gui.selected = 0;
-	gui.anchor = LEFT;
 	gui.title = ft_strdup(title);
 	if (gui.title == NULL)
 		return ((t_gui){0});

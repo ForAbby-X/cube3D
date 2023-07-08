@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 13:49:15 by vmuller           #+#    #+#             */
-/*   Updated: 2023/07/07 18:11:50 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/07/08 16:31:38 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,8 @@ void	get_tex_pos(t_ray *const ray, t_v2f *const tex_pos)
 	if ((ray->side == x && ray->dir[x] < 0.0f)
 		|| (ray->side == z && ray->dir[z] > 0.0f))
 		(*tex_pos)[x] = 1.0f - (*tex_pos)[x];
-	if (ray->side == y && ray->dir[y] < 0.0f)
+	if (ray->side == y
+		&& ray->dir[y] < 0.0f)
 		(*tex_pos)[y] = 1.0f - (*tex_pos)[y];
 	(*tex_pos)[y] = 1.0f - (*tex_pos)[y];
 }
@@ -88,22 +89,21 @@ t_color	ray_to_pixel(
 	long reflections)
 {
 	t_v2f			tex_pos;
-	t_v2i			pix_pos;
 	t_color			color;
 	t_sprite *const	spr = map->sprites[get_real_side(ray)];
 
 	get_tex_pos(ray, &tex_pos);
-	pix_pos = (t_v2i){tex_pos[x] * spr->size[x], tex_pos[y] * spr->size[y]};
 	if (map_get(map, ray->pos) != 255)
-		color = ft_get_color(spr, pix_pos);
+		color = ft_get_color(spr,
+				(t_v2i){tex_pos[x] * spr->size[x], tex_pos[y] * spr->size[y]});
 	else
 		color = ft_color_f(0.f, 0.f, 0.f, tex_pos[x] + tex_pos[y]);
 	if (color.a > 0 && reflections < 2)
 		color = ray_reflection(map, ray, color, reflections + 1);
 	if (map->fog)
 		return (ft_color_inter(color, map->fog_color,
-			1.0f - fmaxf(0.f, fminf(1.f,
-					v3fmag(ray->end - ray->start) / 10.f))));
+				1.0f - fmaxf(0.f, fminf(1.f,
+						v3fmag(ray->end - ray->start) / map->fog_distance))));
 	return (color);
 }
 

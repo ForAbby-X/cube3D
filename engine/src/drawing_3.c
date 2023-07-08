@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/23 15:41:05 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/01/29 12:52:56 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/07/08 15:50:30 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,35 +70,23 @@ void	ft_put_text(t_engine *eng, t_v2i pos, char *str, t_length size)
 	}
 }
 
-static void	_ft_itoa(int nb, char *tab)
-{
-	int	len;
-	int	temp;
-	int	neg;
-
-	neg = nb < 0;
-	nb = abs(nb);
-	tab[0] = '-';
-	temp = nb;
-	len = neg + (nb == 0);
-	while (temp)
-	{
-		len++;
-		temp /= 10;
-	}
-	tab[len] = 0;
-	while (len > neg)
-	{
-		tab[len - 1] = '0' + nb % 10;
-		nb /= 10;
-		len--;
-	}
-}
-
 void	ft_put_nbr(t_engine *eng, t_v2i pos, int nbr, t_length size)
 {
 	char	tab[12];
 
 	_ft_itoa(nbr, tab);
 	ft_put_text(eng, pos, tab, size);
+}
+
+void	ft_put_nbr_f(t_engine *eng, t_v2i pos, float nbr, t_length size)
+{
+	char	tab[12];
+	size_t	len;
+
+	_ft_itoa(nbr, tab);
+	ft_put_text(eng, pos, tab, size);
+	len = ft_strlen(tab);
+	_ft_itoa((nbr - (int)nbr) * 1000, tab);
+	ft_put_text(eng, pos + (t_v2i){len * 7 * size, 0}, ",", size);
+	ft_put_text(eng, pos + (t_v2i){(len + 1) * 7 * size, 0}, tab, size);
 }

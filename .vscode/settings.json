@@ -5,6 +5,7 @@
 		"engine.h": "c",
 		"interface.h": "c",
 		"initializer_list": "c",
-		"utility": "c"
+		"utility": "c",
+		"type_traits": "c"
 	}
 }

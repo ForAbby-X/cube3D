@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/21 10:15:36 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/07/06 14:53:59 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/07/08 15:48:12 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,7 @@ void		ft_put_sprite_part_s(t_engine *eng, t_sprite *spr,
 				t_v2i pos, t_rect_s rect_t);
 void		ft_put_text(t_engine *eng, t_v2i pos, char *str, t_length size);
 void		ft_put_nbr(t_engine *eng, t_v2i pos, int nbr, t_length size);
+void		ft_put_nbr_f(t_engine *eng, t_v2i pos, float nbr, t_length size);
 
 /* ENGINE EVENT */
 /* [1] KEYS AND MOUSE */
@@ -101,6 +102,8 @@ int			ft_min(int a, int b);
 int			ft_max(int a, int b);
 void		ft_swap(void **a, void **b);
 float		ft_rand(float min, float max);
+
+void		_ft_itoa(int nb, char *tab);
 
 struct	s_key
 {

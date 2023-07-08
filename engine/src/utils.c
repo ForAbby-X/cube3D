@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/25 09:38:43 by alde-fre          #+#    #+#             */
-/*   Updated: 2022/11/25 09:38:44 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/07/08 15:44:33 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,4 +38,29 @@ void	ft_swap(void **a, void **b)
 float	ft_rand(float min, float max)
 {
 	return ((max - min) * ((float)rand() / (float)RAND_MAX) + min);
+}
+
+void	_ft_itoa(int nb, char *tab)
+{
+	int	len;
+	int	temp;
+	int	neg;
+
+	neg = nb < 0;
+	nb = abs(nb);
+	tab[0] = '-';
+	temp = nb;
+	len = neg + (nb == 0);
+	while (temp)
+	{
+		len++;
+		temp /= 10;
+	}
+	tab[len] = 0;
+	while (len > neg)
+	{
+		tab[len - 1] = '0' + nb % 10;
+		nb /= 10;
+		len--;
+	}
 }

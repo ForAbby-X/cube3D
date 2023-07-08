@@ -41,7 +41,9 @@ SRC		=	main.c \
 			 \
 			interface/container.c \
 			interface/objects.c \
-			interface/button.c \
+			interface/adder.c \
+			interface/update.c \
+			interface/display.c \
 
 INC		=	vec3.h \
 			camera.h \

@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 18:17:19 by vmuller           #+#    #+#             */
-/*   Updated: 2023/07/05 15:38:17 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/07/08 16:14:02 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,12 +59,12 @@ static inline void	__loop_ray(
 	flag = 1;
 	while (flag && max_dist)
 	{
-		inc[x] = (ray->side_dist[x] <= ray->side_dist[y])
-			&& (ray->side_dist[x] <= ray->side_dist[z]);
-		inc[y] = (ray->side_dist[y] <= ray->side_dist[x])
-			&& (ray->side_dist[y] <= ray->side_dist[z]);
-		inc[z] = (ray->side_dist[z] <= ray->side_dist[x])
-			&& (ray->side_dist[z] <= ray->side_dist[y]);
+		inc[x] = ((ray->side_dist[x] <= ray->side_dist[y])
+				&& (ray->side_dist[x] <= ray->side_dist[z]));
+		inc[y] = ((ray->side_dist[y] <= ray->side_dist[x])
+				&& (ray->side_dist[y] <= ray->side_dist[z]));
+		inc[z] = ((ray->side_dist[z] <= ray->side_dist[x])
+				&& (ray->side_dist[z] <= ray->side_dist[y]));
 		ray->side_dist[x] += inc[x] * ray->delta_dist[x];
 		ray->side_dist[y] += inc[y] * ray->delta_dist[y];
 		ray->side_dist[z] += inc[z] * ray->delta_dist[z];
