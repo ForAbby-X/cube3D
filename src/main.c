@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 10:36:00 by vmuller           #+#    #+#             */
-/*   Updated: 2023/07/08 20:46:03 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/07/08 21:16:49 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,14 +25,14 @@ struct s_data
 	int			show_settings;
 };
 
-static inline void	__collision(
-	t_map *const map,
-	t_camera *const cam,
-	t_v3f *const hitbox,
-	t_v3f const vel)
-{
+// static inline void	__collision(
+// 	t_map *const map,
+// 	t_camera *const cam,
+// 	t_v3f *const hitbox,
+// 	t_v3f const vel)
+// {
 	
-}
+// }
 
 static inline void	__control(
 	t_engine *const eng,
