@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/08 12:41:43 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/07/08 15:48:33 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/07/08 20:36:17 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static inline void	__display_check(t_engine *const eng, t_gui_obj *const obj)
 {
 	ft_rect(eng, g_gui_obj_offset + obj->pos, (t_v2i){18, 18},
 		(t_color){0x1F1F1F});
-	if (*obj->on_click_data)
+	if (*obj->check_data)
 		ft_rect(eng, g_gui_obj_offset + obj->pos + (t_v2i){4, 4},
 			(t_v2i){10, 10}, (t_color){0x00b894});
 	ft_put_text(eng, g_gui_obj_offset + obj->pos + (t_v2i){20, 0}, obj->str, 2);
@@ -60,8 +60,11 @@ static inline void	__display_slider(t_engine *const eng, t_gui_obj *const obj)
 			*data->u_v, 2);
 }
 
-static inline void	__display_text(t_engine *const eng, t_gui_obj *const obj)
+static inline void	__display_button(t_engine *const eng, t_gui_obj *const obj)
 {
+	ft_rect(eng, g_gui_obj_offset + obj->pos,
+		obj->size - (t_v2i){4, 4},
+		(t_color){0xe17055});
 	ft_put_text(eng, g_gui_obj_offset + obj->pos + (t_v2i){2, 0}, obj->str, 2);
 }
 
@@ -76,5 +79,8 @@ void	gui_obj_display(t_engine *const eng, t_gui_obj *const obj)
 	else if (obj->type == SLIDER)
 		__display_slider(eng, obj);
 	else if (obj->type == TEXT && obj->str)
-		__display_text(eng, obj);
+		ft_put_text(eng, g_gui_obj_offset + obj->pos + (t_v2i){2, 0},
+			obj->str, 2);
+	else if (obj->type == BUTTON)
+		__display_button(eng, obj);
 }

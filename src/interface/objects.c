@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 13:31:30 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/07/08 16:14:35 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/07/08 17:26:20 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,5 +43,3 @@ void	gui_obj_destroy(void *const obj)
 
 	free(form->str);
 }
-
-

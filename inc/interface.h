@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 15:23:29 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/07/08 12:50:35 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/07/08 20:45:36 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,8 @@ enum e_gui_type
 {
 	CHECK,
 	SLIDER,
-	TEXT
+	TEXT,
+	BUTTON
 };
 
 struct s_gui_data
@@ -73,7 +74,8 @@ struct s_gui_obj
 	int			hovered;
 	t_v2i		old_mouse_pos;
 	t_obj_meth	on_click;
-	int			*on_click_data;
+	void		*on_click_data;
+	int			*check_data;
 	t_gui_data	data;
 	float		slide;
 	char		*str;
@@ -105,6 +107,11 @@ t_gui_obj	*gui_add_check(
 				char const *const str,
 				int *const on_click_data);
 t_gui_obj	*gui_add_slider(t_gui *const gui, t_gui_data data);
+t_gui_obj	*gui_add_button(
+				t_gui *const gui,
+				char const *const str,
+				t_obj_meth on_click,
+				void *const on_click_data);
 
 void		gui_update(t_engine *const eng, t_gui *const gui);
 void		gui_display(t_engine *const eng, t_gui *const gui);
