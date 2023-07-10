@@ -28,6 +28,7 @@ SRC		=	main.c \
 			 parsing/to_map.c \
 			 parsing/closed.c \
 			 parsing/utils.c \
+			 parsing/color_tint.c \
 			 \
 			cast_ray.c \
 			 \
@@ -44,6 +45,8 @@ SRC		=	main.c \
 			interface/adder.c \
 			interface/update.c \
 			interface/display.c \
+			 \
+			collisions.c \
 
 INC		=	vec3.h \
 			camera.h \
@@ -52,6 +55,7 @@ INC		=	vec3.h \
 			raycaster.h \
 			parsing.h \
 			interface.h \
+			aabb.h \
 
 OBJ		= $(addprefix $(OBJDIR)/,$(SRC:.c=.o))
 

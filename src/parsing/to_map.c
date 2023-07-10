@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 17:24:53 by vmuller           #+#    #+#             */
-/*   Updated: 2023/07/08 17:16:00 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/07/10 17:58:04 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,9 +62,15 @@ static inline void	__pars_to_data(t_pars *const pars, t_map *const map)
 		while (line[pos[x]] && line[pos[x]] != '\n')
 		{
 			if (line[pos[x]] == '1')
+			{
 				map_set(map, (t_v3i){pos[x], 1, pos[y]}, 1);
+				map_set(map, (t_v3i){pos[x], 3, pos[y]}, 1);
+			}
 			else if (ft_strchr("0NSEW", line[pos[x]]))
+			{
 				map_set(map, (t_v3i){pos[x], 1, pos[y]}, 0);
+				map_set(map, (t_v3i){pos[x], 3, pos[y]}, 0);
+			}
 			pos[x]++;
 		}
 		pos[y]++;
@@ -82,16 +88,14 @@ static inline int	__pars_set_colors(
 	map->ground_color = __get_color(pars->elements[4]);
 	if (map->ground_color.d == 0xFF000000)
 		return (__to_map_error(eng, pars, map, "invalid ground color format"));
-	map->sprites[4] = ft_sprite(eng, 1, 1);
+	map->sprites[4] = load_tint_sprite(eng, "assets/ceilling.xpm", map->sky_color);
 	if (map->sprites[4] == NULL)
 		return (__to_map_error(eng, pars, map, "memory error on map creation"));
-	map->sprites[4]->data[0] = map->sky_color;
-	map->sprites[5] = ft_sprite(eng, 1, 1);
+	map->sprites[5] = load_tint_sprite(eng, "assets/floor.xpm", map->ground_color);
 	if (map->sprites[5] == NULL)
 		return (__to_map_error(eng, pars, map, "memory error on map creation"));
-	map->sprites[5]->data[0] = map->ground_color;
 	map->spawn[x] = pars->spawn[x] + 0.5f;
-	map->spawn[y] = pars->spawn[y] + 0.5f;
+	map->spawn[y] = pars->spawn[y];
 	map->spawn[z] = pars->spawn[z] + 0.5f;
 	return (0);
 }

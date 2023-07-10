@@ -6,33 +6,25 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 10:36:00 by vmuller           #+#    #+#             */
-/*   Updated: 2023/07/08 21:16:49 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/07/10 17:56:34 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "raycaster.h"
 #include "parsing.h"
 #include "interface.h"
+#include "aabb.h"
 
 struct s_data
 {
 	t_map		map;
 	t_sprite	*sub_screen;
 	t_camera	cam;
-	t_v3f		hitbox;
+	t_aabb		box;
 	t_gui		gui;
 	size_t		tick;
 	int			show_settings;
 };
-
-// static inline void	__collision(
-// 	t_map *const map,
-// 	t_camera *const cam,
-// 	t_v3f *const hitbox,
-// 	t_v3f const vel)
-// {
-	
-// }
 
 static inline void	__control(
 	t_engine *const eng,
@@ -58,7 +50,7 @@ static inline void	__control(
 		vel += up;
 	if (eng->keys[XK_Shift_L])
 		vel -= up;
-	cam->pos += v3fnorm(vel, dt * 4.0f);
+	data->box.pos += v3fnorm(vel, dt * 4.0f);
 	if (eng->keys[XK_Right])
 		cam->rot[x] += dt * 2;
 	if (eng->keys[XK_Left])
@@ -87,9 +79,12 @@ static inline int	__loop(t_engine *eng, t_data *data, double dt)
 		}
 		data->show_settings = !data->show_settings;
 	}
-	(void)dt;
-	(void)__control;
 	__control(eng, &data->cam, data, dt);
+	player_collision(&data->map, &data->box);
+	data->cam.pos = data->box.pos;
+	data->cam.pos[x] += data->box.dim[x] / 2.0f;
+	data->cam.pos[y] += data->box.dim[y] * 0.8f;
+	data->cam.pos[z] += data->box.dim[z] / 2.0f;
 	if (data->show_settings)
 		gui_update(eng, &data->gui);
 
@@ -114,7 +109,7 @@ int	main(int argc, char **argv)
 		data.sub_screen = ft_sprite(eng, 250 * 2, 130 * 2);
 		data.map = pars_file(eng, argv[1]);
 		data.gui = gui_create(eng,
-				(t_v2i){10, 10}, (t_v2i){600, 400}, "Settings");
+				(t_v2i){10, 10}, (t_v2i){300, 500}, "Settings");
 		gui_add_text(&data.gui, NULL);
 		gui_add_check(&data.gui, "fog", &data.map.fog);
 		gui_add_text(&data.gui, "fog color:");
@@ -132,19 +127,12 @@ int	main(int argc, char **argv)
 		gui_add_text(&data.gui, "fov:");
 		gui_add_slider(&data.gui, (t_gui_data){.f_v = &data.cam.fov,
 			.f_v_mi = M_PI / 20.f, .f_v_ma = M_PI - M_PI / 20.f, .type = 0});
-		gui_add_text(&data.gui, NULL);
-		gui_add_text(&data.gui, "ground reflectivness:");
-		gui_add_slider(&data.gui,
-			(t_gui_data){.u_v = &data.map.sprites[4]->data[0].a,
-			.u_v_mi = 0, .u_v_ma = 255, .type = 2});
-		gui_add_text(&data.gui, "ceilling reflectivness:");
-		gui_add_slider(&data.gui,
-			(t_gui_data){.u_v = &data.map.sprites[5]->data[0].a,
-			.u_v_mi = 0, .u_v_ma = 255, .type = 2});
 		if (data.map.data)
 		{
-			data.cam = (t_camera){data.map.spawn, {0.0f, 0.0f}, M_PI_2};
+			data.cam = (t_camera){{0.0f}, {0.0f}, M_PI_2};
 			data.show_settings = 0;
+			data.box = (t_aabb){data.map.spawn - (t_v3f){0.16f, 0.0f, 0.16f},
+			{0.32f, 0.825f, 0.32f}};
 			mlx_mouse_move(eng->mlx, eng->win, 500, 260);
 			eng->mouse_x = 500;
 			eng->mouse_y = 260;

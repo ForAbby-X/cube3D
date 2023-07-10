@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 13:49:15 by vmuller           #+#    #+#             */
-/*   Updated: 2023/07/08 16:31:38 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/07/10 16:56:55 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,7 +128,7 @@ void	ray_render(
 			dir = plane.pos;
 			dir += plane.dir_x * (pix[x] / (float)eng->sel_spr->size[x] - 0.5f);
 			dir += plane.dir_y * (pix[y] / (float)eng->sel_spr->size[y] - 0.5f);
-			ray = cast_ray(map, &cam->pos, &dir, 20);
+			ray = cast_ray(map, &cam->pos, &dir, (map->fog_distance + 1) * 2);
 			ft_draw(eng, pix, ray_to_pixel(map, &ray, 0));
 			pix[x] += 2;
 		}
