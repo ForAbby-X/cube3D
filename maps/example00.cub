@@ -1,9 +1,9 @@
-C 255,0,80                               
+C 80,100,80                               
 NO ./assets/walls/NO.xpm
 SO ./assets/walls/SO.xpm
 EA   ./assets/walls/EA.xpm
 WE   ./assets/walls/WE.xpm
-       F    255,56,42          
+       F    234,182,118          
        
        
 
