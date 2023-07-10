@@ -6,12 +6,11 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 17:46:23 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/07/10 18:16:39 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/07/10 21:31:46 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
-
 t_sprite	*load_tint_sprite(
 	t_engine *eng,
 	char *const path,
