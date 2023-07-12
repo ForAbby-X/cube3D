@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 10:36:00 by vmuller           #+#    #+#             */
-/*   Updated: 2023/07/10 17:56:34 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/07/12 14:00:49 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,6 +127,19 @@ int	main(int argc, char **argv)
 		gui_add_text(&data.gui, "fov:");
 		gui_add_slider(&data.gui, (t_gui_data){.f_v = &data.cam.fov,
 			.f_v_mi = M_PI / 20.f, .f_v_ma = M_PI - M_PI / 20.f, .type = 0});
+		gui_add_text(&data.gui, NULL);
+		gui_add_text(&data.gui, "player position:");
+		gui_add_slider(&data.gui, (t_gui_data){.f_v = ((float *)&data.box.pos),
+			.f_v_mi = 0.0f, .f_v_ma = data.map.size[x] - 1.0f, .type = 0});
+		gui_add_slider(&data.gui, (t_gui_data){.f_v = ((float *)&data.box.pos) + 1,
+			.f_v_mi = 0.0f, .f_v_ma = data.map.size[y] - 1.0f, .type = 0});
+		gui_add_slider(&data.gui, (t_gui_data){.f_v = ((float *)&data.box.pos) + 2,
+			.f_v_mi = 0.0f, .f_v_ma = data.map.size[z] - 1.0f, .type = 0});
+		gui_add_text(&data.gui, "player rotation:");
+		gui_add_slider(&data.gui, (t_gui_data){.f_v = ((float *)&data.cam.rot),
+			.f_v_mi = -M_PI, .f_v_ma = M_PI, .type = 0});
+		gui_add_slider(&data.gui, (t_gui_data){.f_v = ((float *)&data.cam.rot) + 1,
+			.f_v_mi = -M_PI_2, .f_v_ma = M_PI_2, .type = 0});
 		if (data.map.data)
 		{
 			data.cam = (t_camera){{0.0f}, {0.0f}, M_PI_2};

@@ -22,13 +22,13 @@ SRC		=	main.c \
 			 \
 			vec3.c \
 			 \
-			 parsing/map.c \
-			 parsing/elements.c \
-			 parsing/file.c \
-			 parsing/to_map.c \
-			 parsing/closed.c \
-			 parsing/utils.c \
-			 parsing/color_tint.c \
+			parsing/map.c \
+			parsing/elements.c \
+			parsing/file.c \
+			parsing/to_map.c \
+			parsing/closed.c \
+			parsing/utils.c \
+			parsing/color_tint.c \
 			 \
 			cast_ray.c \
 			 \

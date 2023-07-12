@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/25 09:10:59 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/01/27 14:20:53 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/07/12 15:41:04 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ t_color	ft_color_inter(t_color col_a, t_color col_b, float n)
 		return (col_b);
 	if (n > 1.0f)
 		return (col_a);
-	col.a = col_a.a * n + col_b.a * (1.0f - n);
+	// col.a = col_a.a * n + col_b.a * (1.0f - n);
 	col.r = col_a.r * n + col_b.r * (1.0f - n);
 	col.g = col_a.g * n + col_b.g * (1.0f - n);
 	col.b = col_a.b * n + col_b.b * (1.0f - n);

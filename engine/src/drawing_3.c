@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/23 15:41:05 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/07/08 15:50:30 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/07/12 14:14:05 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,9 +83,19 @@ void	ft_put_nbr_f(t_engine *eng, t_v2i pos, float nbr, t_length size)
 	char	tab[12];
 	size_t	len;
 
-	_ft_itoa(nbr, tab);
-	ft_put_text(eng, pos, tab, size);
-	len = ft_strlen(tab);
+	if (nbr < 0.0f && nbr > -1.0f)
+	{
+		ft_put_text(eng, pos, "-0", size);
+		len = 2;
+	}
+	else
+	{
+		_ft_itoa(nbr, tab);
+		ft_put_text(eng, pos, tab, size);
+		len = ft_strlen(tab);
+	}
+	if (nbr < 0.0f)
+		nbr = -nbr;
 	_ft_itoa((nbr - (int)nbr) * 1000, tab);
 	ft_put_text(eng, pos + (t_v2i){len * 7 * size, 0}, ",", size);
 	ft_put_text(eng, pos + (t_v2i){(len + 1) * 7 * size, 0}, tab, size);

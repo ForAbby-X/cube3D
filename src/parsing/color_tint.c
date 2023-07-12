@@ -6,11 +6,12 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 17:46:23 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/07/10 21:31:46 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/07/12 15:38:28 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
+
 t_sprite	*load_tint_sprite(
 	t_engine *eng,
 	char *const path,
@@ -28,7 +29,7 @@ t_sprite	*load_tint_sprite(
 	{
 		color = spr->data[index];
 		grey = ft_color_med(color) / 255.f;
-		spr->data[index] = ft_color(0.f,
+		spr->data[index] = ft_color(0,
 				tint.r * grey, tint.g * grey, tint.b * grey);
 		index++;
 	}
