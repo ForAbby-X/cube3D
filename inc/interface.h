@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 15:23:29 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/07/12 15:50:00 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/07/13 23:28:40 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ typedef struct s_gui_container	t_gui;
 typedef enum e_gui_type			t_gui_type;
 typedef struct s_gui_data		t_gui_data;
 typedef struct s_gui_obj		t_gui_obj;
-typedef void					(*t_obj_meth)(t_gui_obj *const self);
+typedef void					(*t_obj_meth)(void *const data);
 
 static t_v2i const	g_gui_offset = {2, 24};
 static t_v2i const	g_gui_obj_size = {0, 22};
@@ -35,6 +35,7 @@ struct s_gui_container
 	t_vector		objects;
 	char			*title;
 	size_t			title_len;
+	int				fixed;
 	t_sprite		*surface;
 };
 
@@ -80,6 +81,7 @@ struct s_gui_obj
 	float		slide;
 	char		*str;
 	size_t		str_len;
+	int			visible;
 	t_gui_type	type;
 	t_gui		*from;
 };

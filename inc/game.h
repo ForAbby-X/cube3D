@@ -1,27 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   camera.h                                           :+:      :+:    :+:   */
+/*   game.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/23 18:18:43 by vmuller           #+#    #+#             */
-/*   Updated: 2023/07/13 23:36:34 by alde-fre         ###   ########.fr       */
+/*   Created: 2023/07/13 16:17:55 by alde-fre          #+#    #+#             */
+/*   Updated: 2023/07/13 23:47:20 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef CAMERA_H
-# define CAMERA_H
+#ifndef GAME_H
+# define GAME_H
 
-# include "vec3.h"
+# include "menu.h"
+# include "aabb.h"
 
-typedef struct s_camera	t_camera;
-
-struct s_camera
+struct s_data
 {
-	t_v3f	pos;
-	t_v2f	rot;
-	float	fov;
+	t_map		map;
+	t_sprite	*sub_screen;
+	t_sprite	*minimap;
+	t_camera	cam;
+	t_aabb		box;
+	t_menu		menu;
+	size_t		tick;
+	int			show_settings;
 };
 
 #endif

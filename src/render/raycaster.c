@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 13:49:15 by vmuller           #+#    #+#             */
-/*   Updated: 2023/07/12 15:50:18 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/07/13 23:16:25 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,8 +102,8 @@ t_color	ray_to_pixel(
 		color = ray_reflection(map, ray, color, reflections + 1);
 	if (map->fog)
 		return (ft_color_inter(color, map->fog_color,
-				1.0f - fmaxf(0.f, fminf(1.f,
-						v3fmag(ray->end - ray->start) / map->fog_distance))));
+				powf(1.0f - fmaxf(0.f, fminf(1.f,
+						v3fmag(ray->end - ray->start) / map->fog_distance)), 2)));
 	return (color);
 }
 

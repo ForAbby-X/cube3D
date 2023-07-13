@@ -6,6 +6,15 @@
 		"interface.h": "c",
 		"initializer_list": "c",
 		"utility": "c",
-		"type_traits": "c"
+		"type_traits": "c",
+		"aabb.h": "c",
+		"keys.h": "c",
+		"array": "c",
+		"string": "c",
+		"string_view": "c",
+		"menu.h": "c",
+		"game.h": "c",
+		"vec3.h": "c",
+		"minimap.h": "c"
 	}
 }

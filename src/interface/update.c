@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/08 12:50:24 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/07/08 17:28:32 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/07/13 18:37:26 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ void	gui_obj_update(t_engine *const eng, t_gui_obj *const obj)
 		if (obj->selected && obj->hovered && obj->type == CHECK)
 			*obj->check_data = !*obj->check_data;
 		else if (obj->selected && obj->hovered && obj->type == BUTTON)
-			obj->on_click(obj);
+			obj->on_click(obj->on_click_data);
 		obj->selected = 0;
 	}
 	obj->old_mouse_pos = (t_v2i){eng->mouse_x, eng->mouse_y};

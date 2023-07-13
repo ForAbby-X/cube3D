@@ -1,27 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   camera.h                                           :+:      :+:    :+:   */
+/*   keys.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/23 18:18:43 by vmuller           #+#    #+#             */
-/*   Updated: 2023/07/13 23:36:34 by alde-fre         ###   ########.fr       */
+/*   Created: 2023/07/13 14:42:06 by alde-fre          #+#    #+#             */
+/*   Updated: 2023/07/13 14:54:30 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef CAMERA_H
-# define CAMERA_H
-
-# include "vec3.h"
-
-typedef struct s_camera	t_camera;
-
-struct s_camera
-{
-	t_v3f	pos;
-	t_v2f	rot;
-	float	fov;
-};
-
+#ifdef AZERTY
+# define K_UP XK_z
+# define K_DOWN XK_s
+# define K_LEFT XK_q
+# define K_RIGHT XK_d
+#elif
+# define K_UP XK_w
+# define K_DOWN XK_s
+# define K_LEFT XK_a
+# define K_RIGHT XK_d
 #endif

@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/08 12:41:43 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/07/08 20:36:17 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/07/13 21:46:37 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,9 +62,15 @@ static inline void	__display_slider(t_engine *const eng, t_gui_obj *const obj)
 
 static inline void	__display_button(t_engine *const eng, t_gui_obj *const obj)
 {
-	ft_rect(eng, g_gui_obj_offset + obj->pos,
-		obj->size - (t_v2i){4, 4},
-		(t_color){0xe17055});
+	if (obj->selected)
+		ft_rect(eng, g_gui_obj_offset + obj->pos, obj->size - (t_v2i){4, 4},
+		(t_color){0xbdc3c7});
+	else if (obj->hovered)
+		ft_rect(eng, g_gui_obj_offset + obj->pos, obj->size - (t_v2i){4, 4},
+		(t_color){0x95a5a6});
+	else
+		ft_rect(eng, g_gui_obj_offset + obj->pos, obj->size - (t_v2i){4, 4},
+		(t_color){0x7f8c8d});
 	ft_put_text(eng, g_gui_obj_offset + obj->pos + (t_v2i){2, 0}, obj->str, 2);
 }
 

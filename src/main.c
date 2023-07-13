@@ -6,25 +6,17 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 10:36:00 by vmuller           #+#    #+#             */
-/*   Updated: 2023/07/12 14:00:49 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/07/13 23:51:34 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "raycaster.h"
 #include "parsing.h"
-#include "interface.h"
-#include "aabb.h"
 
-struct s_data
-{
-	t_map		map;
-	t_sprite	*sub_screen;
-	t_camera	cam;
-	t_aabb		box;
-	t_gui		gui;
-	size_t		tick;
-	int			show_settings;
-};
+#define AZERTY
+#include "keys.h"
+#include "game.h"
+#include "minimap.h"
 
 static inline void	__control(
 	t_engine *const eng,
@@ -38,13 +30,13 @@ static inline void	__control(
 	t_v3f		vel;
 
 	vel = (t_v3f){0};
-	if (eng->keys[XK_w])
+	if (eng->keys[K_UP])
 		vel += dir;
-	if (eng->keys[XK_s])
+	if (eng->keys[K_DOWN])
 		vel -= dir;
-	if (eng->keys[XK_d])
+	if (eng->keys[K_RIGHT])
 		vel += off;
-	if (eng->keys[XK_a])
+	if (eng->keys[K_LEFT])
 		vel -= off;
 	if (eng->keys[XK_space])
 		vel += up;
@@ -65,6 +57,39 @@ static inline void	__control(
 		cam->rot[y] -= ((float)eng->mouse_y - 260) / 500.0f;
 		mlx_mouse_move(eng->mlx, eng->win, 500, 260);
 	}
+	if (cam->rot[x] < -M_PI)
+		cam->rot[x] += M_PI * 2;
+	else if (cam->rot[x] > M_PI)
+		cam->rot[x] -= M_PI * 2;
+	if (cam->rot[y] < -M_PI_2)
+		cam->rot[y] = -M_PI_2;
+	else if (cam->rot[y] > M_PI_2)
+		cam->rot[y] = M_PI_2;
+		
+}
+
+static inline int	__game_init(t_engine *eng, t_data *data, char **argv)
+{
+	data->sub_screen = ft_sprite(eng, 250 * 2, 130 * 2);
+	if (data->sub_screen == NULL)
+		return (1);
+	data->minimap = ft_sprite(eng, 120, 120);
+	if (data->minimap == NULL)
+		return (1);
+	data->map = pars_file(eng, argv[1]);
+	if (data->map.data == NULL)
+		return (ft_destroy_sprite(eng, data->sub_screen), 1);
+	data->menu = menu_create();
+	menu_settings_create(eng, data);
+	data->menu.selected = 2;
+	data->cam = (t_camera){{0.0f}, {0.0f}, M_PI_2};
+	data->show_settings = 0;
+	data->box = (t_aabb){data->map.spawn - (t_v3f){0.16f, 0.0f, 0.16f},
+	{0.32f, 0.825f, 0.32f}};
+	mlx_mouse_move(eng->mlx, eng->win, 500, 260);
+	eng->mouse_x = 500;
+	eng->mouse_y = 260;
+	return (0);
 }
 
 static inline int	__loop(t_engine *eng, t_data *data, double dt)
@@ -86,13 +111,15 @@ static inline int	__loop(t_engine *eng, t_data *data, double dt)
 	data->cam.pos[y] += data->box.dim[y] * 0.8f;
 	data->cam.pos[z] += data->box.dim[z] / 2.0f;
 	if (data->show_settings)
-		gui_update(eng, &data->gui);
-
+		menu_update(eng, &data->menu);
 	ft_eng_sel_spr(eng, data->sub_screen);
 	ray_render(eng, &data->map, &data->cam, data->tick);
 	ft_eng_sel_spr(eng, NULL);
 	ft_put_sprite_s(eng, data->sub_screen, (t_v2i){0}, 2);
-	gui_display(eng, &data->gui);
+	if (data->show_settings)
+		menu_display(eng, &data->menu);
+	else
+		minimap_display(eng, &data->map, &data->cam, data->minimap);
 	data->tick++;
 	return (1);
 }
@@ -106,56 +133,15 @@ int	main(int argc, char **argv)
 	eng = ft_eng_create(250 * 4, 130 * 4, "cube3D");
 	if (eng)
 	{
-		data.sub_screen = ft_sprite(eng, 250 * 2, 130 * 2);
-		data.map = pars_file(eng, argv[1]);
-		data.gui = gui_create(eng,
-				(t_v2i){10, 10}, (t_v2i){300, 500}, "Settings");
-		gui_add_text(&data.gui, NULL);
-		gui_add_check(&data.gui, "fog", &data.map.fog);
-		gui_add_text(&data.gui, "fog color:");
-		gui_add_slider(&data.gui, (t_gui_data){.u_v = &data.map.fog_color.b,
-			.u_v_mi = 0, .u_v_ma = 255, .type = 2});
-		gui_add_slider(&data.gui, (t_gui_data){.u_v = &data.map.fog_color.g,
-			.u_v_mi = 0, .u_v_ma = 255, .type = 2});
-		gui_add_slider(&data.gui, (t_gui_data){.u_v = &data.map.fog_color.r,
-			.u_v_mi = 0, .u_v_ma = 255, .type = 2});
-		gui_add_text(&data.gui, "fog distance:");
-		gui_add_slider(&data.gui,
-			(t_gui_data){.f_v = &data.map.fog_distance,
-			.f_v_mi = 2.f, .f_v_ma = 20.f, .type = 0});
-		gui_add_text(&data.gui, NULL);
-		gui_add_text(&data.gui, "fov:");
-		gui_add_slider(&data.gui, (t_gui_data){.f_v = &data.cam.fov,
-			.f_v_mi = M_PI / 20.f, .f_v_ma = M_PI - M_PI / 20.f, .type = 0});
-		gui_add_text(&data.gui, NULL);
-		gui_add_text(&data.gui, "player position:");
-		gui_add_slider(&data.gui, (t_gui_data){.f_v = ((float *)&data.box.pos),
-			.f_v_mi = 0.0f, .f_v_ma = data.map.size[x] - 1.0f, .type = 0});
-		gui_add_slider(&data.gui, (t_gui_data){.f_v = ((float *)&data.box.pos) + 1,
-			.f_v_mi = 0.0f, .f_v_ma = data.map.size[y] - 1.0f, .type = 0});
-		gui_add_slider(&data.gui, (t_gui_data){.f_v = ((float *)&data.box.pos) + 2,
-			.f_v_mi = 0.0f, .f_v_ma = data.map.size[z] - 1.0f, .type = 0});
-		gui_add_text(&data.gui, "player rotation:");
-		gui_add_slider(&data.gui, (t_gui_data){.f_v = ((float *)&data.cam.rot),
-			.f_v_mi = -M_PI, .f_v_ma = M_PI, .type = 0});
-		gui_add_slider(&data.gui, (t_gui_data){.f_v = ((float *)&data.cam.rot) + 1,
-			.f_v_mi = -M_PI_2, .f_v_ma = M_PI_2, .type = 0});
-		if (data.map.data)
+		if (!__game_init(eng, &data, argv))
 		{
-			data.cam = (t_camera){{0.0f}, {0.0f}, M_PI_2};
-			data.show_settings = 0;
-			data.box = (t_aabb){data.map.spawn - (t_v3f){0.16f, 0.0f, 0.16f},
-			{0.32f, 0.825f, 0.32f}};
-			mlx_mouse_move(eng->mlx, eng->win, 500, 260);
-			eng->mouse_x = 500;
-			eng->mouse_y = 260;
 			ft_eng_play(eng, &data, __loop);
-			gui_destroy(eng, &data.gui);
+			menu_destroy(eng, &data.menu);
 			map_destroy(eng, &data.map);
+			ft_destroy_sprite(eng, data.sub_screen);
 		}
 		else
 			ft_putstr_fd("Error: Failed to initialise the game.\n", 1);
-		ft_destroy_sprite(eng, data.sub_screen);
 		ft_eng_destroy(eng);
 	}
 	return (0);

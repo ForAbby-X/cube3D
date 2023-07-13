@@ -1,27 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   camera.h                                           :+:      :+:    :+:   */
+/*   minimap.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/23 18:18:43 by vmuller           #+#    #+#             */
-/*   Updated: 2023/07/13 23:36:34 by alde-fre         ###   ########.fr       */
+/*   Created: 2023/07/13 23:36:43 by alde-fre          #+#    #+#             */
+/*   Updated: 2023/07/13 23:48:09 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef CAMERA_H
-# define CAMERA_H
+#ifndef MINIMAP_H
+# define MINIMAP_H
 
-# include "vec3.h"
+# include "game.h"
+# include "camera.h"
 
-typedef struct s_camera	t_camera;
-
-struct s_camera
-{
-	t_v3f	pos;
-	t_v2f	rot;
-	float	fov;
-};
+void	minimap_display(
+			t_engine *const eng,
+			t_map *const map,
+			t_camera *const cam,
+			t_sprite *const minimap);
 
 #endif

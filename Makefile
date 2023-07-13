@@ -47,6 +47,11 @@ SRC		=	main.c \
 			interface/display.c \
 			 \
 			collisions.c \
+			 \
+			menu/manager.c \
+			menu/settings.c \
+			\
+			minimap.c \
 
 INC		=	vec3.h \
 			camera.h \
@@ -56,6 +61,8 @@ INC		=	vec3.h \
 			parsing.h \
 			interface.h \
 			aabb.h \
+			menu.h \
+			game.h \
 
 OBJ		= $(addprefix $(OBJDIR)/,$(SRC:.c=.o))
 

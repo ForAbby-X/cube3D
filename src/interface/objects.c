@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 13:31:30 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/07/08 17:26:20 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/07/13 15:31:55 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ t_gui_obj	gui_obj_create(
 	obj.hovered = 0;
 	obj.old_mouse_pos = (t_v2i){0, 0};
 	obj.data = data;
+	obj.visible = 1;
 	return (obj);
 }
 

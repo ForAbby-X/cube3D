@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 17:24:53 by vmuller           #+#    #+#             */
-/*   Updated: 2023/07/10 21:57:52 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/07/13 21:51:27 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,8 @@ static inline void	__pars_to_data(t_pars *const pars, t_map *const map)
 	char	*line;
 
 	map_fill(map, (t_v3i){0}, (t_v3i){pars->size[x], 2, pars->size[z]}, 1);
-	map_fill(map, (t_v3i){0, 1, 0}, (t_v3i){pars->size[x], 1, pars->size[z]}, 255);
+	map_fill(map, (t_v3i){0, 1, 0}, (t_v3i){pars->size[x], 1,
+		pars->size[z]}, 255);
 	pos[y] = 0;
 	while (pos[y] < (int)vector_size(&pars->data))
 	{
@@ -62,15 +63,9 @@ static inline void	__pars_to_data(t_pars *const pars, t_map *const map)
 		while (line[pos[x]] && line[pos[x]] != '\n')
 		{
 			if (line[pos[x]] == '1')
-			{
 				map_set(map, (t_v3i){pos[x], 1, pos[y]}, 1);
-				map_set(map, (t_v3i){pos[x], 3, pos[y]}, 1);
-			}
 			else if (ft_strchr("0NSEW", line[pos[x]]))
-			{
 				map_set(map, (t_v3i){pos[x], 1, pos[y]}, 0);
-				map_set(map, (t_v3i){pos[x], 3, pos[y]}, 0);
-			}
 			pos[x]++;
 		}
 		pos[y]++;

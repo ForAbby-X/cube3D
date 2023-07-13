@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 11:00:48 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/07/08 17:28:25 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/07/13 21:47:23 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ t_gui	gui_create(
 	if (gui.surface == NULL)
 		return (vector_destroy(&gui.objects), free(gui.title), (t_gui){0});
 	gui.title_len = ft_strlen(title);
+	gui.fixed = 1;
 	return (gui);
 }
 
@@ -47,15 +48,24 @@ void	gui_destroy(t_engine *const eng, t_gui *const gui)
 
 t_gui_obj	*gui_add(t_gui *const gui, t_gui_obj *const obj)
 {
+	int	size_x;
+
 	obj->from = gui;
+	if (obj->type == BUTTON)
+		size_x = obj->str_len * 14 + 6;
+	else if (obj->type == CHECK)
+		size_x = obj->str_len * 14 + 4 + 20;
+	else
+		size_x = gui->size[x] - 4;
 	obj->pos = g_gui_obj_size * (int)vector_size(&gui->objects);
-	obj->size = (t_v2i){gui->size[x] - 4, 22};
+	obj->size = (t_v2i){size_x, 22};
 	return (vector_addback(&gui->objects, obj));
 }
 
 void	gui_update(t_engine *const eng, t_gui *const gui)
 {
 	t_length		index;
+	t_gui_obj		*obj;
 
 	if (eng->mouse_x >= gui->pos[x] && eng->mouse_x < gui->pos[x] + gui->size[x]
 		&& eng->mouse_y >= gui->pos[y] && eng->mouse_y < gui->pos[y] + 20
@@ -63,7 +73,7 @@ void	gui_update(t_engine *const eng, t_gui *const gui)
 		gui->selected = 1;
 	else if (ft_mouse(eng, 1).released)
 		gui->selected = 0;
-	if (gui->selected)
+	if (gui->fixed == 0 && gui->selected)
 		gui->pos += (t_v2i){eng->mouse_x, eng->mouse_y} - gui->old_mouse_pos;
 	gui->old_mouse_pos = (t_v2i){eng->mouse_x, eng->mouse_y};
 	gui->pos[x] = ft_max(0, gui->pos[x]);
@@ -73,7 +83,9 @@ void	gui_update(t_engine *const eng, t_gui *const gui)
 	index = 0;
 	while (index < vector_size(&gui->objects))
 	{
-		gui_obj_update(eng, vector_get(&gui->objects, index));
+		obj = vector_get(&gui->objects, index);
+		if (obj->visible)
+			gui_obj_update(eng, obj);
 		index++;
 	}
 }
@@ -82,6 +94,7 @@ void	gui_display(t_engine *const eng, t_gui *const gui)
 {
 	t_sprite *const	spr = eng->sel_spr;
 	t_length		index;
+	t_gui_obj		*obj;
 
 	ft_rect(eng, gui->pos, gui->size, (t_color){0x2c3e50});
 	ft_put_text(eng,
@@ -94,7 +107,9 @@ void	gui_display(t_engine *const eng, t_gui *const gui)
 	index = 0;
 	while (index < vector_size(&gui->objects))
 	{
-		gui_obj_display(eng, vector_get(&gui->objects, index));
+		obj = vector_get(&gui->objects, index);
+		if (obj->visible)
+			gui_obj_display(eng, obj);
 		index++;
 	}
 	ft_eng_sel_spr(eng, spr);
