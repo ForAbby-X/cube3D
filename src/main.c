@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 10:36:00 by vmuller           #+#    #+#             */
-/*   Updated: 2023/07/13 23:51:34 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/07/14 10:47:40 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,8 @@ static inline void	__control(
 		cam->rot[y] += dt * 2;
 	if (!data->show_settings)
 	{
-		cam->rot[x] += ((float)eng->mouse_x - 500) / 500.0f;
-		cam->rot[y] -= ((float)eng->mouse_y - 260) / 500.0f;
+		cam->rot[x] += ((float)eng->mouse_x - 500) * (data->sensitivity / 100.f);
+		cam->rot[y] -= ((float)eng->mouse_y - 260) * (data->sensitivity / 100.f);
 		mlx_mouse_move(eng->mlx, eng->win, 500, 260);
 	}
 	if (cam->rot[x] < -M_PI)
@@ -81,11 +81,12 @@ static inline int	__game_init(t_engine *eng, t_data *data, char **argv)
 		return (ft_destroy_sprite(eng, data->sub_screen), 1);
 	data->menu = menu_create();
 	menu_settings_create(eng, data);
-	data->menu.selected = 2;
+	data->menu.selected = 3;
 	data->cam = (t_camera){{0.0f}, {0.0f}, M_PI_2};
 	data->show_settings = 0;
 	data->box = (t_aabb){data->map.spawn - (t_v3f){0.16f, 0.0f, 0.16f},
 	{0.32f, 0.825f, 0.32f}};
+	data->sensitivity = 0.2f;
 	mlx_mouse_move(eng->mlx, eng->win, 500, 260);
 	eng->mouse_x = 500;
 	eng->mouse_y = 260;
