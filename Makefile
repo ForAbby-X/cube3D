@@ -52,6 +52,8 @@ SRC		=	main.c \
 			menu/settings.c \
 			\
 			minimap.c \
+			\
+			3d/point.c \
 
 INC		=	vec3.h \
 			camera.h \

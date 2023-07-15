@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 15:26:08 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/07/14 12:24:35 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/07/15 15:49:38 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,10 +89,10 @@ int	menu_settings_control_create(t_engine *const eng, t_data *const data)
 		return (gui_destroy(eng, &gui), 1);
 	gui_add_button(p_gui, "<<", &__menu_to_settings, &data->menu.selected);
 	gui_add_text(p_gui, NULL);
-	gui_add_text(p_gui, "move forward : W");
+	gui_add_text(p_gui, "move forward  : W");
 	gui_add_text(p_gui, "move backward : S");
-	gui_add_text(p_gui, "move left : A");
-	gui_add_text(p_gui, "move right : D");
+	gui_add_text(p_gui, "move left     : A");
+	gui_add_text(p_gui, "move right    : D");
 	gui_add_text(p_gui, "rotate camera : MOUSE");
 	gui_add_text(p_gui, NULL);
 	gui_add_text(p_gui, "mouse sensitivity:");

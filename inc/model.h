@@ -1,27 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   camera.h                                           :+:      :+:    :+:   */
+/*   model.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/23 18:18:43 by vmuller           #+#    #+#             */
-/*   Updated: 2023/07/15 17:53:44 by alde-fre         ###   ########.fr       */
+/*   Created: 2023/07/15 16:02:13 by alde-fre          #+#    #+#             */
+/*   Updated: 2023/07/15 22:19:56 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef CAMERA_H
-# define CAMERA_H
+#ifndef MODEL_H
+# define MODEL_H
 
 # include "vec3.h"
+# include "game.h"
 
-typedef struct s_camera	t_camera;
+typedef struct s_dsprite	t_dsprite;
 
-struct s_camera
+struct s_dsprite
 {
-	t_v3f	pos;
-	t_v2f	rot;
-	float	fov;
+	t_sprite	*spr;
+	float		depth;
 };
+
+float	depth_get(t_data *const game, t_v2i const pos);
+void	put_spr_scale(
+			t_data *const game,
+			t_v2i const pos,
+			t_dsprite const spr,
+			float const scale);
+void	put_3d_point(t_data *const game, t_v3f const pos);
+void	put_3d_spr(t_data *const game, t_sprite *const spr, t_v3f const pos);
 
 #endif

@@ -6,17 +6,16 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/25 19:41:10 by vmuller           #+#    #+#             */
-/*   Updated: 2023/07/05 12:38:14 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/07/15 20:28:52 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef RAYCASTER_H
 # define RAYCASTER_H
 
-# include "map.h"
-# include "camera.h"
+# include "game.h"
+# include "model.h"
 # include "cast_ray.h"
-# include "engine.h"
 
 typedef enum e_cell_side
 {
@@ -36,9 +35,7 @@ t_color		ray_to_pixel(
 				long reflections);
 
 void		ray_render(
-				t_engine *const eng,
-				t_map *const map,
-				t_camera *const cam,
+				t_data *const game,
 				size_t const tick);
 t_color		ray_reflection(
 				t_map *const map,

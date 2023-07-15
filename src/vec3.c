@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 16:53:58 by vmuller           #+#    #+#             */
-/*   Updated: 2023/06/29 11:09:33 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/07/15 16:03:52 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,4 +26,37 @@ t_v3f	v3fnorm(t_v3f a, float n)
 	if (mag == 0.0f)
 		return ((t_v3f){0});
 	return (a / mag * n);
+}
+
+t_v3f	v3frotx(t_v3f vec, float phi)
+{
+	float const	v_sinf = sinf(phi);
+	float const	v_cosf = cosf(phi);
+
+	return ((t_v3f){
+		vec[x],
+		vec[y] * v_cosf - vec[z] * v_sinf,
+		vec[y] * v_sinf + vec[z] * v_cosf});
+}
+
+t_v3f	v3froty(t_v3f vec, float phi)
+{
+	float const	v_sinf = sinf(phi);
+	float const	v_cosf = cosf(phi);
+
+	return ((t_v3f){
+		vec[x] * v_cosf - vec[z] * v_sinf,
+		vec[y],
+		vec[x] * v_sinf + vec[z] * v_cosf});
+}
+
+t_v3f	v3frotz(t_v3f vec, float phi)
+{
+	float const	v_sinf = sinf(phi);
+	float const	v_cosf = cosf(phi);
+
+	return ((t_v3f){
+		vec[x] * v_cosf - vec[y] * v_sinf,
+		vec[x] * v_sinf + vec[y] * v_cosf,
+		vec[z]});
 }

@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 23:28:54 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/07/14 10:40:26 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/07/15 15:47:44 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,9 +74,10 @@ void	minimap_display(
 			t_camera *const cam,
 			t_sprite *const minimap)
 {
-	t_v2i	pxpos;
-	t_v3i	bcam;
-	t_v2i	off;
+	t_v2i		pxpos;
+	t_v3i const	bcam = (t_v3i){cam->pos[x] + .5f, cam->pos[y], cam->pos[z] + .5f};
+	t_v2i const	off = (t_v2i){(cam->pos[x] - roundf(cam->pos[x])) * 10,
+					(cam->pos[z] - roundf(cam->pos[z])) * 10};
 
 	ft_eng_sel_spr(eng, minimap);
 	ft_clear(eng, (t_color){0});
@@ -86,11 +87,8 @@ void	minimap_display(
 		pxpos[x] = -7;
 		while (pxpos[x] < 7)
 		{
-			bcam = (t_v3i){cam->pos[x] + .5f, cam->pos[y], cam->pos[z] + .5f};
-			off = (t_v2i){(cam->pos[x] - roundf(cam->pos[x])) * 10, (cam->pos[z] - roundf(cam->pos[z])) * 10};
 			if (map_get(map, bcam + (t_v3i){pxpos[x], 0, pxpos[y]}))
 				ft_rect(eng, ((t_v2i){6, 6} + pxpos) * 10 - off, (t_v2i){10, 10}, (t_color){0x1f0005});
-				// ft_rect(eng, ((t_v2i){6, 6} + pxpos) * 10 - off, (t_v2i){10, 10}, (t_color){0x32a852});
 			else
 				ft_put_sprite_part(eng, map->sprites[4], ((t_v2i){6, 6} + pxpos) * 10 - off, (t_rect){{0}, {10, 10}});
 			pxpos[x]++;

@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 10:36:00 by vmuller           #+#    #+#             */
-/*   Updated: 2023/07/14 10:47:40 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/07/15 23:10:47 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 #include "keys.h"
 #include "game.h"
 #include "minimap.h"
+#include "model.h"
 
 static inline void	__control(
 	t_engine *const eng,
@@ -70,9 +71,12 @@ static inline void	__control(
 
 static inline int	__game_init(t_engine *eng, t_data *data, char **argv)
 {
+	data->eng = eng;
 	data->sub_screen = ft_sprite(eng, 250 * 2, 130 * 2);
 	if (data->sub_screen == NULL)
 		return (1);
+	data->depth_buffer = malloc(250 * 2 * 130 * 2 * sizeof(float));
+	data->sprites[0] = ft_sprite_p(eng, "assets/HEHE.xpm");
 	data->minimap = ft_sprite(eng, 120, 120);
 	if (data->minimap == NULL)
 		return (1);
@@ -82,7 +86,7 @@ static inline int	__game_init(t_engine *eng, t_data *data, char **argv)
 	data->menu = menu_create();
 	menu_settings_create(eng, data);
 	data->menu.selected = 3;
-	data->cam = (t_camera){{0.0f}, {0.0f}, M_PI_2};
+	data->cam = (t_camera){data->map.spawn + (t_v3f){0.0f, 0.8f, 0.0f}, {0.0f}, M_PI_2};
 	data->show_settings = 0;
 	data->box = (t_aabb){data->map.spawn - (t_v3f){0.16f, 0.0f, 0.16f},
 	{0.32f, 0.825f, 0.32f}};
@@ -114,7 +118,20 @@ static inline int	__loop(t_engine *eng, t_data *data, double dt)
 	if (data->show_settings)
 		menu_update(eng, &data->menu);
 	ft_eng_sel_spr(eng, data->sub_screen);
-	ray_render(eng, &data->map, &data->cam, data->tick);
+	ray_render(data, data->tick);
+
+	put_3d_point(data, data->box.pos);
+	put_3d_point(data, data->box.pos + (t_v3f){data->box.dim[x], 0.f, 0.f});
+	put_3d_point(data, data->box.pos + (t_v3f){0.f, 0.f, data->box.dim[z]});
+	put_3d_point(data, data->box.pos + (t_v3f){data->box.dim[x], 0.f, data->box.dim[z]});
+	put_3d_point(data, data->box.pos + (t_v3f){0.f, data->box.dim[y], 0.f});
+	put_3d_point(data, data->box.pos + (t_v3f){data->box.dim[x], data->box.dim[y], 0.f});
+	put_3d_point(data, data->box.pos + (t_v3f){0.f, data->box.dim[y], data->box.dim[z]});
+	put_3d_point(data, data->box.pos + data->box.dim);
+
+	for (int i = 0; i < 50; i++)
+		put_3d_spr(data, data->sprites[0], data->map.spawn + (t_v3f){sinf(i / 50.f * M_PI * 2) / 2.f, 0.2f, cosf(i / 50.f * M_PI * 2) / 2.f});
+
 	ft_eng_sel_spr(eng, NULL);
 	ft_put_sprite_s(eng, data->sub_screen, (t_v2i){0}, 2);
 	if (data->show_settings)

@@ -15,6 +15,13 @@
 		"menu.h": "c",
 		"game.h": "c",
 		"vec3.h": "c",
-		"minimap.h": "c"
+		"minimap.h": "c",
+		"numbers": "c",
+		"system_error": "c",
+		"functional": "c",
+		"tuple": "c",
+		"deque": "c",
+		"unordered_map": "c",
+		"vector": "c"
 	}
 }

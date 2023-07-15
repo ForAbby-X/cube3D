@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 10:44:52 by vmuller           #+#    #+#             */
-/*   Updated: 2023/06/29 11:08:56 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/07/15 16:02:08 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,5 +27,8 @@ typedef int				t_v3i __attribute__((vector_size (16)));
 
 float	v3fmag(t_v3f a);
 t_v3f	v3fnorm(t_v3f a, float n);
+t_v3f	v3frotx(t_v3f vec, float phi);
+t_v3f	v3froty(t_v3f vec, float phi);
+t_v3f	v3frotz(t_v3f vec, float phi);
 
 #endif

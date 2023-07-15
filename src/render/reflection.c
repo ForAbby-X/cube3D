@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 03:09:00 by vmuller           #+#    #+#             */
-/*   Updated: 2023/07/12 15:28:22 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/07/15 20:48:13 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ t_color	ray_reflection(
 	new_dir = ray->dir;
 	new_dir[ray->side] = -new_dir[ray->side];
 	new_ray = cast_ray(map, &ray->end, &new_dir, 20);
-	new_ray.dist -= ray->dist;
+	// new_ray.dist -= ray->dist;
 	new_color = ray_to_pixel(map, &new_ray, reflection);
 	value = (float)(255 - color.a) / 255.0f;
 	return (ft_color_inter(new_color, color, value));
