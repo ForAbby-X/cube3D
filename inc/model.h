@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/15 16:02:13 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/07/15 22:19:56 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/07/21 11:50:01 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,17 +20,26 @@ typedef struct s_dsprite	t_dsprite;
 
 struct s_dsprite
 {
+	t_v2i		pos;
 	t_sprite	*spr;
 	float		depth;
 };
 
-float	depth_get(t_data *const game, t_v2i const pos);
+t_v3f	project_point(t_v3f const point, t_camera *const cam);
+
 void	put_spr_scale(
-			t_data *const game,
-			t_v2i const pos,
+			t_engine *const eng,
+			t_camera *const cam,
 			t_dsprite const spr,
 			float const scale);
-void	put_3d_point(t_data *const game, t_v3f const pos);
-void	put_3d_spr(t_data *const game, t_sprite *const spr, t_v3f const pos);
+void	put_3d_point(
+			t_engine *const eng,
+			t_camera *const cam,
+			t_v3f const pos);
+void	put_3d_spr(
+			t_engine *const eng,
+			t_camera *const cam,
+			t_sprite *const spr,
+			t_v3f const pos);
 
 #endif

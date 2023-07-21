@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 13:49:15 by vmuller           #+#    #+#             */
-/*   Updated: 2023/07/15 22:36:04 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/07/20 15:25:42 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,11 +30,10 @@ static inline void	__setup_plane(
 	float const	fsiny = sinf(cam->rot[y]);
 	float const	fcosy = cosf(cam->rot[y]);
 
-	plane->dist = (ft_eng_size_x(eng) / 2.0f) / tanf(cam->fov / 2.0f);
 	plane->pos[x] = fcosx * fcosy;
 	plane->pos[y] = fsiny;
 	plane->pos[z] = fsinx * fcosy;
-	plane->pos *= plane->dist;
+	plane->pos *= cam->screen_dist;
 	plane->dir_x[x] = -fsinx;
 	plane->dir_x[y] = 0.0f;
 	plane->dir_x[z] = fcosx;
@@ -104,7 +103,9 @@ t_color	ray_to_pixel(
 }
 
 void	ray_render(
-			t_data *const game,
+			t_engine *const eng,
+			t_map *const map,
+			t_camera *const cam,
 			size_t const tick)
 {
 	t_v2i	pix;
@@ -113,28 +114,30 @@ void	ray_render(
 	t_plane	plane;
 	t_color	col;
 
-	__setup_plane(game->eng, &plane, &game->cam);
+	ft_eng_sel_spr(eng, cam->surface);
+	__setup_plane(eng, &plane, cam);
 	pix[y] = 0;
-	while (pix[y] < (int)game->eng->sel_spr->size[y])
+	while (pix[y] < cam->surface->size[y])
 	{
 		pix[x] = tick + pix[y] & 1;
-		while (pix[x] < (int)game->eng->sel_spr->size[x])
+		while (pix[x] < cam->surface->size[x])
 		{
 			dir = plane.pos;
-			dir += plane.dir_x * (pix[x] / (float)game->eng->sel_spr->size[x] - 0.5f);
-			dir += plane.dir_y * (pix[y] / (float)game->eng->sel_spr->size[y] - 0.5f);
-			ray = cast_ray(&game->map, &game->cam.pos, &dir, (game->map.fog_distance + 1) * 2);
-			game->depth_buffer[pix[x] + pix[y] * game->eng->sel_spr->size[x]] = ray.dist * plane.dist;
-			col = ray_to_pixel(&game->map, &ray, 0);
-			if (game->map.fog)
-				ft_draw(game->eng, pix,
-					ft_color_inter(col, game->map.fog_color, powf(1.0f - fmaxf(0.f, fminf(1.f,
-						game->depth_buffer[pix[x] + pix[y] * game->eng->sel_spr->size[x]]
-						/ game->map.fog_distance)), 2)));
+			dir += plane.dir_x * (pix[x] / (float)cam->surface->size[x] - 0.5f);
+			dir += plane.dir_y * (pix[y] / (float)cam->surface->size[y] - 0.5f);
+			ray = cast_ray(map, &cam->pos, &dir, (cam->fog_distance + 1) * 2);
+			camera_set_depth(cam, pix, ray.dist * cam->screen_dist);
+			col = ray_to_pixel(map, &ray, 0);
+			if (cam->fog)
+				ft_draw(eng, pix, ft_color_inter(col, cam->fog_color,
+						powf(1.0f - fmaxf(0.f, fminf(1.f,
+									camera_get_depth(cam, pix)
+									/ cam->fog_distance)), 2)));
 			else
-				ft_draw(game->eng, pix, col);
+				ft_draw(eng, pix, col);
 			pix[x] += 2;
 		}
 		pix[y]++;
 	}
+	ft_eng_sel_spr(eng, NULL);
 }

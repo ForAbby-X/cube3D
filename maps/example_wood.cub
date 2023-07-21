@@ -2,7 +2,7 @@ C 0,0,255
 NO ./assets/dungeon_walls/SO.xpm
 SO ./assets/dungeon_walls/SO.xpm
 EA   ./assets/dungeon_walls/EA.xpm
-WE   ./assets/dungeon_walls/WE.xpm
+WE   ./assets/MIRROR.xpm
        F    234,0,98          
 
                         1111111

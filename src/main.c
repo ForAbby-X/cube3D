@@ -6,14 +6,14 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 10:36:00 by vmuller           #+#    #+#             */
-/*   Updated: 2023/07/15 23:10:47 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/07/21 12:14:21 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "raycaster.h"
 #include "parsing.h"
 
-#define AZERTY
+// #define AZERTY
 #include "keys.h"
 #include "game.h"
 #include "minimap.h"
@@ -54,8 +54,10 @@ static inline void	__control(
 		cam->rot[y] += dt * 2;
 	if (!data->show_settings)
 	{
-		cam->rot[x] += ((float)eng->mouse_x - 500) * (data->sensitivity / 100.f);
-		cam->rot[y] -= ((float)eng->mouse_y - 260) * (data->sensitivity / 100.f);
+		cam->rot[x] += ((float)eng->mouse_x - 500)
+			* (data->sensitivity / 100.f * data->cam.fov_ratio);
+		cam->rot[y] -= ((float)eng->mouse_y - 260)
+			* (data->sensitivity / 100.f * data->cam.fov_ratio);
 		mlx_mouse_move(eng->mlx, eng->win, 500, 260);
 	}
 	if (cam->rot[x] < -M_PI)
@@ -66,27 +68,31 @@ static inline void	__control(
 		cam->rot[y] = -M_PI_2;
 	else if (cam->rot[y] > M_PI_2)
 		cam->rot[y] = M_PI_2;
-		
 }
 
 static inline int	__game_init(t_engine *eng, t_data *data, char **argv)
 {
 	data->eng = eng;
-	data->sub_screen = ft_sprite(eng, 250 * 2, 130 * 2);
-	if (data->sub_screen == NULL)
-		return (1);
-	data->depth_buffer = malloc(250 * 2 * 130 * 2 * sizeof(float));
-	data->sprites[0] = ft_sprite_p(eng, "assets/HEHE.xpm");
+	data->sprites[0] = ft_sprite_p(eng, "assets/block.xpm");
+	data->sprites[1] = ft_sprite_p(eng, "assets/camera.xpm");
+	data->sprites[2] = ft_sprite_p(eng, "assets/HEHE.xpm");
 	data->minimap = ft_sprite(eng, 120, 120);
 	if (data->minimap == NULL)
 		return (1);
 	data->map = pars_file(eng, argv[1]);
 	if (data->map.data == NULL)
-		return (ft_destroy_sprite(eng, data->sub_screen), 1);
+		return (ft_destroy_sprite(eng, data->minimap), 1);
+
+
 	data->menu = menu_create();
 	menu_settings_create(eng, data);
 	data->menu.selected = 3;
-	data->cam = (t_camera){data->map.spawn + (t_v3f){0.0f, 0.8f, 0.0f}, {0.0f}, M_PI_2};
+
+	data->cam = camera_create(eng, (t_v2i){eng->win_x / 2, eng->win_y / 2});
+	data->cam.pos = data->map.spawn + (t_v3f){0.0f, 0.8f, 0.0f};
+	data->cam.rot = (t_v2f){0.0f};
+	data->cam.fog_color = (t_color){0x040018};
+
 	data->show_settings = 0;
 	data->box = (t_aabb){data->map.spawn - (t_v3f){0.16f, 0.0f, 0.16f},
 	{0.32f, 0.825f, 0.32f}};
@@ -99,6 +105,8 @@ static inline int	__game_init(t_engine *eng, t_data *data, char **argv)
 
 static inline int	__loop(t_engine *eng, t_data *data, double dt)
 {
+	static float time = 0.f;
+
 	if (ft_key(eng, XK_Tab).pressed)
 	{
 		if (data->show_settings)
@@ -117,28 +125,30 @@ static inline int	__loop(t_engine *eng, t_data *data, double dt)
 	data->cam.pos[z] += data->box.dim[z] / 2.0f;
 	if (data->show_settings)
 		menu_update(eng, &data->menu);
-	ft_eng_sel_spr(eng, data->sub_screen);
-	ray_render(data, data->tick);
 
-	put_3d_point(data, data->box.pos);
-	put_3d_point(data, data->box.pos + (t_v3f){data->box.dim[x], 0.f, 0.f});
-	put_3d_point(data, data->box.pos + (t_v3f){0.f, 0.f, data->box.dim[z]});
-	put_3d_point(data, data->box.pos + (t_v3f){data->box.dim[x], 0.f, data->box.dim[z]});
-	put_3d_point(data, data->box.pos + (t_v3f){0.f, data->box.dim[y], 0.f});
-	put_3d_point(data, data->box.pos + (t_v3f){data->box.dim[x], data->box.dim[y], 0.f});
-	put_3d_point(data, data->box.pos + (t_v3f){0.f, data->box.dim[y], data->box.dim[z]});
-	put_3d_point(data, data->box.pos + data->box.dim);
+	ft_memset(data->cam.depth_buffer, 0xFFFF, sizeof(float) * data->cam.surface->size[x] * data->cam.surface->size[y]);
+	camera_update(&data->cam);
+	ray_render(eng, &data->map, &data->cam, data->tick);
+
+	put_3d_point(eng, &data->cam, data->box.pos);
+	put_3d_point(eng, &data->cam, data->box.pos + (t_v3f){data->box.dim[x], 0.f, 0.f});
+	put_3d_point(eng, &data->cam, data->box.pos + (t_v3f){0.f, 0.f, data->box.dim[z]});
+	put_3d_point(eng, &data->cam, data->box.pos + (t_v3f){data->box.dim[x], 0.f, data->box.dim[z]});
+	put_3d_point(eng, &data->cam, data->box.pos + (t_v3f){0.f, data->box.dim[y], 0.f});
+	put_3d_point(eng, &data->cam, data->box.pos + (t_v3f){data->box.dim[x], data->box.dim[y], 0.f});
+	put_3d_point(eng, &data->cam, data->box.pos + (t_v3f){0.f, data->box.dim[y], data->box.dim[z]});
+	put_3d_point(eng, &data->cam, data->box.pos + data->box.dim);
 
 	for (int i = 0; i < 50; i++)
-		put_3d_spr(data, data->sprites[0], data->map.spawn + (t_v3f){sinf(i / 50.f * M_PI * 2) / 2.f, 0.2f, cosf(i / 50.f * M_PI * 2) / 2.f});
-
+		put_3d_spr(eng, &data->cam, data->sprites[2], data->map.spawn + (t_v3f){sinf(i / 25.f * M_PI * 2 + time * 2) / 2.f, sinf(i / 6.25f * M_PI * 2 + time * 4) / 8.f + 0.5f, cosf(i / 25.f * M_PI * 2 + time * 2) / 2.f});
 	ft_eng_sel_spr(eng, NULL);
-	ft_put_sprite_s(eng, data->sub_screen, (t_v2i){0}, 2);
+	ft_put_sprite_s(eng, data->cam.surface, (t_v2i){0}, 2);
 	if (data->show_settings)
 		menu_display(eng, &data->menu);
 	else
 		minimap_display(eng, &data->map, &data->cam, data->minimap);
 	data->tick++;
+	time += dt;
 	return (1);
 }
 
@@ -156,7 +166,7 @@ int	main(int argc, char **argv)
 			ft_eng_play(eng, &data, __loop);
 			menu_destroy(eng, &data.menu);
 			map_destroy(eng, &data.map);
-			ft_destroy_sprite(eng, data.sub_screen);
+			camera_destroy(eng, &data.cam);
 		}
 		else
 			ft_putstr_fd("Error: Failed to initialise the game.\n", 1);

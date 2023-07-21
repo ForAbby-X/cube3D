@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/25 19:41:10 by vmuller           #+#    #+#             */
-/*   Updated: 2023/07/15 20:28:52 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/07/20 14:57:47 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,9 @@ t_color		ray_to_pixel(
 				long reflections);
 
 void		ray_render(
-				t_data *const game,
+				t_engine *const eng,
+				t_map *const map,
+				t_camera *const cam,
 				size_t const tick);
 t_color		ray_reflection(
 				t_map *const map,

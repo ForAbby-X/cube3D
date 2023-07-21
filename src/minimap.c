@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 23:28:54 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/07/15 15:47:44 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/07/17 11:52:00 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@
 
 static inline void	__minimap_crop(
 		t_sprite *const minimap,
-		t_map *const map)
+		t_camera *const cam)
 {
 	t_v2i	dim;
 	t_v2i	off;
@@ -56,12 +56,12 @@ static inline void	__minimap_crop(
 			if (dist >= 60 * 60)
 				minimap->data[dim[x] + dim[y] * minimap->size[x]]
 				= (t_color){0xFF000000};
-			else if (map->fog)
+			else if (cam->fog)
 				minimap->data[dim[x] + dim[y] * minimap->size[x]]
 				= ft_color_inter(minimap->data[dim[x] + dim[y] * minimap->size[x]],
-					map->fog_color,
+					cam->fog_color,
 					powf(1.0f - fmaxf(0.f, fminf(1.f, sqrtf(dist) / 10.f
-					/ map->fog_distance)), 2));	
+					/ cam->fog_distance)), 2));	
 			dim[0]++;
 		}
 		dim[1]++;
@@ -96,7 +96,7 @@ void	minimap_display(
 		pxpos[y]++;
 	}
 	ft_eng_sel_spr(eng, NULL);
-	__minimap_crop(minimap, map);
+	__minimap_crop(minimap, cam);
 	ft_put_sprite_r(eng, minimap, (t_rect){{60, 60}, {60, 60}}, -cam->rot[x] - M_PI_2);
 	ft_circle(eng, (t_v2i){6, 6} * 10, 4, (t_color){0xba1004});
 }

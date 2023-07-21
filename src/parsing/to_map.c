@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 17:24:53 by vmuller           #+#    #+#             */
-/*   Updated: 2023/07/14 10:28:40 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/07/19 19:01:00 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,10 @@ static inline void	__pars_to_data(t_pars *const pars, t_map *const map)
 				map_set(map, (t_v3i){pos[x], 1, pos[y]}, 1);
 			else if (ft_strchr("0NSEW", line[pos[x]]))
 				map_set(map, (t_v3i){pos[x], 1, pos[y]}, 0);
+			map_set(map, (t_v3i){pos[x], 3, pos[y]}, (rand() & 7) == 0);
+			map_set(map, (t_v3i){pos[x], 4, pos[y]}, (rand() & 7) == 0);
+			map_set(map, (t_v3i){pos[x], 5, pos[y]}, (rand() & 7) == 0);
+			map_set(map, (t_v3i){pos[x], 7, pos[y]}, (rand() & 7) == 0);
 			pos[x]++;
 		}
 		pos[y]++;

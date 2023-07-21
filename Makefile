@@ -46,6 +46,8 @@ SRC		=	main.c \
 			interface/update.c \
 			interface/display.c \
 			 \
+			camera.c \
+			\
 			collisions.c \
 			 \
 			menu/manager.c \

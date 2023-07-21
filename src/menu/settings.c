@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 15:26:08 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/07/15 15:49:38 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/07/18 11:38:06 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ int	menu_settings_fog_create(t_engine *const eng, t_data *const data)
 	t_gui	gui;
 	t_gui	*p_gui;
 
-	gui = gui_create(eng, (t_v2i){10, 10}, (t_v2i){300, 246}, "Settings/fog");
+	gui = gui_create(eng, (t_v2i){10, 10}, (t_v2i){300, 314}, "Settings/camera");
 	if (gui.objects.data == NULL)
 		return (1);
 	p_gui = menu_add(&data->menu, &gui);
@@ -61,18 +61,22 @@ int	menu_settings_fog_create(t_engine *const eng, t_data *const data)
 		return (gui_destroy(eng, &gui), 1);
 	gui_add_button(p_gui, "<<", &__menu_to_settings, &data->menu.selected);
 	gui_add_text(p_gui, NULL);
-	gui_add_check(p_gui, "fog", &data->map.fog);
+	gui_add_check(p_gui, "fog", &data->cam.fog);
 	gui_add_text(p_gui, "fog color:");
-	gui_add_slider(p_gui, (t_gui_data){.u_v = &data->map.fog_color.b,
+	gui_add_slider(p_gui, (t_gui_data){.u_v = &data->cam.fog_color.b,
 		.u_v_mi = 0, .u_v_ma = 255, .type = 2});
-	gui_add_slider(p_gui, (t_gui_data){.u_v = &data->map.fog_color.g,
+	gui_add_slider(p_gui, (t_gui_data){.u_v = &data->cam.fog_color.g,
 		.u_v_mi = 0, .u_v_ma = 255, .type = 2});
-	gui_add_slider(p_gui, (t_gui_data){.u_v = &data->map.fog_color.r,
+	gui_add_slider(p_gui, (t_gui_data){.u_v = &data->cam.fog_color.r,
 		.u_v_mi = 0, .u_v_ma = 255, .type = 2});
 	gui_add_text(p_gui, "fog distance:");
 	gui_add_slider(p_gui,
-		(t_gui_data){.f_v = &data->map.fog_distance,
-		.f_v_mi = 2.f, .f_v_ma = 20.f, .type = 0});
+		(t_gui_data){.f_v = &data->cam.fog_distance,
+		.f_v_mi = 2.f, .f_v_ma = 40.f, .type = 0});
+	gui_add_text(p_gui, NULL);
+	gui_add_text(p_gui, "fov:");
+	gui_add_slider(p_gui, (t_gui_data){.f_v = &data->cam.fov,
+		.f_v_mi = M_PI / 20.f, .f_v_ma = M_PI - M_PI / 20.f, .type = 0});
 	return (0);
 }
 
@@ -106,7 +110,7 @@ int	menu_settings_player_create(t_engine *const eng, t_data *const data)
 	t_gui	gui;
 	t_gui	*p_gui;
 
-	gui = gui_create(eng, (t_v2i){10, 10}, (t_v2i){300, 290}, "Settings/player");
+	gui = gui_create(eng, (t_v2i){10, 10}, (t_v2i){300, 246}, "Settings/player");
 	if (gui.objects.data == NULL)
 		return (1);
 	p_gui = menu_add(&data->menu, &gui);
@@ -126,9 +130,6 @@ int	menu_settings_player_create(t_engine *const eng, t_data *const data)
 		.f_v_mi = -M_PI, .f_v_ma = M_PI, .type = 0});
 	gui_add_slider(p_gui, (t_gui_data){.f_v = ((float *)&data->cam.rot) + 1,
 		.f_v_mi = -M_PI_2, .f_v_ma = M_PI_2, .type = 0});
-	gui_add_text(p_gui, "fov:");
-	gui_add_slider(p_gui, (t_gui_data){.f_v = &data->cam.fov,
-		.f_v_mi = M_PI / 20.f, .f_v_ma = M_PI - M_PI / 20.f, .type = 0});
 	return (0);
 }
 
@@ -148,7 +149,7 @@ int	menu_settings_create(t_engine *const eng, t_data *const data)
 	if (p_gui == NULL)
 		return (gui_destroy(eng, &gui), 1);
 	gui_add_text(p_gui, NULL);
-	gui_add_button(p_gui, "fog settings", &__menu_to_fog, &data->menu.selected);
+	gui_add_button(p_gui, "camera settings", &__menu_to_fog, &data->menu.selected);
 	gui_add_button(p_gui, "control settings", &__menu_to_control, &data->menu.selected);
 	gui_add_button(p_gui, "player settings", &__menu_to_player, &data->menu.selected);
 	gui_add_text(p_gui, NULL);
