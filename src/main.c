@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/21 10:36:00 by vmuller           #+#    #+#             */
-/*   Updated: 2023/07/21 12:14:21 by alde-fre         ###   ########.fr       */
+/*   Created: 2023/06/21 10:36:00 by alde-fre          #+#    #+#             */
+/*   Updated: 2023/07/24 05:13:50 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,12 +100,13 @@ static inline int	__game_init(t_engine *eng, t_data *data, char **argv)
 	mlx_mouse_move(eng->mlx, eng->win, 500, 260);
 	eng->mouse_x = 500;
 	eng->mouse_y = 260;
+	data->cube = mesh_load("test.obj");
 	return (0);
 }
 
 static inline int	__loop(t_engine *eng, t_data *data, double dt)
 {
-	static float time = 0.f;
+	static float	time = 0.f;
 
 	if (ft_key(eng, XK_Tab).pressed)
 	{
@@ -126,7 +127,7 @@ static inline int	__loop(t_engine *eng, t_data *data, double dt)
 	if (data->show_settings)
 		menu_update(eng, &data->menu);
 
-	ft_memset(data->cam.depth_buffer, 0xFFFF, sizeof(float) * data->cam.surface->size[x] * data->cam.surface->size[y]);
+	ft_memset(data->cam.depth_buffer, 0xFFFFFFFF, sizeof(float) * data->cam.surface->size[x] * data->cam.surface->size[y]);
 	camera_update(&data->cam);
 	ray_render(eng, &data->map, &data->cam, data->tick);
 
@@ -141,6 +142,9 @@ static inline int	__loop(t_engine *eng, t_data *data, double dt)
 
 	for (int i = 0; i < 50; i++)
 		put_3d_spr(eng, &data->cam, data->sprites[2], data->map.spawn + (t_v3f){sinf(i / 25.f * M_PI * 2 + time * 2) / 2.f, sinf(i / 6.25f * M_PI * 2 + time * 4) / 8.f + 0.5f, cosf(i / 25.f * M_PI * 2 + time * 2) / 2.f});
+	mesh_put(eng, &data->cam, data->map.spawn + (t_v3f){
+		0.0f, 0.5f, 0.0f
+	}, &data->cube);
 	ft_eng_sel_spr(eng, NULL);
 	ft_put_sprite_s(eng, data->cam.surface, (t_v2i){0}, 2);
 	if (data->show_settings)

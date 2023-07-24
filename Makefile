@@ -56,6 +56,8 @@ SRC		=	main.c \
 			minimap.c \
 			\
 			3d/point.c \
+			3d/mesh.c \
+			3d/polygon.c \
 
 INC		=	vec3.h \
 			camera.h \
@@ -67,6 +69,7 @@ INC		=	vec3.h \
 			aabb.h \
 			menu.h \
 			game.h \
+			model.h \
 
 OBJ		= $(addprefix $(OBJDIR)/,$(SRC:.c=.o))
 

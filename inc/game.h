@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 16:17:55 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/07/20 15:09:55 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/07/24 01:36:02 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include "menu.h"
 # include "aabb.h"
 # include "engine.h"
+# include "model.h"
 
 struct s_data
 {
@@ -31,6 +32,7 @@ struct s_data
 	float		sensitivity;
 	int			show_settings;
 	t_sprite	*sprites[4];
+	struct s_mesh		cube;
 };
 
 #endif
