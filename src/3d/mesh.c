@@ -6,110 +6,147 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 15:51:01 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/07/24 03:50:18 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/07/24 16:13:10 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "model.h"
 #include "libft.h"
 
-static inline float	__atof(char *str)
+typedef enum e_vertex_type
 {
-	int		sign;
-	long	number;
-	size_t	point;
-	int		flag;
+	VERTEX,
+	FACE
+}	t_vertex_type;
 
-	sign = 1;
-	if (*str == '-')
-	{
-		sign = -1;
-		str++;
-	}
-	number = 0;
-	point = 1;
-	flag = 0;
-	while ((*str >= '0' && *str <= '9') || *str >= '.')
-	{
-		if (*str == '.')
-			flag = 1;
-		else
-			number = number * 10 + (*str - '0');
-		if (*str != '.' && flag != 0)
-			point *= 10;
-		str++;
-	}
-	return ((float)number / point * (float)sign);
-}	
+typedef struct s_vertex_pars
+{
+	char const *const	str;
+	size_t const		len;
+	t_vertex_type const	type;
+}	t_vertex_pars;
+
+static t_vertex_pars const g_vert_look[] = {
+{"v ", 2, VERTEX},
+{"f ", 2, FACE},
+{NULL, 0, 0}
+};
 
 static inline void	__run_number(char **str)
 {
+	while (**str == ' ')
+		(*str)++;
 	if (**str == '-')
 		(*str)++;
 	while (**str >= '0' && **str <= '9')
 		(*str)++;
-	if (**str == '.')
+	while (**str == '.' || **str == '/')
 		(*str)++;
 	while (**str >= '0' && **str <= '9')
 		(*str)++;
-	while (**str == ' ')
+	while (**str == '.' || **str == '/')
+		(*str)++;
+	while (**str >= '0' && **str <= '9')
+		(*str)++;
+	if (**str == ' ')
 		(*str)++;
 }
 
-static inline t_v3f	__parse_line(char *str, int *const err)
+static inline int	__parse_vertex(
+						char *str,
+						t_vector *const vertexs)
 {
-	t_v3f		vertex;
+	t_v3f	vertex;
 
 	while (*str == ' ')
 		str++;
-	if (ft_strncmp(str, "v ", 2))
-		return (*err = 1, (t_v3f){0});
-	str = ft_strchr(str, 'v') + 1;
+	if ((*str < '0' || *str > '9') && *str != '-')
+		return (1);
+	vertex[x] = ft_atof(str);
+	__run_number(&str);
+	if ((*str < '0' || *str > '9') && *str != '-')
+		return (1);
+	vertex[y] = ft_atof(str);
+	__run_number(&str);
+	if ((*str < '0' || *str > '9') && *str != '-')
+		return (1);
+	vertex[z] = ft_atof(str);
+	if (vector_addback(vertexs, &vertex) == NULL)
+		return (1);
+	return (0);
+}
+
+static inline int	__parse_face(
+						char *str,
+						t_vector *const vertexs,
+						t_vector *const polygons)
+{
+	t_polygon	poly;
+	int			num;
+
 	while (*str == ' ')
 		str++;
-	if ((*str < '0' || *str > '9') && *str != '-')
-		return (*err = 2, (t_v3f){0});
-	vertex[x] = __atof(str);
+	num = ft_atoi(str);
+	if (*str < '1' || *str > '9')
+		return (1);
+	poly.points[0] = *((t_v3f *)vector_get(vertexs, num - 1));
 	__run_number(&str);
-	if ((*str < '0' || *str > '9') && *str != '-')
-		return (*err = 2, (t_v3f){0});
-	vertex[y] = __atof(str);
+	num = ft_atoi(str);
+	if (*str < '1' || *str > '9')
+		return (1);
+	poly.points[1] = *((t_v3f *)vector_get(vertexs, num - 1));
 	__run_number(&str);
-	if ((*str < '0' || *str > '9') && *str != '-')
-		return (*err = 3, (t_v3f){0});
-	vertex[z] = __atof(str);
-	return (*err = 0, vertex);
+	num = ft_atoi(str);
+	if (*str < '1' || *str > '9')
+		return (1);
+	poly.points[2] = *((t_v3f *)vector_get(vertexs, num - 1));
+	if (vector_addback(polygons, &poly) == NULL)
+		return (1);
+	return (0);
+}
+
+static inline int	__parse_line(
+						char *str,
+						t_vector *const vertex,
+						t_vector *const polygons)
+{
+	t_length	i;
+
+	i = 0;
+	while (g_vert_look[i].str
+		&& ft_strncmp(g_vert_look[i].str, str, g_vert_look[i].len))
+		i++;
+	if (g_vert_look[i].str == NULL)
+		return (0);
+	str = str + g_vert_look[i].len;
+	printf("HEHE : %s\n", str);
+	if (g_vert_look[i].type == VERTEX && __parse_vertex(str, vertex))
+		return (2);
+	if (g_vert_look[i].type == FACE && __parse_face(str, vertex, polygons))
+		return (3);
+	return (0);
 }
 
 static inline int	__get_info(int const fd, t_vector *const polygons)
 {
 	char		*line;
 	int			error;
-	t_polygon	polygon;
-	int			counter;
+	t_vector	vertex;
 
+	vertex = vector_create(sizeof(t_v3f));
+	if (vertex.data == NULL)
+		return (1);
 	line = get_next_line(fd);
 	error = 0;
-	counter = 0;
-	while (line && (error == 0 || error == 1))
+	while (line && !error)
 	{
-		polygon.points[counter] = __parse_line(line, &error);
-		printf("VERTEX: [%f, %f, %f]\n",
-				polygon.points[counter][x], polygon.points[counter][y], polygon.points[counter][z]);
-		if (error == 0)
-		{
-			counter++;
-			if (counter == 3)
-			{
-				counter = 0;
-				vector_addback(polygons, &polygon);
-			}
-		}
+		error = __parse_line(line, &vertex, polygons);
 		free(line);
 		line = get_next_line(fd);
 	}
-	printf("ERROR : %d %d %d\n", error < 0, error > 1, counter > 0);
-	return (error < 0 || error > 1 || counter > 0);
+	printf("ERROR [%d]\n", error);
+	vector_destroy(&vertex);
+	return (error);
 }
 
 t_mesh	mesh_load(char *path)
@@ -118,17 +155,18 @@ t_mesh	mesh_load(char *path)
 	t_mesh		mesh;
 
 	if (fd < 0)
-		return (ft_putstr_fd("ERROR: 1 loading mesh:\"", 2),
+		return (ft_putstr_fd("mesh error: could not load file \"", 2),
 			ft_putstr_fd(path, 2), ft_putstr_fd("\"\n", 2), (t_mesh){0});
 	if (ft_strncmp(ft_strrchr(path, '.'), ".obj", 5))
-		return (ft_putstr_fd("ERROR: 2 loading mesh:\"", 2),
-			ft_putstr_fd(path, 2), ft_putstr_fd("\"\n", 2), (t_mesh){0});
+		return (close(fd), ft_putstr_fd("mesh error: wrong file format\n", 2),
+			(t_mesh){0});
 	mesh.polygons = vector_create(sizeof(t_polygon));
 	if (mesh.polygons.data == NULL)
-		return (close(fd), ft_putstr_fd("ERROR: 3 loading mesh:\"", 2),
-			ft_putstr_fd(path, 2), ft_putstr_fd("\"\n", 2), (t_mesh){0});
+		return (close(fd), ft_putstr_fd("mesh error: mempry failure\n", 2),
+			(t_mesh){0});
 	if (__get_info(fd, &mesh.polygons))
-		return (close(fd), ft_putstr_fd("ERROR: 4 loading mesh:\"", 2),
+		return (vector_destroy(&mesh.polygons), close(fd),
+			ft_putstr_fd("ERROR: 4 loading mesh:\"", 2),
 			ft_putstr_fd(path, 2), ft_putstr_fd("\"\n", 2), (t_mesh){0});
 	close(fd);
 	return (mesh);

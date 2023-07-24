@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 01:40:17 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/07/24 06:42:14 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/07/24 15:46:24 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,11 @@ void	mesh_put(
 	while (index < vector_size(&mesh->polygons))
 	{
 		polygon = *((t_polygon *)vector_get(&mesh->polygons, index));
+
+		polygon.points[0] *= 0.02f;
+		polygon.points[1] *= 0.02f;
+		polygon.points[2] *= 0.02f;
+
 		polygon.points[0] += pos;
 		polygon.points[1] += pos;
 		polygon.points[2] += pos;

@@ -58,6 +58,7 @@ SRC		=	main.c \
 			3d/point.c \
 			3d/mesh.c \
 			3d/polygon.c \
+			3d/utils.c \
 
 INC		=	vec3.h \
 			camera.h \

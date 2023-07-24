@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/15 16:02:13 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/07/24 02:44:54 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/07/24 14:28:01 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,10 @@
 # include "engine.h"
 # include "camera.h"
 
-typedef struct s_dsprite	t_dsprite;
+typedef struct s_dsprite			t_dsprite;
 
-typedef struct s_polygon	t_polygon;
-typedef struct s_mesh		t_mesh;
+typedef struct s_polygon			t_polygon;
+typedef struct s_mesh				t_mesh;
 
 struct s_polygon
 {
@@ -39,6 +39,8 @@ struct s_dsprite
 	t_sprite	*spr;
 	float		depth;
 };
+
+float	ft_atof(char *str);
 
 t_mesh	mesh_load(char *path);
 
