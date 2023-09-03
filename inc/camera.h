@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 18:18:43 by vmuller           #+#    #+#             */
-/*   Updated: 2023/07/20 16:40:51 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/09/03 15:42:13 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@ struct s_camera
 	float		fov;
 	float		fov_ratio;
 	float		screen_dist;
+	t_v3f		fru_near;
+	t_v3f		fru_far;
 	int			fog;
 	t_color		fog_color;
 	float		fog_distance;

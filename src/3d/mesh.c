@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 15:51:01 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/07/24 16:13:10 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/09/03 15:41:01 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,8 +71,37 @@ static inline int	__parse_vertex(
 	if ((*str < '0' || *str > '9') && *str != '-')
 		return (1);
 	vertex[z] = ft_atof(str);
+	__run_number(&str);
 	if (vector_addback(vertexs, &vertex) == NULL)
 		return (1);
+	return (0);
+}
+
+typedef struct s_pars_face
+{
+	t_v3f	first_point;
+	t_v3f	last_point;
+}	t_pars_face;
+
+static inline int	__parse_face_complex(
+						char *str,
+						t_vector *const vertexs,
+						t_vector *const polygons,
+						t_pars_face comp)
+{
+	t_polygon	poly;
+
+	poly.vert[0] = comp.first_point;
+	poly.vert[1] = comp.last_point;
+	while (*str >= '0' && *str <= '9')
+	{
+		poly.vert[2] = *((t_v3f *)vector_get(vertexs, ft_atoi(str) - 1));
+		__run_number(&str);
+		if (vector_addback(polygons, &poly) == NULL)
+			return (1);
+		poly.vert[1] = poly.vert[2];
+		__run_number(&str);
+	}
 	return (0);
 }
 
@@ -89,19 +118,23 @@ static inline int	__parse_face(
 	num = ft_atoi(str);
 	if (*str < '1' || *str > '9')
 		return (1);
-	poly.points[0] = *((t_v3f *)vector_get(vertexs, num - 1));
+	poly.vert[0] = *((t_v3f *)vector_get(vertexs, num - 1));
 	__run_number(&str);
 	num = ft_atoi(str);
 	if (*str < '1' || *str > '9')
 		return (1);
-	poly.points[1] = *((t_v3f *)vector_get(vertexs, num - 1));
+	poly.vert[1] = *((t_v3f *)vector_get(vertexs, num - 1));
 	__run_number(&str);
 	num = ft_atoi(str);
 	if (*str < '1' || *str > '9')
 		return (1);
-	poly.points[2] = *((t_v3f *)vector_get(vertexs, num - 1));
+	poly.vert[2] = *((t_v3f *)vector_get(vertexs, num - 1));
+	__run_number(&str);
 	if (vector_addback(polygons, &poly) == NULL)
 		return (1);
+	if (*str >= '0' && *str <= '9')
+		return (__parse_face_complex(str, vertexs, polygons,
+				(t_pars_face){poly.vert[0], poly.vert[2]}));
 	return (0);
 }
 
@@ -119,7 +152,6 @@ static inline int	__parse_line(
 	if (g_vert_look[i].str == NULL)
 		return (0);
 	str = str + g_vert_look[i].len;
-	printf("HEHE : %s\n", str);
 	if (g_vert_look[i].type == VERTEX && __parse_vertex(str, vertex))
 		return (2);
 	if (g_vert_look[i].type == FACE && __parse_face(str, vertex, polygons))

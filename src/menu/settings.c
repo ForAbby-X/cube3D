@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 15:26:08 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/07/18 11:38:06 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/09/03 12:37:05 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,7 +142,7 @@ int	menu_settings_create(t_engine *const eng, t_data *const data)
 	menu_settings_control_create(eng, data);
 	menu_settings_player_create(eng, data);
 
-	gui = gui_create(eng, (t_v2i){10, 10}, (t_v2i){300, 250}, "Settings");
+	gui = gui_create(eng, (t_v2i){10, 10}, (t_v2i){300, 320}, "Settings");
 	if (gui.objects.data == NULL)
 		return (1);
 	p_gui = menu_add(&data->menu, &gui);
@@ -154,6 +154,19 @@ int	menu_settings_create(t_engine *const eng, t_data *const data)
 	gui_add_button(p_gui, "player settings", &__menu_to_player, &data->menu.selected);
 	gui_add_text(p_gui, NULL);
 	gui_add_button(p_gui, "swap ceilling", &__swap_ceilling, &data->map);
+	gui_add_text(p_gui, NULL);
+	gui_add_text(p_gui, "selected model:");
+	gui_add_slider(p_gui,
+		(t_gui_data){.i_v = &data->selected_model,
+		.i_v_mi = 0, .i_v_ma = 7, .type = 1});
+	gui_add_text(p_gui, NULL);
+	gui_add_text(p_gui, "frustum:");
+	gui_add_slider(p_gui,
+		(t_gui_data){.f_v = (((float *)&data->cam.fru_near) + 2),
+		.f_v_mi = 1.f, .f_v_ma = 15.f, .type = 0});
+	gui_add_slider(p_gui,
+		(t_gui_data){.f_v = (((float *)&data->cam.fru_far) + 2),
+		.f_v_mi = 1.f, .f_v_ma = 30.f, .type = 0});
 	return (0);
 }
 

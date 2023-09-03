@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 16:17:55 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/07/24 01:36:02 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/09/03 12:36:34 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,12 @@
 # include "aabb.h"
 # include "engine.h"
 # include "model.h"
+
+void	draw_line(
+		t_engine *const eng,
+		t_v2i const f,
+		t_v2i const s,
+		t_color const color);
 
 struct s_data
 {
@@ -32,7 +38,10 @@ struct s_data
 	float		sensitivity;
 	int			show_settings;
 	t_sprite	*sprites[4];
-	struct s_mesh		cube;
+	t_mesh		models[32];
+	int			selected_model;
+	t_v3f		points[2];
+	int			selected;
 };
 
 #endif

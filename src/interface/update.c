@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/08 12:50:24 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/07/13 18:37:26 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/07/25 15:18:33 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,8 @@ static inline void	__change_slider(t_engine *const eng, t_gui_obj *const obj)
 	if (data->type == 0)
 		*data->f_v = obj->slide * (data->f_v_ma - data->f_v_mi) + data->f_v_mi;
 	else if (data->type == 1)
-		*data->i_v = obj->slide * (data->i_v_ma - data->i_v_mi) + data->i_v_mi;
+		*data->i_v = obj->slide * (data->i_v_ma - data->i_v_mi) + data->i_v_mi
+			+ 0.5f;
 	else if (data->type == 2)
 		*data->u_v = obj->slide * (data->u_v_ma - data->u_v_mi) + data->u_v_mi;
 }

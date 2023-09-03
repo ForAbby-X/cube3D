@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 10:36:00 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/07/24 16:12:44 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/09/03 16:18:14 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,18 +80,27 @@ static inline int	__game_init(t_engine *eng, t_data *data, char **argv)
 	if (data->minimap == NULL)
 		return (1);
 
-	data->cube = mesh_load("models/banana.obj");
+	data->selected_model = 5;
+	data->models[0] = mesh_load("models/car.obj");
+	data->models[1] = mesh_load("models/duck.obj");
+	data->models[2] = mesh_load("models/block.obj");
+	data->models[3] = mesh_load("models/tank.obj");
+	data->models[4] = mesh_load("models/tree.obj");
+	data->models[5] = mesh_load("models/poly.obj");
+	data->models[6] = mesh_load("models/mountains.obj");
+	data->models[7] = mesh_load("models/teapot.obj");
+
 	data->map = pars_file(eng, argv[1]);
 	if (data->map.data == NULL)
 		return (ft_destroy_sprite(eng, data->minimap), 1);
-		
+
 	data->menu = menu_create();
 	menu_settings_create(eng, data);
 	data->menu.selected = 3;
 
 	data->cam = camera_create(eng, (t_v2i){eng->win_x / 2, eng->win_y / 2});
 	data->cam.pos = data->map.spawn + (t_v3f){0.0f, 0.8f, 0.0f};
-	data->cam.rot = (t_v2f){0.0f};
+	data->cam.rot = (t_v2f){0.0f, 0.0f};
 	data->cam.fog_color = (t_color){0x040018};
 
 	data->show_settings = 0;
@@ -99,6 +108,9 @@ static inline int	__game_init(t_engine *eng, t_data *data, char **argv)
 	{0.32f, 0.825f, 0.32f}};
 	data->sensitivity = 0.2f;
 
+	data->points[0] = (t_v3f){0};
+	data->points[1] = (t_v3f){0};
+	data->selected = 0;
 
 	mlx_mouse_move(eng->mlx, eng->win, 500, 260);
 	eng->mouse_x = 500;
@@ -126,25 +138,39 @@ static inline int	__loop(t_engine *eng, t_data *data, double dt)
 	data->cam.pos[x] += data->box.dim[x] / 2.0f;
 	data->cam.pos[y] += data->box.dim[y] * 0.8f;
 	data->cam.pos[z] += data->box.dim[z] / 2.0f;
+
 	if (data->show_settings)
 		menu_update(eng, &data->menu);
 
-	ft_memset(data->cam.depth_buffer, 0xFFFFFFFF, sizeof(float) * data->cam.surface->size[x] * data->cam.surface->size[y]);
+	// ft_memset(data->cam.depth_buffer, 0xFFFFFFFF, sizeof(float) * data->cam.surface->size[x] * data->cam.surface->size[y]);
 	camera_update(&data->cam);
+	ft_eng_sel_spr(eng, data->cam.surface);
+	// ft_clear(eng, (t_color){0});
 	ray_render(eng, &data->map, &data->cam, data->tick);
 
-	put_3d_point(eng, &data->cam, data->box.pos);
-	put_3d_point(eng, &data->cam, data->box.pos + (t_v3f){data->box.dim[x], 0.f, 0.f});
-	put_3d_point(eng, &data->cam, data->box.pos + (t_v3f){0.f, 0.f, data->box.dim[z]});
-	put_3d_point(eng, &data->cam, data->box.pos + (t_v3f){data->box.dim[x], 0.f, data->box.dim[z]});
-	put_3d_point(eng, &data->cam, data->box.pos + (t_v3f){0.f, data->box.dim[y], 0.f});
-	put_3d_point(eng, &data->cam, data->box.pos + (t_v3f){data->box.dim[x], data->box.dim[y], 0.f});
-	put_3d_point(eng, &data->cam, data->box.pos + (t_v3f){0.f, data->box.dim[y], data->box.dim[z]});
-	put_3d_point(eng, &data->cam, data->box.pos + data->box.dim);
+	put_3d_point(eng, &data->cam, data->box.pos, 1.f);
+	put_3d_point(eng, &data->cam, data->box.pos + (t_v3f){data->box.dim[x], 0.f, 0.f}, 1.f);
+	put_3d_point(eng, &data->cam, data->box.pos + (t_v3f){0.f, 0.f, data->box.dim[z]}, 1.f);
+	put_3d_point(eng, &data->cam, data->box.pos + (t_v3f){data->box.dim[x], 0.f, data->box.dim[z]}, 1.f);
+	put_3d_point(eng, &data->cam, data->box.pos + (t_v3f){0.f, data->box.dim[y], 0.f}, 1.f);
+	put_3d_point(eng, &data->cam, data->box.pos + (t_v3f){data->box.dim[x], data->box.dim[y], 0.f}, 1.f);
+	put_3d_point(eng, &data->cam, data->box.pos + (t_v3f){0.f, data->box.dim[y], data->box.dim[z]}, 1.f);
+	put_3d_point(eng, &data->cam, data->box.pos + data->box.dim, 1.f);
 
 	for (int i = 0; i < 50; i++)
 		put_3d_spr(eng, &data->cam, data->sprites[2], data->map.spawn + (t_v3f){sinf(i / 25.f * M_PI * 2 + time * 2) / 2.f, sinf(i / 6.25f * M_PI * 2 + time * 4) / 8.f + 0.5f, cosf(i / 25.f * M_PI * 2 + time * 2) / 2.f});
-	mesh_put(eng, &data->cam, data->map.spawn + (t_v3f){2, 0, -10}, &data->cube);
+	mesh_put(eng, &data->cam, data->map.spawn + (t_v3f){20.f, 0.f, 0.f}, &data->models[data->selected_model]);
+
+	t_v3f in = project_point(data->points[0], &data->cam);
+	t_v3f out = project_point(data->points[1], &data->cam);
+	t_v2i	pix[2];
+	pix[0] = (t_v2i){in[x], in[y]};
+	pix[1] = (t_v2i){out[x], out[y]};
+	ft_eng_sel_spr(eng, data->cam.surface);
+	draw_line(eng, pix[0], pix[1], (t_color){0xFF00FF});
+	// put_3d_point(eng, &data->cam, data->points[0], 100.f);
+	// put_3d_point(eng, &data->cam, data->points[1], 100.f);
+
 	ft_eng_sel_spr(eng, NULL);
 	ft_put_sprite_s(eng, data->cam.surface, (t_v2i){0}, 2);
 	if (data->show_settings)

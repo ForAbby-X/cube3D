@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 11:08:35 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/07/08 16:30:46 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/08/25 11:34:46 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,5 +35,8 @@ struct s_ray
 	int		side;
 	float	dist;
 };
+
+t_v3f	inter_ray_box(t_v3f b1, t_v3f b2, t_v3f p1, t_v3f p2);
+t_v3f	inter_ray_plane(t_v3f plane, t_xyz axis, t_v3f p1, t_v3f p2);
 
 #endif

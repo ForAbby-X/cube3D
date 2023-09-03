@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 16:53:58 by vmuller           #+#    #+#             */
-/*   Updated: 2023/07/18 16:38:26 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/09/02 15:05:58 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,19 @@ float	v3fmag(t_v3f a)
 {
 	a *= a;
 	return (sqrtf(a[x] + a[y] + a[z]));
+}
+
+float	v3fdot(t_v3f a, t_v3f b)
+{
+	return (a[x] * b[x] + a[y] * b[y] + a[z] * b[z]);
+}
+
+t_v3f	v3fcross(t_v3f a, t_v3f b)
+{
+	return ((t_v3f){
+		a[y] * b[z] - a[z] * b[y],
+		a[z] * b[x] - a[x] * b[z],
+		a[x] * b[y] - a[y] * b[x]});
 }
 
 t_v3f	v3fnorm(t_v3f a, float n)

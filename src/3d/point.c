@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/15 16:02:01 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/07/24 01:40:02 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/09/03 14:11:43 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,11 +47,9 @@ t_v3f	project_point(t_v3f const point, t_camera *const cam)
 
 	proj = v3froty(point - cam->pos, -cam->rot[x]);
 	proj = v3frotz(proj, -cam->rot[y]);
-	if (proj[x] <= 0.01f)
-		return ((t_v3f){0.0f});
 	res = (t_v3f){
-		proj[z] * cam->screen_dist / proj[x] + cam->surface->size[x] / 2.f,
-		-proj[y] * cam->screen_dist / proj[x] + cam->surface->size[y] / 2.f,
+		proj[z] / proj[x] * cam->screen_dist + cam->surface->size[x] / 2.f,
+		-proj[y] / proj[x] * cam->screen_dist + cam->surface->size[y] / 2.f,
 		proj[x]};
 	return (res);
 }
@@ -94,19 +92,20 @@ void	put_spr_scale(
 void	put_3d_point(
 			t_engine *const eng,
 			t_camera *const cam,
-			t_v3f const pos)
+			t_v3f const pos,
+			float const ssize)
 {
 	t_v2i	pix;
 	t_v3f	proj;
 	float	size;
 
 	proj = project_point(pos, cam);
-	if (proj[z] <= 0.01f)
+	if (proj[z] <= cam->fru_near[z])
 		return ;
 	pix = (t_v2i){proj[x], proj[y]};
 	if (proj[z] > camera_get_depth(cam, pix))
 		return ;
-	size = 1.0f / proj[z] / cam->fov_ratio;
+	size = proj[z] * cam->screen_dist * ssize;
 	ft_eng_sel_spr(eng, cam->surface);
 	if (size > 1)
 		ft_circle(eng, pix, size, (t_color){0x00EF00});
@@ -126,7 +125,7 @@ void	put_3d_spr(
 	float	size;
 
 	proj = project_point(pos, cam);
-	if (proj[z] <= 0.25f)
+	if (proj[z] <= cam->fru_near[z])
 		return ;
 	pix = (t_v2i){proj[x], proj[y]};
 	if (proj[z] > camera_get_depth(cam, pix))

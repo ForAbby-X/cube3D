@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 10:32:25 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/07/21 09:53:42 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/09/03 14:07:32 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,10 @@ t_camera	camera_create(t_engine *const eng, t_v2i const surface)
 	cam.fov = M_PI_2;
 	camera_update(&cam);
 	cam.pos = (t_v3f){0.0f};
-	cam.rot = (t_v2f){0.0f};
+	cam.rot = (t_v2f){0.0f, 0.f};
+	cam.fru_near = (t_v3f){0.f, 0.f, 0.1f};
+	cam.fru_far = (t_v3f){
+					cam.surface->size[x] - 1, cam.surface->size[y] - 1, 2000.f};
 	return (cam);
 }
 

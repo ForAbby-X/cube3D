@@ -22,6 +22,8 @@
 		"tuple": "c",
 		"deque": "c",
 		"unordered_map": "c",
-		"vector": "c"
+		"vector": "c",
+		"math.h": "c",
+		"cmath": "c"
 	}
 }
