@@ -35,10 +35,11 @@ SRC		=	main.c \
 			map/manager.c \
 			map/getter.c \
 			map/setter.c \
-			map/render.c \
+			map/agrement.c \
 			 \
 			render/raycaster.c \
 			render/reflection.c \
+			render/shader.c \
 			 \
 			interface/container.c \
 			interface/objects.c \
@@ -55,10 +56,14 @@ SRC		=	main.c \
 			\
 			minimap.c \
 			\
-			3d/point.c \
-			3d/mesh.c \
-			3d/polygon.c \
-			3d/utils.c \
+			mesh/load.c \
+			mesh/parse.c \
+			mesh/point.c \
+			mesh/intersection.c \
+			mesh/clipping.c \
+			mesh/polygon.c \
+			mesh/rasteriser.c \
+			mesh/utils.c \
 
 INC		=	vec3.h \
 			camera.h \

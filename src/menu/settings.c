@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 15:26:08 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/09/03 12:37:05 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/09/27 13:04:22 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,8 @@ static inline void	__swap_ceilling(void *const data)
 	t_map *const	map = data;
 	t_v3i const		pos = {0, 2, 0};
 
-	map_fill(map, pos, (t_v3i){map->size[x], 1, map->size[z]}, !map_get(map, pos));
+	map_fill(map, pos, (t_v3i){map->size[x], 2, map->size[z]},
+		!map_get(map, pos));
 }
 
 static inline void	__menu_to_fog(void *const data)

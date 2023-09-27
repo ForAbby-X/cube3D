@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 10:37:59 by vmuller           #+#    #+#             */
-/*   Updated: 2023/07/17 11:47:57 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/09/27 13:17:01 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,14 @@
 # include "vec3.h"
 
 # define MAX_SPRITES 6
+
+enum	e_cell
+{
+	cell_air = 0,
+	cell_wall = 1,
+	cell_door = 254,
+	cell_void = 255
+};
 
 typedef unsigned char	t_cell;
 typedef struct s_map	t_map;
@@ -30,7 +38,7 @@ t_v3i	map_size(t_map const *const map);
 void	map_set(t_map *const map, t_v3i const pos, t_cell const cell);
 void	map_fill(t_map *const map, t_v3i pos1, t_v3i pos2, t_cell const cell);
 
-void	map_render_iso(t_engine *const eng, t_map *const map, t_sprite *const spr);
+void	map_agrement(t_map *const map);
 
 struct s_map
 {

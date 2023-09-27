@@ -1,6 +1,9 @@
 # Blender v2.83.1 OBJ File: ''
 # www.blender.org
 mtllib gordonhd.mtl
+
+tex "models/gordon_body.xpm"
+
 o player_template_biped(Gordon_Head)1
 v -3.083375 56.877289 4.449808
 v -2.465311 59.032307 0.107688

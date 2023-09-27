@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 11:03:58 by vmuller           #+#    #+#             */
-/*   Updated: 2023/07/05 12:38:21 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/09/27 13:03:13 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,8 @@ void	map_fill(
 	t_v3i	dir;
 
 	dir = pos2 - pos1;
-	dir = (dir < (t_v3i){0, 0, 0}) + -(dir > (t_v3i){0, 0, 0});
+	dir = (dir < (t_v3i){0, 0, 0}) + -(dir >= (t_v3i){0, 0, 0});
+	pos2 += dir;
 	pos[x] = pos1[x];
 	while (pos[x] != pos2[x])
 	{

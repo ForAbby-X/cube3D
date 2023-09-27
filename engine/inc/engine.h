@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/21 10:15:36 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/07/08 15:48:12 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/09/27 04:47:55 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,13 @@ void		ft_put_sprite_part_s(t_engine *eng, t_sprite *spr,
 void		ft_put_text(t_engine *eng, t_v2i pos, char *str, t_length size);
 void		ft_put_nbr(t_engine *eng, t_v2i pos, int nbr, t_length size);
 void		ft_put_nbr_f(t_engine *eng, t_v2i pos, float nbr, t_length size);
+
+/* [4] SPRITE */
+void		draw_line(
+				t_engine *const eng,
+				t_v2i const f,
+				t_v2i const s,
+				t_color const color);
 
 /* ENGINE EVENT */
 /* [1] KEYS AND MOUSE */

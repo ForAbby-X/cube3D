@@ -6,11 +6,23 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 18:17:19 by vmuller           #+#    #+#             */
-/*   Updated: 2023/07/24 02:36:45 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/09/26 12:31:10 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cast_ray.h"
+
+t_v3f	inter_ray_plane(t_v3f plane, t_xyz axis, t_v3f p1, t_v3f p2)
+{
+	t_v3f const	diff_r = p2 - p1;
+	float const	t = (plane[axis] - p1[axis]) / diff_r[axis];
+
+	if (t > 1.0f)
+		return (p2);
+	if (t < 0.0f)
+		return (p1);
+	return (p1 + diff_r * t);
+}
 
 static inline void	__setup_ray_step_delta_dist(
 	t_ray *const ray,
@@ -65,14 +77,12 @@ static inline void	__loop_ray(
 				&& (ray->side_dist[y] <= ray->side_dist[z]));
 		inc[z] = ((ray->side_dist[z] <= ray->side_dist[x])
 				&& (ray->side_dist[z] <= ray->side_dist[y]));
-		ray->side_dist[x] += inc[x] * ray->delta_dist[x];
-		ray->side_dist[y] += inc[y] * ray->delta_dist[y];
-		ray->side_dist[z] += inc[z] * ray->delta_dist[z];
+		ray->side_dist += v3itof(inc) * ray->delta_dist;
 		ray->pos += inc * ray->step;
 		flag = (map_get(map, ray->pos) == (t_cell){0});
 		max_dist--;
 	}
-	ray->side = inc[y] | (inc[z] * 2);
+	ray->side = inc[y] | (inc[z] << 1);
 	ray->dist = ray->side_dist[ray->side] - ray->delta_dist[ray->side];
 	ray->end = ray->start + ray->dist * ray->dir;
 }

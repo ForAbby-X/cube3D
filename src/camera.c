@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 10:32:25 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/09/03 14:07:32 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/09/19 14:43:21 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,9 @@ t_camera	camera_create(t_engine *const eng, t_v2i const surface)
 	camera_update(&cam);
 	cam.pos = (t_v3f){0.0f};
 	cam.rot = (t_v2f){0.0f, 0.f};
-	cam.fru_near = (t_v3f){0.f, 0.f, 0.1f};
-	cam.fru_far = (t_v3f){
-					cam.surface->size[x] - 1, cam.surface->size[y] - 1, 2000.f};
+	cam.fru_near = (t_v3f){0.f, 0.f, 0.001f};
+	cam.fru_far = (t_v3f){cam.surface->size[x], cam.surface->size[y], 2000.f};
+	cam.screen_ratio = cam.surface->size[x] / (float)cam.surface->size[y];
 	return (cam);
 }
 
@@ -45,6 +45,7 @@ void	camera_update(t_camera *const cam)
 {
 	cam->fov_ratio = tanf(cam->fov / 2.f);
 	cam->screen_dist = cam->surface->size[x] / 2.f / cam->fov_ratio;
+	cam->fru_far[z] = cam->fog_distance;
 }
 
 void	camera_set_depth(

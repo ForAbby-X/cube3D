@@ -24,6 +24,9 @@
 		"unordered_map": "c",
 		"vector": "c",
 		"math.h": "c",
-		"cmath": "c"
+		"cmath": "c",
+		"model.h": "c",
+		"camera.h": "c",
+		"map.h": "c"
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 17:24:53 by vmuller           #+#    #+#             */
-/*   Updated: 2023/07/24 15:38:53 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/09/27 13:18:01 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,9 +52,10 @@ static inline void	__pars_to_data(t_pars *const pars, t_map *const map)
 	t_v2i	pos;
 	char	*line;
 
-	map_fill(map, (t_v3i){0}, (t_v3i){pars->size[x], 3, pars->size[z]}, 1);
-	map_fill(map, (t_v3i){0, 1, 0}, (t_v3i){pars->size[x], 1,
-		pars->size[z]}, 255);
+	map_fill(map, (t_v3i){0},
+		(t_v3i){pars->size[x], 2, pars->size[z]}, cell_wall);
+	map_fill(map, (t_v3i){0, 1, 0},
+		(t_v3i){pars->size[x], 1, pars->size[z]}, cell_void);
 	pos[y] = 0;
 	while (pos[y] < (int)vector_size(&pars->data))
 	{
@@ -63,13 +64,9 @@ static inline void	__pars_to_data(t_pars *const pars, t_map *const map)
 		while (line[pos[x]] && line[pos[x]] != '\n')
 		{
 			if (line[pos[x]] == '1')
-				map_set(map, (t_v3i){pos[x], 1, pos[y]}, 1);
+				map_set(map, (t_v3i){pos[x], 1, pos[y]}, cell_wall);
 			else if (ft_strchr("0NSEW", line[pos[x]]))
-				map_set(map, (t_v3i){pos[x], 1, pos[y]}, 0);
-			map_set(map, (t_v3i){pos[x], 7, pos[y]}, (rand() & 7) == 0);
-			map_set(map, (t_v3i){pos[x], 8, pos[y]}, (rand() & 7) == 0);
-			map_set(map, (t_v3i){pos[x], 9, pos[y]}, (rand() & 7) == 0);
-			map_set(map, (t_v3i){pos[x], 10, pos[y]}, (rand() & 7) == 0);
+				map_set(map, (t_v3i){pos[x], 1, pos[y]}, cell_air);
 			pos[x]++;
 		}
 		pos[y]++;
@@ -87,10 +84,12 @@ static inline int	__pars_set_colors(
 	map->ground_color = __get_color(pars->elements[4]);
 	if (map->ground_color.d == 0xFF000000)
 		return (__to_map_error(eng, pars, map, "invalid ground color format"));
-	map->sprites[4] = load_tint_sprite(eng, "assets/ceilling.xpm", map->sky_color);
+	map->sprites[4]
+		= load_tint_sprite(eng, "assets/ceilling.xpm", map->sky_color);
 	if (map->sprites[4] == NULL)
 		return (__to_map_error(eng, pars, map, "memory error on map creation"));
-	map->sprites[5] = load_tint_sprite(eng, "assets/floor.xpm", map->ground_color);
+	map->sprites[5]
+		= load_tint_sprite(eng, "assets/floor.xpm", map->ground_color);
 	if (map->sprites[5] == NULL)
 		return (__to_map_error(eng, pars, map, "memory error on map creation"));
 	map->spawn[x] = pars->spawn[x] + 0.5f;
@@ -121,5 +120,6 @@ int	pars_to_map(
 	if (__pars_set_colors(eng, pars, map))
 		return (1);
 	__pars_to_data(pars, map);
+	map_agrement(map);
 	return (0);
 }

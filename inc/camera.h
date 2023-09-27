@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 18:18:43 by vmuller           #+#    #+#             */
-/*   Updated: 2023/09/03 15:42:13 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/09/19 14:43:06 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ struct s_camera
 	int			fog;
 	t_color		fog_color;
 	float		fog_distance;
+	float		screen_ratio;
 	t_sprite	*surface;
 	float		*depth_buffer;
 };
@@ -44,5 +45,7 @@ void		camera_set_depth(
 				t_v2i const pos,
 				float const depth);
 float		camera_get_depth(t_camera *const cam, t_v2i const pos);
+
+void		shader_apply_depth(t_camera *const cam);
 
 #endif

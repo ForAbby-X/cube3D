@@ -6,14 +6,14 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 10:44:52 by vmuller           #+#    #+#             */
-/*   Updated: 2023/09/02 15:06:26 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/09/23 08:03:42 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef VEC3_H
 # define VEC3_H
 
-#include <math.h>
+# include <math.h>
 
 typedef enum e_xyz{
 	x = 0,
@@ -24,6 +24,9 @@ typedef enum e_xyz{
 typedef float			t_v3f __attribute__((vector_size (16)));
 typedef unsigned int	t_v3u __attribute__((vector_size (16)));
 typedef int				t_v3i __attribute__((vector_size (16)));
+
+t_v3i	v3ftoi(t_v3f a);
+t_v3f	v3itof(t_v3i a);
 
 float	v3fmag(t_v3f a);
 float	v3fdot(t_v3f a, t_v3f b);

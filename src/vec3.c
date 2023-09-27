@@ -6,11 +6,22 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 16:53:58 by vmuller           #+#    #+#             */
-/*   Updated: 2023/09/02 15:05:58 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/09/08 10:54:07 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "vec3.h"
+
+
+t_v3i	v3ftoi(t_v3f a)
+{
+	return ((t_v3i){a[x], a[y], a[z]});
+}
+
+t_v3f	v3itof(t_v3i a)
+{
+	return ((t_v3f){a[x], a[y], a[z]});
+}
 
 float	v3fmag(t_v3f a)
 {

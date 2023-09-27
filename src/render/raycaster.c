@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 13:49:15 by vmuller           #+#    #+#             */
-/*   Updated: 2023/09/01 12:26:35 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/09/27 13:08:03 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,9 +92,11 @@ t_color	ray_to_pixel(
 	t_sprite *const	spr = map->sprites[get_real_side(ray)];
 
 	get_tex_pos(ray, &tex_pos);
-	if (map_get(map, ray->pos) != 255)
+	if (map_get(map, ray->pos) == 1)
 		color = ft_get_color(spr,
 				(t_v2i){tex_pos[x] * spr->size[x], tex_pos[y] * spr->size[y]});
+	else if (map_get(map, ray->pos) == 254)
+		color = ft_color_f(0.f, 0.f, tex_pos[x] + tex_pos[y], 0.f);
 	else
 		color = ft_color_f(0.f, 0.f, 0.f, tex_pos[x] + tex_pos[y]);
 	if (color.a > 0 && reflections < 2)
@@ -128,13 +130,7 @@ void	ray_render(
 			ray = cast_ray(map, &cam->pos, &dir, (cam->fog_distance + 1) * 2);
 			camera_set_depth(cam, pix, ray.dist * cam->screen_dist);
 			col = ray_to_pixel(map, &ray, 0);
-			if (cam->fog)
-				ft_draw(eng, pix, ft_color_inter(col, cam->fog_color,
-						powf(1.0f - fmaxf(0.f, fminf(1.f,
-									camera_get_depth(cam, pix)
-									/ cam->fog_distance)), 2)));
-			else
-				ft_draw(eng, pix, col);
+			ft_draw(eng, pix, col);
 			pix[x] += 2;
 		}
 		pix[y]++;
