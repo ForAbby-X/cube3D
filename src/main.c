@@ -6,14 +6,14 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 10:36:00 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/09/27 13:03:16 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/09/28 11:31:38 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "raycaster.h"
 #include "parsing.h"
 
-// #define AZERTY
+#define AZERTY
 #include "keys.h"
 #include "game.h"
 #include "minimap.h"
@@ -68,6 +68,16 @@ static inline void	__control(
 		cam->rot[y] = -M_PI_2;
 	else if (cam->rot[y] > M_PI_2)
 		cam->rot[y] = M_PI_2;
+	if (ft_key(eng, XK_Tab).pressed)
+	{
+		if (data->show_settings)
+		{
+			mlx_mouse_move(eng->mlx, eng->win, 500, 260);
+			eng->mouse_x = 500;
+			eng->mouse_y = 260;
+		}
+		data->show_settings = !data->show_settings;
+	}
 }
 
 static inline int	__game_init(t_engine *eng, t_data *data, char **argv)
@@ -123,16 +133,6 @@ static inline int	__loop(t_engine *eng, t_data *data, double dt)
 {
 	static float	time = 0.f;
 
-	if (ft_key(eng, XK_Tab).pressed)
-	{
-		if (data->show_settings)
-		{
-			mlx_mouse_move(eng->mlx, eng->win, 500, 260);
-			eng->mouse_x = 500;
-			eng->mouse_y = 260;
-		}
-		data->show_settings = !data->show_settings;
-	}
 	__control(eng, &data->cam, data, dt);
 	player_collision(&data->map, &data->box);
 	data->cam.pos = data->box.pos;
@@ -144,7 +144,6 @@ static inline int	__loop(t_engine *eng, t_data *data, double dt)
 		menu_update(eng, &data->menu);
 
 	camera_update(&data->cam);
-	ft_eng_sel_spr(eng, data->cam.surface);
 	// ft_clear(eng, (t_color){0});
 	ray_render(eng, &data->map, &data->cam, data->tick);
 

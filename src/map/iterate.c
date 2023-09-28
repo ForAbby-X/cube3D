@@ -1,27 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   getter.c                                           :+:      :+:    :+:   */
+/*   iterate.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/21 11:02:09 by vmuller           #+#    #+#             */
-/*   Updated: 2023/09/28 11:41:45 by alde-fre         ###   ########.fr       */
+/*   Created: 2023/09/28 11:43:15 by alde-fre          #+#    #+#             */
+/*   Updated: 2023/09/28 11:52:44 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "map.h"
 
-t_cell	map_get(t_map const *const map, t_v3i const pos)
+int	map_iterate(
+		t_map *const map,
+		int (*func)(t_map *const map, t_v3i const pos))
 {
-	if (pos[x] < 0 || pos[x] >= map->size[x]
-		|| pos[y] < 0 || pos[y] >= map->size[y]
-		|| pos[z] < 0 || pos[z] >= map->size[z])
-		return (cell_void);
-	return (map->data[pos[x]][pos[y]][pos[z]]);
-}
+	t_v3i		pos;
+	int			error;
 
-t_v3i	map_size(t_map const *const map)
-{
-	return (map->size);
+	pos[y] = 1;
+	pos[z] = 0;
+	while (pos[z] < map->size[z])
+	{
+		pos[x] = 0;
+		while (pos[x] < map->size[x])
+		{
+			error = func(map, pos);
+			if (error)
+				return (error);
+			pos[x]++;
+		}
+		pos[z]++;
+	}
+	return (0);
 }

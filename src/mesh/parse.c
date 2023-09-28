@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/15 13:52:20 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/09/19 14:43:24 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/09/28 10:48:20 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,12 +66,10 @@ int	mesh_parse_face(
 		t_vector *const polygons)
 {
 	t_polygon	poly;
-	int			num;
 
 	(void)uv_vec;
 	while (*str == ' ')
 		str++;
-	num = ft_atoi(str);
 	if (*str < '1' || *str > '9')
 		return (1);
 	poly.vert[0] = mesh_parse_get_v_uv(&str, vertexs, uv_vec);

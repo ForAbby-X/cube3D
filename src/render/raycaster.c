@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 13:49:15 by vmuller           #+#    #+#             */
-/*   Updated: 2023/09/27 13:08:03 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/09/28 21:39:45 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,15 +90,18 @@ t_color	ray_to_pixel(
 	t_v2f			tex_pos;
 	t_color			color;
 	t_sprite *const	spr = map->sprites[get_real_side(ray)];
+	t_cell const	block = map_get(map, ray->pos);
 
 	get_tex_pos(ray, &tex_pos);
-	if (map_get(map, ray->pos) == 1)
+	if (block == cell_wall)
 		color = ft_get_color(spr,
 				(t_v2i){tex_pos[x] * spr->size[x], tex_pos[y] * spr->size[y]});
-	else if (map_get(map, ray->pos) == 254)
+	else if (block == cell_door)
 		color = ft_color_f(0.f, 0.f, tex_pos[x] + tex_pos[y], 0.f);
-	else
+	else if (block == cell_void)
 		color = ft_color_f(0.f, 0.f, 0.f, tex_pos[x] + tex_pos[y]);
+	else if (block >= 2048)
+		color = ft_color(0, (block - 2048) , 126, 255 - (block - 2048) * 10);
 	if (color.a > 0 && reflections < 2)
 		color = ray_reflection(map, ray, color, reflections + 1);
 	return (color);

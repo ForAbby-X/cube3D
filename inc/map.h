@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 10:37:59 by vmuller           #+#    #+#             */
-/*   Updated: 2023/09/27 13:17:01 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/09/28 19:41:30 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ enum	e_cell
 	cell_void = 255
 };
 
-typedef unsigned char	t_cell;
+typedef unsigned int	t_cell;
 typedef struct s_map	t_map;
 
 t_map	map_create(t_v3i const size);
@@ -37,6 +37,10 @@ t_v3i	map_size(t_map const *const map);
 
 void	map_set(t_map *const map, t_v3i const pos, t_cell const cell);
 void	map_fill(t_map *const map, t_v3i pos1, t_v3i pos2, t_cell const cell);
+
+int		map_iterate(
+			t_map *const map,
+			int (*func)(t_map *const map, t_v3i const pos));
 
 void	map_agrement(t_map *const map);
 
