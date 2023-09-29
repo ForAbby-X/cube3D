@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 10:37:59 by vmuller           #+#    #+#             */
-/*   Updated: 2023/09/28 19:41:30 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/09/29 11:57:32 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,6 @@ void	map_fill(t_map *const map, t_v3i pos1, t_v3i pos2, t_cell const cell);
 int		map_iterate(
 			t_map *const map,
 			int (*func)(t_map *const map, t_v3i const pos));
-
-void	map_agrement(t_map *const map);
 
 struct s_map
 {

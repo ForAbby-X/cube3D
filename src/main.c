@@ -6,14 +6,14 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 10:36:00 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/09/28 11:31:38 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/09/29 12:00:38 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "raycaster.h"
 #include "parsing.h"
 
-#define AZERTY
+// #define AZERTY
 #include "keys.h"
 #include "game.h"
 #include "minimap.h"

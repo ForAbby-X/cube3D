@@ -6,11 +6,12 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 17:24:53 by vmuller           #+#    #+#             */
-/*   Updated: 2023/09/27 13:18:01 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/09/29 12:01:03 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
+#include "agrement.h"
 
 static inline int	__to_map_error(
 	t_engine *const eng,

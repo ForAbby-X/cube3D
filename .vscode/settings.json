@@ -27,6 +27,7 @@
 		"cmath": "c",
 		"model.h": "c",
 		"camera.h": "c",
-		"map.h": "c"
+		"map.h": "c",
+		"agrement.h": "c"
 	}
 }
