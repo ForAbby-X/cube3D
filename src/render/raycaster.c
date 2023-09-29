@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 13:49:15 by vmuller           #+#    #+#             */
-/*   Updated: 2023/09/28 21:39:45 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/09/29 16:51:37 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,9 +99,9 @@ t_color	ray_to_pixel(
 	else if (block == cell_door)
 		color = ft_color_f(0.f, 0.f, tex_pos[x] + tex_pos[y], 0.f);
 	else if (block == cell_void)
-		color = ft_color_f(0.f, 0.f, 0.f, tex_pos[x] + tex_pos[y]);
+		color = ft_color_f(0.f, fabsf(tex_pos[x] - .5f), 0.f, fabsf(tex_pos[y] - .5f));
 	else if (block >= 2048)
-		color = ft_color(0, (block - 2048) , 126, 255 - (block - 2048) * 10);
+		color = ft_color(0, (block - 2048), 126, 255 - (block - 2048) * 10);
 	if (color.a > 0 && reflections < 2)
 		color = ray_reflection(map, ray, color, reflections + 1);
 	return (color);

@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 17:24:53 by vmuller           #+#    #+#             */
-/*   Updated: 2023/09/29 12:01:03 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/09/29 16:43:43 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,8 @@ static inline void	__pars_to_data(t_pars *const pars, t_map *const map)
 	t_v2i	pos;
 	char	*line;
 
-	map_fill(map, (t_v3i){0},
-		(t_v3i){pars->size[x], 2, pars->size[z]}, cell_wall);
+	map_fill(map, (t_v3i){0, 0, 0},
+		(t_v3i){pars->size[x], 30, pars->size[z]}, cell_wall);
 	map_fill(map, (t_v3i){0, 1, 0},
 		(t_v3i){pars->size[x], 1, pars->size[z]}, cell_void);
 	pos[y] = 0;
@@ -106,7 +106,7 @@ int	pars_to_map(
 {
 	t_length	i;
 
-	*map = map_create((t_v3i){pars->size[x], 15, pars->size[z]});
+	*map = map_create((t_v3i){pars->size[x], 30, pars->size[z]});
 	if (map->data == NULL)
 		return (0);
 	i = 0;

@@ -6,9 +6,12 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 10:36:00 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/09/29 12:00:38 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/09/29 18:07:21 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include <X11/Xlib.h>
+#include <X11/extensions/Xfixes.h>
 
 #include "raycaster.h"
 #include "parsing.h"
@@ -83,6 +86,9 @@ static inline void	__control(
 static inline int	__game_init(t_engine *eng, t_data *data, char **argv)
 {
 	data->eng = eng;
+
+	// XFixesHideCursor(((t_xvar *)eng->mlx)->display, ((t_win_list *)eng->win)->window);
+
 	data->sprites[0] = ft_sprite_p(eng, "assets/block.xpm");
 	data->sprites[1] = ft_sprite_p(eng, "assets/camera.xpm");
 	data->sprites[2] = ft_sprite_p(eng, "assets/HEHE.xpm");
@@ -91,15 +97,15 @@ static inline int	__game_init(t_engine *eng, t_data *data, char **argv)
 	if (data->minimap == NULL)
 		return (1);
 
-	data->selected_model = 2;
-	// data->models[0] = mesh_load(eng, "models/gordonhd.obj");
-	// data->models[1] = mesh_load(eng, "models/denis.obj");
+	data->selected_model = 1;
+	data->models[0] = mesh_load(eng, "models/gordonhd.obj");
+	data->models[1] = mesh_load(eng, "models/denis.obj");
 	data->models[2] = mesh_load(eng, "models/ak-47.obj");
-	// data->models[3] = mesh_load(eng, "models/spooder.obj");
-	// data->models[4] = mesh_load(eng, "models/dog.obj");
-	// data->models[5] = mesh_load(eng, "models/cat.obj");
-	// data->models[6] = mesh_load(eng, "models/gun.obj");
-	// data->models[7] = mesh_load(eng, "models/fabienne.obj");
+	data->models[3] = mesh_load(eng, "models/spooder.obj");
+	data->models[4] = mesh_load(eng, "models/dog.obj");
+	data->models[5] = mesh_load(eng, "models/cat.obj");
+	data->models[6] = mesh_load(eng, "models/gun.obj");
+	data->models[7] = mesh_load(eng, "models/fabienne.obj");
 
 	data->map = pars_file(eng, argv[1]);
 	if (data->map.data == NULL)
@@ -149,7 +155,7 @@ static inline int	__loop(t_engine *eng, t_data *data, double dt)
 
 	for (int i = 0; i < 50; i++)
 		put_3d_spr(eng, &data->cam, data->sprites[2], data->map.spawn + (t_v3f){sinf(i / 25.f * M_PI * 2 + time * 2) / 2.f, sinf(i / 6.25f * M_PI * 2 + time * 4) / 8.f + 0.5f, cosf(i / 25.f * M_PI * 2 + time * 2) / 2.f});
-	mesh_put(eng, &data->cam, data->map.spawn + (t_v3f){5.0f, 4.5f, 0.0f}, &data->models[data->selected_model]);
+	mesh_put(eng, &data->cam, data->map.spawn, &data->models[data->selected_model]);
 
 	ft_eng_sel_spr(eng, NULL);
 	if (data->cam.fog)
