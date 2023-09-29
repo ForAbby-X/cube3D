@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 10:37:59 by vmuller           #+#    #+#             */
-/*   Updated: 2023/09/29 16:25:14 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/09/29 21:24:09 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,8 @@ enum	e_cell
 	cell_air = 0,
 	cell_wall = 1,
 	cell_door = 254,
-	cell_void = 255
+	cell_void = 255,
+	cell_zone = 2048
 };
 
 typedef unsigned int	t_cell;

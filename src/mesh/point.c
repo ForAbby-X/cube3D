@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/15 16:02:01 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/09/20 17:38:09 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/09/29 23:05:13 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ void	put_3d_point(
 	float	size;
 
 	proj = project_point(pos, cam);
-	if (proj[z] <= cam->fru_near[z])
+	if (proj[z] <= cam->fru_near[z] || proj[z] >= cam->fru_far[z])
 		return ;
 	pix = (t_v2i){proj[x], proj[y]};
 	if (proj[z] > camera_get_depth(cam, pix))
@@ -123,7 +123,7 @@ void	put_3d_spr(
 	float	size;
 
 	proj = project_point(pos, cam);
-	if (proj[z] <= cam->fru_near[z])
+	if (proj[z] <= cam->fru_near[z] || proj[z] >= cam->fru_far[z])
 		return ;
 	pix = (t_v2i){proj[x], proj[y]};
 	size = 1.0f / proj[z] / cam->fov_ratio * cam->screen_ratio;

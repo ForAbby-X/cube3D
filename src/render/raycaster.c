@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 13:49:15 by vmuller           #+#    #+#             */
-/*   Updated: 2023/09/29 16:51:37 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/09/29 23:57:18 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,16 +89,18 @@ t_color	ray_to_pixel(
 {
 	t_v2f			tex_pos;
 	t_color			color;
-	t_sprite *const	spr = map->sprites[get_real_side(ray)];
-	t_cell const	block = map_get(map, ray->pos);
+	t_sprite		*spr;
+	t_cell			block;
 
+	if (ray->dist >= 99999.f)
+		return ((t_color){0});
+	spr = map->sprites[get_real_side(ray)];
+	block = map_get(map, ray->pos);
 	get_tex_pos(ray, &tex_pos);
 	if (block == cell_wall)
 		color = ft_get_color(spr,
 				(t_v2i){tex_pos[x] * spr->size[x], tex_pos[y] * spr->size[y]});
 	else if (block == cell_door)
-		color = ft_color_f(0.f, 0.f, tex_pos[x] + tex_pos[y], 0.f);
-	else if (block == cell_void)
 		color = ft_color_f(0.f, fabsf(tex_pos[x] - .5f), 0.f, fabsf(tex_pos[y] - .5f));
 	else if (block >= 2048)
 		color = ft_color(0, (block - 2048), 126, 255 - (block - 2048) * 10);
@@ -119,22 +121,23 @@ void	ray_render(
 	t_plane	plane;
 	t_color	col;
 
+	(void)tick;
 	ft_eng_sel_spr(eng, cam->surface);
 	__setup_plane(eng, &plane, cam);
 	pix[y] = 0;
 	while (pix[y] < cam->surface->size[y])
 	{
-		pix[x] = tick + pix[y] & 1;
+		pix[x] = 0; // tick + pix[y] & 1;
 		while (pix[x] < cam->surface->size[x])
 		{
 			dir = plane.pos;
 			dir += plane.dir_x * (pix[x] / (float)cam->surface->size[x] - 0.5f);
 			dir += plane.dir_y * (pix[y] / (float)cam->surface->size[y] - 0.5f);
-			ray = cast_ray(map, &cam->pos, &dir, (cam->fog_distance + 1) * 2);
+			ray = cast_ray(map, &cam->pos, &dir, cam->fog_distance / cam->screen_dist);
 			camera_set_depth(cam, pix, ray.dist * cam->screen_dist);
 			col = ray_to_pixel(map, &ray, 0);
 			ft_draw(eng, pix, col);
-			pix[x] += 2;
+			pix[x]++; // += 2;
 		}
 		pix[y]++;
 	}

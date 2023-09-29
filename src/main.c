@@ -6,17 +6,14 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 10:36:00 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/09/29 18:07:21 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/09/29 23:58:12 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-#include <X11/Xlib.h>
-#include <X11/extensions/Xfixes.h>
 
 #include "raycaster.h"
 #include "parsing.h"
 
-// #define AZERTY
+#define AZERTY
 #include "keys.h"
 #include "game.h"
 #include "minimap.h"
@@ -97,15 +94,15 @@ static inline int	__game_init(t_engine *eng, t_data *data, char **argv)
 	if (data->minimap == NULL)
 		return (1);
 
-	data->selected_model = 1;
-	data->models[0] = mesh_load(eng, "models/gordonhd.obj");
-	data->models[1] = mesh_load(eng, "models/denis.obj");
-	data->models[2] = mesh_load(eng, "models/ak-47.obj");
+	data->selected_model = 3;
+	// data->models[0] = mesh_load(eng, "models/gordonhd.obj");
+	// data->models[1] = mesh_load(eng, "models/denis.obj");
+	// data->models[2] = mesh_load(eng, "models/ak-47.obj");
 	data->models[3] = mesh_load(eng, "models/spooder.obj");
-	data->models[4] = mesh_load(eng, "models/dog.obj");
-	data->models[5] = mesh_load(eng, "models/cat.obj");
-	data->models[6] = mesh_load(eng, "models/gun.obj");
-	data->models[7] = mesh_load(eng, "models/fabienne.obj");
+	// data->models[4] = mesh_load(eng, "models/dog.obj");
+	// data->models[5] = mesh_load(eng, "models/cat.obj");
+	// data->models[6] = mesh_load(eng, "models/gun.obj");
+	// data->models[7] = mesh_load(eng, "models/fabienne.obj");
 
 	data->map = pars_file(eng, argv[1]);
 	if (data->map.data == NULL)
@@ -135,6 +132,7 @@ static inline int	__game_init(t_engine *eng, t_data *data, char **argv)
 	return (0);
 }
 
+#include "agrement.h"
 static inline int	__loop(t_engine *eng, t_data *data, double dt)
 {
 	static float	time = 0.f;

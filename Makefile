@@ -39,6 +39,7 @@ SRC		=	main.c \
 			map/agrement/manager.c \
 			map/agrement/doors.c \
 			map/agrement/rooms.c \
+			map/agrement/elevate.c \
 			 \
 			render/raycaster.c \
 			render/reflection.c \
