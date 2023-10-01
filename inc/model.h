@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/15 16:02:13 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/09/27 04:54:00 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/10/01 04:55:08 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,10 +114,12 @@ void	polygon_put(
 			t_polygon *const poly,
 			t_sprite *const spr);
 
+void	vert_rotate(t_vert *const vert, t_v2f const rot);
+
 void	mesh_put(
 			t_engine *const eng,
 			t_camera *const cam,
-			t_v3f const pos,
+			t_transform const tran,
 			t_mesh *const mesh);
 
 t_v3f	project_point(t_v3f const point, t_camera *const cam);

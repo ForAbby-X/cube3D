@@ -6,20 +6,11 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 15:26:08 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/09/27 13:04:22 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/09/30 11:13:46 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "game.h"
-
-static inline void	__swap_ceilling(void *const data)
-{
-	t_map *const	map = data;
-	t_v3i const		pos = {0, 2, 0};
-
-	map_fill(map, pos, (t_v3i){map->size[x], 2, map->size[z]},
-		!map_get(map, pos));
-}
 
 static inline void	__menu_to_fog(void *const data)
 {
@@ -154,20 +145,10 @@ int	menu_settings_create(t_engine *const eng, t_data *const data)
 	gui_add_button(p_gui, "control settings", &__menu_to_control, &data->menu.selected);
 	gui_add_button(p_gui, "player settings", &__menu_to_player, &data->menu.selected);
 	gui_add_text(p_gui, NULL);
-	gui_add_button(p_gui, "swap ceilling", &__swap_ceilling, &data->map);
-	gui_add_text(p_gui, NULL);
 	gui_add_text(p_gui, "selected model:");
 	gui_add_slider(p_gui,
 		(t_gui_data){.i_v = &data->selected_model,
 		.i_v_mi = 0, .i_v_ma = 7, .type = 1});
-	gui_add_text(p_gui, NULL);
-	gui_add_text(p_gui, "frustum:");
-	gui_add_slider(p_gui,
-		(t_gui_data){.f_v = (((float *)&data->cam.fru_near) + 2),
-		.f_v_mi = 1.f, .f_v_ma = 15.f, .type = 0});
-	gui_add_slider(p_gui,
-		(t_gui_data){.f_v = (((float *)&data->cam.fru_far) + 2),
-		.f_v_mi = 1.f, .f_v_ma = 30.f, .type = 0});
 	return (0);
 }
 
@@ -189,6 +170,6 @@ int	menu_main_create(t_engine *const eng, t_data *const data)
 	gui_add_button(p_gui, "-random dungeon", &__menu_to_player, &data->menu.selected);
 	gui_add_text(p_gui, NULL);
 	gui_add_text(p_gui, NULL);
-	gui_add_button(p_gui, "QUIT GAME", &__swap_ceilling, &data->map);
+	gui_add_button(p_gui, "QUIT GAME", &__menu_to_fog, &data->map);
 	return (0);
 }

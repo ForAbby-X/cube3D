@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 13:49:15 by vmuller           #+#    #+#             */
-/*   Updated: 2023/09/29 23:57:18 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/09/30 23:44:43 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,8 +112,7 @@ t_color	ray_to_pixel(
 void	ray_render(
 			t_engine *const eng,
 			t_map *const map,
-			t_camera *const cam,
-			size_t const tick)
+			t_camera *const cam)
 {
 	t_v2i	pix;
 	t_ray	ray;
@@ -121,23 +120,23 @@ void	ray_render(
 	t_plane	plane;
 	t_color	col;
 
-	(void)tick;
 	ft_eng_sel_spr(eng, cam->surface);
 	__setup_plane(eng, &plane, cam);
 	pix[y] = 0;
 	while (pix[y] < cam->surface->size[y])
 	{
-		pix[x] = 0; // tick + pix[y] & 1;
+		pix[x] = 0;
 		while (pix[x] < cam->surface->size[x])
 		{
 			dir = plane.pos;
 			dir += plane.dir_x * (pix[x] / (float)cam->surface->size[x] - 0.5f);
 			dir += plane.dir_y * (pix[y] / (float)cam->surface->size[y] - 0.5f);
-			ray = cast_ray(map, &cam->pos, &dir, cam->fog_distance / cam->screen_dist);
+			ray = cast_ray(map, &cam->pos, &dir, cam->fog_distance
+				/ cam->screen_dist);
 			camera_set_depth(cam, pix, ray.dist * cam->screen_dist);
 			col = ray_to_pixel(map, &ray, 0);
 			ft_draw(eng, pix, col);
-			pix[x]++; // += 2;
+			pix[x]++;
 		}
 		pix[y]++;
 	}

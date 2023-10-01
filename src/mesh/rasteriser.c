@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/17 12:34:18 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/09/27 04:48:18 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/10/01 04:23:35 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,12 +44,12 @@ static inline void	__rasterize_pix(
 	t_polygon *const poly,
 	t_rasterize const rast)
 {
-	t_v2f	uvb[3];
-	t_v3f	pro;
-	t_v3f	w;
-	t_color	col;
+	t_v2f			uvb[3];
+	t_v3f			pro;
+	t_color			col;
+	t_v3f const		w = rast.w;
+	t_length const	ind = rast.pix[x] + rast.pix[y] * cam->surface->size[x];
 
-	w = rast.w;
 	uvb[0] = poly->vert[0].uv / poly->vert[0].point[z];
 	uvb[1] = poly->vert[1].uv / poly->vert[1].point[z];
 	uvb[2] = poly->vert[2].uv / poly->vert[2].point[z];
@@ -58,16 +58,16 @@ static inline void	__rasterize_pix(
 	pro[z] = 1.f / (1.f / poly->vert[0].point[z] * w[x]
 			+ 1.f / poly->vert[1].point[z] * w[y]
 			+ 1.f / poly->vert[2].point[z] * w[z]);
-	if (pro[z] < camera_get_depth(cam, rast.pix))
+	if (pro[z] < cam->depth_buffer[ind])
 	{
 		col = ft_get_color(rast.spr, (t_v2i){
 				pro[x] * rast.spr->size[x] * pro[z],
 				pro[y] * rast.spr->size[y] * pro[z]});
-		if (col.a == 0)
-		{
-			ft_draw(eng, rast.pix, col);
-			camera_set_depth(cam, rast.pix, pro[z]);
-		}
+		if (col.a != 0)
+			return ;
+		eng->sel_spr->data[ind] = col;
+		cam->depth_buffer[ind]
+			= pro[z];
 	}
 }
 

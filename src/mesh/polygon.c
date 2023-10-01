@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 01:40:17 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/09/23 07:50:10 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/10/01 04:42:56 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ static inline void	__test(
 void	mesh_put(
 			t_engine *const eng,
 			t_camera *const cam,
-			t_v3f const pos,
+			t_transform const tran,
 			t_mesh *const mesh)
 {
 	t_polygon	polygon;
@@ -115,12 +115,13 @@ void	mesh_put(
 	while (++index < vector_size(&mesh->polygons))
 	{
 		polygon = *((t_polygon *)vector_get(&mesh->polygons, index));
-		polygon.vert[0].point *= .005f;
-		polygon.vert[1].point *= .005f;
-		polygon.vert[2].point *= .005f;
-		polygon.vert[0].point += pos;
-		polygon.vert[1].point += pos;
-		polygon.vert[2].point += pos;
+		polygon.vert[0].point *= tran.resize;
+		polygon.vert[1].point *= tran.resize;
+		polygon.vert[2].point *= tran.resize;
+		vert_rotate(polygon.vert, tran.rotation);
+		polygon.vert[0].point += tran.translation;
+		polygon.vert[1].point += tran.translation;
+		polygon.vert[2].point += tran.translation;
 		rot = __is_culled(&polygon, cam);
 		if (rot < 0.f)
 			__test(eng, cam, polygon, (t_poly_put){&to_clip, &clipped, mesh});
