@@ -88,7 +88,7 @@ DEPENDS := $(patsubst %.o,%.d,$(OBJ))
 
 
 # compiler
-CC		= clang
+CC		= cc
 CFLAGS	= -MMD -MP -Wall -Wextra -Werror
 
 # engine library
@@ -102,7 +102,7 @@ all: obj $(ENGINE_LIB) $(NAME)
 raw: CFLAGS += -O0
 raw: obj $(ENGINE_LIB) $(NAME)
 
-fast: CFLAGS += -Ofast
+fast: CFLAGS += -Ofast -mtune=corei7-avx
 fast: obj $(ENGINE_LIB) $(NAME)
 
 debug: CFLAGS += -gdwarf-4

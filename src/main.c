@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 10:36:00 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/10/01 04:52:52 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/10/02 03:30:37 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ static inline void	__control(
 		vel += up;
 	if (eng->keys[XK_Shift_L])
 		vel -= up;
-	data->box.pos += v3fnorm(vel, dt * 4.0f);
+	data->box.pos += v3fnorm(vel, dt * 2.0f);
 	if (eng->keys[XK_Right])
 		cam->rot[x] += dt * 2;
 	if (eng->keys[XK_Left])
@@ -144,8 +144,8 @@ static inline int	__loop(t_engine *eng, t_data *data, double dt)
 
 	camera_update(&data->cam);
 	ray_render(eng, &data->map, &data->cam);
-
-	mesh_put(eng, &data->cam, (t_transform){{atan2(data->box.pos[z] - data->map.spawn[z], data->box.pos[x] - data->map.spawn[x]) - M_PI_2, 0.f}, {.005f, .005f, .005f}, data->map.spawn}, &data->models[data->selected_model]);
+	//atan2(data->cam.pos[z] - data->map.spawn[z], data->cam.pos[x] - data->map.spawn[x]) - M_PI_2
+	mesh_put(eng, &data->cam, (t_transform){{time, 0.f}, {.005f, .005f, .005f}, data->map.spawn}, &data->models[data->selected_model]);
 
 	ft_eng_sel_spr(eng, NULL);
 	if (data->cam.fog)
