@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/15 13:52:20 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/09/28 10:48:20 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/10/03 09:13:32 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,6 @@ int	mesh_parse_face(
 {
 	t_polygon	poly;
 
-	(void)uv_vec;
 	while (*str == ' ')
 		str++;
 	if (*str < '1' || *str > '9')

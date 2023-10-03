@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 13:49:15 by vmuller           #+#    #+#             */
-/*   Updated: 2023/10/02 03:30:26 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/10/03 10:05:11 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,10 +92,10 @@ t_color	ray_to_pixel(
 	t_sprite		*spr;
 	t_cell			block;
 
-	if (ray->dist >= 99999.f)
+	block = map_get(map, ray->pos);
+	if (block == cell_void)
 		return ((t_color){0});
 	spr = map->sprites[get_real_side(ray)];
-	block = map_get(map, ray->pos);
 	get_tex_pos(ray, &tex_pos);
 	if (block == cell_wall)
 		color = ft_get_color(spr,
@@ -131,8 +131,7 @@ void	ray_render(
 			dir = plane.pos;
 			dir += plane.dir_x * (pix[x] / (float)cam->surface->size[x] - 0.5f);
 			dir += plane.dir_y * (pix[y] / (float)cam->surface->size[y] - 0.5f);
-			ray = cast_ray(map, &cam->pos, &dir, cam->fog_distance
-				/ cam->screen_dist);
+			ray = cast_ray(map, &cam->pos, &dir, cam->fog_distance * 2 + 1);
 			camera_set_depth(cam, pix, ray.dist * cam->screen_dist);
 			col = ray_to_pixel(map, &ray, 0);
 			ft_draw(eng, pix, col);

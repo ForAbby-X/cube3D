@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 01:40:17 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/10/01 04:42:56 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/10/03 09:55:55 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,8 @@ void	mesh_put(
 	t_length	index;
 	t_vector	clipped;
 	t_vector	to_clip;
-	float		rot;
+	t_v3f const	v_sc = {sinf(tran.rotation[x]), cosf(tran.rotation[x]),
+		sinf(tran.rotation[y]), cosf(tran.rotation[y])};
 
 	ft_eng_sel_spr(eng, cam->surface);
 	clipped = vector_create(sizeof(t_polygon));
@@ -112,18 +113,11 @@ void	mesh_put(
 	if (to_clip.data == NULL)
 		return ;
 	index = -1;
-	while (++index < vector_size(&mesh->polygons))
+	while (++index < mesh->polygons.size)
 	{
 		polygon = *((t_polygon *)vector_get(&mesh->polygons, index));
-		polygon.vert[0].point *= tran.resize;
-		polygon.vert[1].point *= tran.resize;
-		polygon.vert[2].point *= tran.resize;
-		vert_rotate(polygon.vert, tran.rotation);
-		polygon.vert[0].point += tran.translation;
-		polygon.vert[1].point += tran.translation;
-		polygon.vert[2].point += tran.translation;
-		rot = __is_culled(&polygon, cam);
-		if (rot < 0.f)
+		vert_transform(polygon.vert, tran, v_sc);
+		if (__is_culled(&polygon, cam) < 0.f)
 			__test(eng, cam, polygon, (t_poly_put){&to_clip, &clipped, mesh});
 	}
 	vector_destroy(&to_clip);

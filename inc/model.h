@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/15 16:02:13 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/10/01 04:55:08 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/10/03 08:10:15 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,10 @@ void	polygon_put(
 			t_polygon *const poly,
 			t_sprite *const spr);
 
-void	vert_rotate(t_vert *const vert, t_v2f const rot);
+void	vert_transform(
+			t_vert *const vert,
+			t_transform const tran,
+			t_v3f const v_sc);
 
 void	mesh_put(
 			t_engine *const eng,

@@ -68,7 +68,9 @@ SRC		=	main.c \
 			mesh/polygon.c \
 			mesh/rasteriser.c \
 			mesh/utils.c \
-			mesh/rotate.c \
+			mesh/transform.c \
+			\
+			entity/generic/manager.c \
 
 INC		=	vec3.h \
 			camera.h \

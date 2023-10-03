@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 15:51:01 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/09/15 17:33:00 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/10/03 09:14:50 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ t_vert	mesh_parse_get_v_uv(
 {
 	t_vert	vert;
 
-	vert = (t_vert){{0.f, 0.f, 0.f}, {0.f, 1.f}};
+	vert = (t_vert){{0.f, 0.f, 0.f}, {0.5f, 0.5f}};
 	while (**str == ' ')
 		str++;
 	if (**str < '1' || **str > '9')
@@ -137,7 +137,6 @@ static inline int	__get_info(
 		free(line);
 		line = get_next_line(fd);
 	}
-	printf("ERROR [%d]\n", error);
 	vector_destroy(&uv_vec);
 	vector_destroy(&vertex);
 	return (error);
@@ -165,9 +164,8 @@ t_mesh	mesh_load(t_engine *const eng, char *path)
 			ft_putstr_fd(path, 2), ft_putstr_fd("\"\n", 2), (t_mesh){0});
 	if (mesh.spr == NULL)
 	{
-		mesh.spr = ft_sprite(eng, 2, 2);
+		mesh.spr = ft_sprite(eng, 1, 1);
 		((u_int64_t *)mesh.spr->data)[0] = (u_int64_t){0x9003fc};
-		((u_int64_t *)mesh.spr->data)[1] = (u_int64_t){0x9003fc00000000};
 	}
 	return (close(fd), mesh);
 }

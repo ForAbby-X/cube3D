@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 18:17:19 by vmuller           #+#    #+#             */
-/*   Updated: 2023/09/30 12:45:03 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/10/03 10:28:05 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,15 +62,14 @@ static inline void	__setup_ray(
 static inline void	__loop_ray(
 	t_map *const map,
 	t_ray *const ray,
-	float max_dist)
+	int max_dist)
 {
 	t_v3i	inc;
 	int		flag;
-	float	max;
 
 	inc = (t_v3i){0, 0, 0};
 	flag = 1;
-	while (flag)
+	while (flag && max_dist)
 	{
 		inc[x] = ((ray->side_dist[x] <= ray->side_dist[y])
 				&& (ray->side_dist[x] <= ray->side_dist[z]));
@@ -79,17 +78,12 @@ static inline void	__loop_ray(
 		inc[z] = ((ray->side_dist[z] <= ray->side_dist[x])
 				&& (ray->side_dist[z] <= ray->side_dist[y]));
 		ray->pos += inc * ray->step;
-		ray->side = inc[y] | (inc[z] << 1);
-		max = ray->side_dist[ray->side];
-		if (max >= max_dist)
-			break ;
 		ray->side_dist += v3itof(inc) * ray->delta_dist;
 		flag = (map_get(map, ray->pos) == (t_cell){0});
+		--max_dist;
 	}
-	if (max < max_dist)
-		ray->dist = ray->side_dist[ray->side] - ray->delta_dist[ray->side];
-	else
-		ray->dist = 999999.f;
+	ray->side = inc[y] | (inc[z] << 1);
+	ray->dist = ray->side_dist[ray->side] - ray->delta_dist[ray->side];
 	ray->end = ray->start + ray->dist * ray->dir;
 }
 

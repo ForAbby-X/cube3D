@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 10:36:00 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/10/02 03:30:37 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/10/03 15:21:09 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@
 #include "game.h"
 #include "minimap.h"
 #include "model.h"
+#include "entity.h"
+#include "entity/generic.h"
 
 static inline void	__control(
 	t_engine *const eng,
@@ -80,46 +82,46 @@ static inline void	__control(
 	}
 }
 
-static inline int	__game_init(t_engine *eng, t_data *data, char **argv)
+static inline int	__game_init(t_engine *eng, t_data *game, char **argv)
 {
-	data->eng = eng;
+	game->eng = eng;
 
 	// XFixesHideCursor(((t_xvar *)eng->mlx)->display, ((t_win_list *)eng->win)->window);
 
-	data->sprites[0] = ft_sprite_p(eng, "assets/block.xpm");
-	data->sprites[1] = ft_sprite_p(eng, "assets/camera.xpm");
-	data->sprites[2] = ft_sprite_p(eng, "assets/HEHE.xpm");
+	game->sprites[0] = ft_sprite_p(eng, "assets/block.xpm");
+	game->sprites[1] = ft_sprite_p(eng, "assets/camera.xpm");
+	game->sprites[2] = ft_sprite_p(eng, "assets/HEHE.xpm");
 
-	data->minimap = ft_sprite(eng, 120, 120);
-	if (data->minimap == NULL)
+	game->minimap = ft_sprite(eng, 120, 120);
+	if (game->minimap == NULL)
 		return (1);
 
-	data->selected_model = 0;
-	data->models[0] = mesh_load(eng, "models/fabienne.obj");
-	data->models[1] = mesh_load(eng, "models/denis.obj");
-	data->models[2] = mesh_load(eng, "models/ball.obj");
+	game->selected_model = 0;
+	game->models[0] = mesh_load(eng, "models/denis.obj");
+	// game->models[1] = mesh_load(eng, "models/denis.obj");
+	// game->models[2] = mesh_load(eng, "models/ball.obj");
 
-	data->map = pars_file(eng, argv[1]);
-	if (data->map.data == NULL)
-		return (ft_destroy_sprite(eng, data->minimap), 1);
+	game->map = pars_file(eng, argv[1]);
+	if (game->map.data == NULL)
+		return (ft_destroy_sprite(eng, game->minimap), 1);
 
-	data->menu = menu_create();
-	menu_settings_create(eng, data);
-	data->menu.selected = 3;
+	game->menu = menu_create();
+	menu_settings_create(eng, game);
+	game->menu.selected = 3;
 
-	data->cam = camera_create(eng, (t_v2i){eng->win_x / 2, eng->win_y / 2});
-	data->cam.pos = data->map.spawn + (t_v3f){0.0f, 0.8f, 0.0f};
-	data->cam.rot = (t_v2f){0.0f, 0.0f};
-	data->cam.fog_color = (t_color){0x040018};
+	game->cam = camera_create(eng, (t_v2i){eng->win_x / 2, eng->win_y / 2});
+	game->cam.pos = game->map.spawn + (t_v3f){0.0f, 0.8f, 0.0f};
+	game->cam.rot = (t_v2f){0.0f, 0.0f};
+	game->cam.fog_color = (t_color){0x040018};
 
-	data->show_settings = 0;
-	data->box = (t_aabb){data->map.spawn - (t_v3f){0.16f, 0.0f, 0.16f},
+	game->show_settings = 0;
+	game->box = (t_aabb){game->map.spawn - (t_v3f){0.16f, 0.0f, 0.16f},
 	{0.32f, 0.825f, 0.32f}};
-	data->sensitivity = 0.2f;
+	game->sensitivity = 0.2f;
 
-	data->points[0] = (t_v3f){0};
-	data->points[1] = (t_v3f){0};
-	data->selected = 0;
+	game->entities = vector_create(sizeof(t_entity));
+	t_entity entity = entity_create(game, game->map.spawn);
+	vector_addback(&game->entities, &entity);
 
 	mlx_mouse_move(eng->mlx, eng->win, 500, 260);
 	eng->mouse_x = 500;
@@ -127,38 +129,74 @@ static inline int	__game_init(t_engine *eng, t_data *data, char **argv)
 	return (0);
 }
 
-static inline int	__loop(t_engine *eng, t_data *data, double dt)
+void	update_entities(t_data *const game, float const dt)
+{
+	t_entity	*ent;
+	t_length	len;
+
+
+	ent = vector_get(&game->entities, 0);
+	len = vector_size(&game->entities);
+	while (len > 0)
+	{
+		ent->update(ent, game, dt);
+		ent++;
+		len--;
+	}
+}
+
+void	display_entities(t_data *const game)
+{
+	t_entity	*ent;
+	t_length	len;
+
+
+	ent = vector_get(&game->entities, 0);
+	len = vector_size(&game->entities);
+	while (len > 0)
+	{
+		ent->display(ent, game);
+		ent++;
+		len--;
+	}
+}
+
+static inline int	__loop(t_engine *eng, t_data *game, double dt)
 {
 	static float	time = 0.f;
 
 	time += dt;
-	__control(eng, &data->cam, data, dt);
-	player_collision(&data->map, &data->box);
-	data->cam.pos = data->box.pos;
-	data->cam.pos[x] += data->box.dim[x] / 2.0f;
-	data->cam.pos[y] += data->box.dim[y] * 0.8f;
-	data->cam.pos[z] += data->box.dim[z] / 2.0f;
+	__control(eng, &game->cam, game, dt);
+	player_collision(&game->map, &game->box);
+	game->cam.pos = game->box.pos;
+	game->cam.pos[x] += game->box.dim[x] / 2.0f;
+	game->cam.pos[y] += game->box.dim[y] * 0.8f;
+	game->cam.pos[z] += game->box.dim[z] / 2.0f;
 
-	if (data->show_settings)
-		menu_update(eng, &data->menu);
+	update_entities(game, dt);
 
-	camera_update(&data->cam);
-	ray_render(eng, &data->map, &data->cam);
+	if (game->show_settings)
+		menu_update(eng, &game->menu);
+
+	camera_update(&game->cam);
+	ray_render(eng, &game->map, &game->cam);
 	//atan2(data->cam.pos[z] - data->map.spawn[z], data->cam.pos[x] - data->map.spawn[x]) - M_PI_2
-	mesh_put(eng, &data->cam, (t_transform){{time, 0.f}, {.005f, .005f, .005f}, data->map.spawn}, &data->models[data->selected_model]);
+	// mesh_put(eng, &game->cam, (t_transform){{time, 0.f}, {.005f, .005f, .005f}, game->map.spawn}, &game->models[game->selected_model]);
+
+	display_entities(game);
 
 	ft_eng_sel_spr(eng, NULL);
-	if (data->cam.fog)
-		shader_apply_depth(&data->cam);
-	ft_put_sprite_s(eng, data->cam.surface, (t_v2i){0}, 2);
-	if (data->show_settings)
-		menu_display(eng, &data->menu);
+	if (game->cam.fog)
+		shader_apply_depth(&game->cam);
+	ft_put_sprite_s(eng, game->cam.surface, (t_v2i){0}, 2);
+	if (game->show_settings)
+		menu_display(eng, &game->menu);
 	else
 	{
-		minimap_display(eng, &data->map, &data->cam, data->minimap);
+		minimap_display(eng, &game->map, &game->cam, game->minimap);
 		ft_put_text(eng, (t_v2i){10, 120}, "[TAB] MENU", 2);
 	}
-	data->tick++;
+	game->tick++;
 	return (1);
 }
 
@@ -168,7 +206,7 @@ int	main(int argc, char **argv)
 	t_data		data;
 
 	(void)argc;
-	eng = ft_eng_create(250 * 4, 130 * 4, "cube3D");
+	eng = ft_eng_create(250 * 5, 130 * 5, "cube3D");
 	if (eng)
 	{
 		if (!__game_init(eng, &data, argv))

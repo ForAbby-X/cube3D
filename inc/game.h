@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 16:17:55 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/09/30 23:45:42 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/10/03 08:40:41 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,7 @@ struct s_data
 	t_sprite	*sprites[32];
 	t_mesh		models[32];
 	int			selected_model;
-	t_v3f		points[2];
-	int			selected;
+	t_vector	entities;
 };
 
 #endif

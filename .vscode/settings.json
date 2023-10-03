@@ -28,6 +28,7 @@
 		"model.h": "c",
 		"camera.h": "c",
 		"map.h": "c",
-		"agrement.h": "c"
+		"agrement.h": "c",
+		"generic.h": "c"
 	}
 }
