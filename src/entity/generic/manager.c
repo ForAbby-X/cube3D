@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 08:05:41 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/10/03 15:21:59 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/10/03 16:40:43 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	entity_update(t_entity *const self, t_data *const game, float const dt)
 	self->alive += dt;
 	diff = game->cam.pos - self->pos;
 	diff[y] = 0.f;
-	self->rot[x] = atan2(diff[z], diff[x]);
+	self->rot[x] = atan2(diff[z], diff[x]) - M_PI_2;
 	self->pos += v3fnorm(diff, 0.35f) * dt;
 	// self->rot[y] = atan2(diff[y], ft_v2fmag((t_v2f){diff[z], diff[x]}));
 }
@@ -47,8 +47,8 @@ void	entity_display(t_entity *const self, t_data *const game)
 	t_transform	trans;
 
 	trans.rotation = self->rot;
-	trans.resize = (t_v3f){1.f + sinf(self->alive * 8.f) / 15.f, 1.f + sinf(self->alive * 5.f) / 10.f, 1.f + sinf(self->alive * 8.f + 0.3f) / 15.f} / 200.f;
-	trans.translation = self->pos;
+	trans.resize = (t_v3f){1.f + sinf(self->alive * 8.f) / 15.f, 1.f + sinf(self->alive * 5.f) / 10.f, 1.f + sinf(self->alive * 8.f + 0.3f) / 15.f} / 1000.f;
+	trans.translation = self->pos + (t_v3f){0.f, 0.25f, 0.f};
 	mesh_put(game->eng, &game->cam, trans, self->mesh);
 }
 

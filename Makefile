@@ -61,6 +61,7 @@ SRC		=	main.c \
 			minimap.c \
 			\
 			mesh/load.c \
+			mesh/destroy.c \
 			mesh/parse.c \
 			mesh/point.c \
 			mesh/intersection.c \

@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/15 16:02:13 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/10/03 08:10:15 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/10/03 16:14:02 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,7 @@ t_vert	mesh_parse_get_v_uv(
 void	mesh_parse_run_number(char **str);
 
 t_mesh	mesh_load(t_engine *const eng, char *path);
+void	mesh_destroy(t_engine *const eng, t_mesh *const mesh);
 
 t_vert	inter_ray_pol(
 			t_v3f const plane,

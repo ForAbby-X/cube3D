@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 13:49:15 by vmuller           #+#    #+#             */
-/*   Updated: 2023/10/03 10:05:11 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/10/03 16:07:54 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,6 +104,8 @@ t_color	ray_to_pixel(
 		color = ft_color_f(0.f, fabsf(tex_pos[x] - .5f), 0.f, fabsf(tex_pos[y] - .5f));
 	else if (block >= 2048)
 		color = ft_color(0, (block - 2048), 126, 255 - (block - 2048) * 10);
+	else
+		color = (t_color){0};
 	if (color.a > 0 && reflections < 2)
 		color = ray_reflection(map, ray, color, reflections + 1);
 	return (color);

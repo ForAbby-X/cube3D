@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 10:36:00 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/10/03 15:21:09 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/10/03 16:26:33 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ static inline int	__game_init(t_engine *eng, t_data *game, char **argv)
 		return (1);
 
 	game->selected_model = 0;
-	game->models[0] = mesh_load(eng, "models/denis.obj");
+	game->models[0] = mesh_load(eng, "models/banana.obj");
 	// game->models[1] = mesh_load(eng, "models/denis.obj");
 	// game->models[2] = mesh_load(eng, "models/ball.obj");
 
@@ -206,7 +206,7 @@ int	main(int argc, char **argv)
 	t_data		data;
 
 	(void)argc;
-	eng = ft_eng_create(250 * 5, 130 * 5, "cube3D");
+	eng = ft_eng_create(250 * 4, 130 * 4, "cube3D");
 	if (eng)
 	{
 		if (!__game_init(eng, &data, argv))
@@ -215,6 +215,12 @@ int	main(int argc, char **argv)
 			menu_destroy(eng, &data.menu);
 			map_destroy(eng, &data.map);
 			camera_destroy(eng, &data.cam);
+			vector_destroy(&data.entities);
+			ft_destroy_sprite(eng, data.minimap);
+			ft_destroy_sprite(eng, data.sprites[0]);
+			ft_destroy_sprite(eng, data.sprites[1]);
+			ft_destroy_sprite(eng, data.sprites[2]);
+			mesh_destroy(eng, &data.models[0]);
 		}
 		else
 			ft_putstr_fd("Error: Failed to initialise the game.\n", 1);

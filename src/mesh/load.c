@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 15:51:01 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/10/03 09:14:50 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/10/03 16:28:17 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,6 +139,7 @@ static inline int	__get_info(
 	}
 	vector_destroy(&uv_vec);
 	vector_destroy(&vertex);
+	printf("ERROR PARSE [%d]\n", error);
 	return (error);
 }
 
