@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 15:51:01 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/10/03 16:28:17 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/10/04 16:00:47 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,9 @@ t_vert	mesh_parse_get_v_uv(
 	t_vert	vert;
 
 	vert = (t_vert){{0.f, 0.f, 0.f}, {0.5f, 0.5f}};
+
 	while (**str == ' ')
-		str++;
+		(*str)++;
 	if (**str < '1' || **str > '9')
 		return (vert);
 	vert.point = *((t_v3f *)vector_get(vertexs, ft_atoi(*str) - 1));
@@ -53,34 +54,21 @@ t_vert	mesh_parse_get_v_uv(
 		++(*str);
 	if (**str == '\0' || **str == '\n')
 		return (vert);
-	if (**str != '/' || vector_size(uv_vec) == 0)
+	if (**str != '/')
 		return (mesh_parse_run_number(str), vert);
 	++(*str);
 	if (**str < '1' || **str > '9')
 		return (mesh_parse_run_number(str), vert);
 	vert.uv = *((t_v2f *)vector_get(uv_vec, ft_atoi(*str) - 1));
-	vert.uv[x] = fminf(0.9999f, fmaxf(0.0001f, vert.uv[x]));
-	vert.uv[y] = fminf(0.9999f, fmaxf(0.0001f, vert.uv[y]));
-	return (mesh_parse_run_number(str), vert);
+	vert.uv[x] = fminf(1.0f, fmaxf(0.0001f, vert.uv[x]));
+	vert.uv[y] = fminf(1.0f, fmaxf(0.0001f, vert.uv[y]));
+	mesh_parse_run_number(str);
+	return (vert);
 }
 
 void	mesh_parse_run_number(char **str)
 {
-	while (**str == ' ')
-		(*str)++;
-	if (**str == '-')
-		(*str)++;
-	while (**str >= '0' && **str <= '9')
-		(*str)++;
-	while (**str == '.' || **str == '/')
-		(*str)++;
-	while (**str >= '0' && **str <= '9')
-		(*str)++;
-	while (**str == '.' || **str == '/')
-		(*str)++;
-	while (**str >= '0' && **str <= '9')
-		(*str)++;
-	if (**str == ' ')
+	while (**str != ' ' && **str != '\n' && **str != '\0')
 		(*str)++;
 }
 

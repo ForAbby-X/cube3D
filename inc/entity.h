@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 07:50:47 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/10/03 15:54:48 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/10/04 16:03:01 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ struct s_entity
 	t_func_dstr	destroy;
 	void		*data;
 	t_v3f		pos;
+	t_v3f		vel;
 	t_v2f		rot;
 	t_mesh		*mesh;
 	float		alive;

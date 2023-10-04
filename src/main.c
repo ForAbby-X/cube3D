@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 10:36:00 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/10/03 16:26:33 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/10/04 14:54:02 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ static inline int	__game_init(t_engine *eng, t_data *game, char **argv)
 		return (1);
 
 	game->selected_model = 0;
-	game->models[0] = mesh_load(eng, "models/banana.obj");
+	game->models[0] = mesh_load(eng, "models/hand.obj");
 	// game->models[1] = mesh_load(eng, "models/denis.obj");
 	// game->models[2] = mesh_load(eng, "models/ball.obj");
 
