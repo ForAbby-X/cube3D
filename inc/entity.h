@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 07:50:47 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/10/04 16:03:01 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/10/05 18:23:22 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,13 @@ typedef struct s_entity	t_entity;
 typedef size_t			t_ent_type;
 typedef size_t			t_ent_id;
 
-typedef void		(*t_func_updt)(t_entity *const self, t_data *const game, float const dt);
-typedef void		(*t_func_disp)(t_entity *const self, t_data *const game);
-typedef void		(*t_func_dstr)(t_entity *const self, t_data *const game);
+typedef void (*t_func_updt)(t_entity *const, t_data *const, float const);
+typedef void (*t_func_disp)(t_entity *const, t_data *const);
+typedef void (*t_func_dstr)(t_entity *const, t_data *const);
 
 enum e_entity
 {
-	ENTITY_GENERIC,
+ENTITY_GENERIC,
 };
 
 struct s_entity
