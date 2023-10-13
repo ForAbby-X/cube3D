@@ -10,7 +10,7 @@
 #                                                                              #
 # **************************************************************************** #
 
-NAME	= cub3d
+NAME	= cube3d
 
 # directories
 SRCDIR	=	./src
@@ -20,7 +20,12 @@ OBJDIR	=	./obj
 # src / includes / obj files
 SRC		=	main.c \
 			 \
-			vec3.c \
+			game/init.c \
+			game/destroy.c \
+			 \
+			vec3/algorithm.c \
+			vec3/rotation.c \
+			vec3/convertion.c \
 			 \
 			parsing/map.c \
 			parsing/elements.c \
@@ -51,6 +56,10 @@ SRC		=	main.c \
 			interface/update.c \
 			interface/display.c \
 			 \
+			inventory/hotbar.c \
+			 \
+			holding/holding.c \
+			 \
 			camera.c \
 			\
 			collisions.c \
@@ -71,7 +80,12 @@ SRC		=	main.c \
 			mesh/utils.c \
 			mesh/transform.c \
 			\
+			entity/manager.c \
 			entity/generic/manager.c \
+			entity/fireball/manager.c \
+			\
+			particle/manager.c \
+			particle/generic.c \
 
 INC		=	vec3.h \
 			camera.h \
@@ -98,7 +112,7 @@ CFLAGS	= -MMD -MP -Wall -Wextra -Werror
 ENGINE		= ./engine/
 ENGINE_LIB	= $(addprefix $(ENGINE),libengine.a)
 ENGINE_INC	= -I ./engine/inc
-ENGINE_LNK	= -l Xext -l X11 -L ./engine -l engine
+ENGINE_LNK	= -l Xext -l X11 -l Xfixes -L ./engine -l engine -l m
 
 all: obj $(ENGINE_LIB) $(NAME)
 
@@ -120,7 +134,7 @@ obj:
 
 $(NAME): $(OBJ)
 	@echo "\e[1;35mLinking...\e[0m"
-	@$(CC) -o $(NAME) $+ $(ENGINE_LNK) -lm -pg
+	@$(CC) -o $(NAME) $+ $(ENGINE_LNK)
 	@echo "\e[1;32m➤" $@ "created succesfully !\e[0m"
 
 $(OBJDIR)/%.o: $(SRCDIR)/%.c .print

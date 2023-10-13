@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 15:50:12 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/07/13 21:47:01 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/10/13 09:19:10 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,4 +45,4 @@ void	menu_display(t_engine *const eng, t_menu *const menu)
 {
 	if (menu->selected >= 0 && menu->selected < vector_size(&menu->data))
 		gui_display(eng, vector_get(&menu->data, menu->selected));
-};
+}

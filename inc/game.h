@@ -6,23 +6,31 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 16:17:55 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/10/03 08:40:41 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/10/13 09:41:15 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef GAME_H
 # define GAME_H
 
+# include "engine.h"
+
+# include "parsing.h"
+# include "raycaster.h"
+// #define AZERTY
+# include "keys.h"
 # include "menu.h"
 # include "aabb.h"
-# include "engine.h"
 # include "model.h"
+# include "holding.h"
+# include "minimap.h"
+# include "inventory.h"
 
-void	draw_line(
-			t_engine *const eng,
-			t_v2i const f,
-			t_v2i const s,
-			t_color const color);
+int		game_init(t_engine *const eng, t_data *const game, char **argv);
+
+void	game_sprites_destroy(t_data *const game);
+void	game_models_destroy(t_data *const game);
+void	game_destroy(t_data *const game);
 
 struct s_data
 {
@@ -36,11 +44,13 @@ struct s_data
 	t_menu		menu;
 	size_t		tick;
 	float		sensitivity;
+	t_holding	holding;
 	int			show_settings;
 	t_sprite	*sprites[32];
 	t_mesh		models[32];
 	int			selected_model;
 	t_vector	entities;
+	t_vector	particles;
 };
 
 #endif

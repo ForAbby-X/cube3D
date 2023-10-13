@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/08 12:41:43 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/07/25 15:14:52 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/10/13 09:18:23 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,13 +64,13 @@ static inline void	__display_button(t_engine *const eng, t_gui_obj *const obj)
 {
 	if (obj->selected)
 		ft_rect(eng, g_gui_obj_offset + obj->pos, obj->size - (t_v2i){4, 4},
-		(t_color){0xbdc3c7});
+			(t_color){0xbdc3c7});
 	else if (obj->hovered)
 		ft_rect(eng, g_gui_obj_offset + obj->pos, obj->size - (t_v2i){4, 4},
-		(t_color){0x95a5a6});
+			(t_color){0x95a5a6});
 	else
 		ft_rect(eng, g_gui_obj_offset + obj->pos, obj->size - (t_v2i){4, 4},
-		(t_color){0x7f8c8d});
+			(t_color){0x7f8c8d});
 	ft_put_text(eng, g_gui_obj_offset + obj->pos + (t_v2i){2, 0}, obj->str, 2);
 }
 

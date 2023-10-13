@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/08 20:47:41 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/09/08 17:33:34 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/10/13 09:30:29 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,14 +72,14 @@ void	player_collision(
 	t_aabb		block_box;
 	t_v3i const	player_pos = {box->pos[x], box->pos[y], box->pos[z]};
 
-	pos[x] = -1;
-	while (pos[x] < 2)
+	pos[x] = -2;
+	while (++pos[x] < 2)
 	{
-		pos[y] = -1;
-		while (pos[y] < 2)
+		pos[y] = -2;
+		while (++pos[y] < 2)
 		{
-			pos[z] = -1;
-			while (pos[z] < 2)
+			pos[z] = -2;
+			while (++pos[z] < 2)
 			{
 				block = player_pos + pos;
 				if (map_get(map, block))
@@ -89,10 +89,7 @@ void	player_collision(
 					if (is_aabb_in_aabb(*box, block_box))
 						__handle_collision(&block_box, box);
 				}
-				pos[z]++;
 			}
-			pos[y]++;
 		}
-		pos[x]++;
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/29 11:58:47 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/10/01 01:02:10 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/10/13 07:54:45 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,21 +27,6 @@ static inline void	__fill_zone(
 	__fill_zone(map, pos + (t_v3i){0, 0, -1}, blocks);
 }
 
-// static inline void	__empty_zone(
-// 	t_map *const map,
-// 	t_v3i const pos)
-// {
-// 	t_cell const	block = map_get(map, pos);
-
-// 	if (block < 2048)
-// 		return ;
-// 	map_set(map, pos, cell_air);
-// 	__empty_zone(map, pos + (t_v3i){1, 0, 0});
-// 	__empty_zone(map, pos + (t_v3i){0, 0, 1});
-// 	__empty_zone(map, pos + (t_v3i){-1, 0, 0});
-// 	__empty_zone(map, pos + (t_v3i){0, 0, -1});
-// }
-
 int	map_gen_rooms(t_map *const map, t_v3i const pos)
 {
 	t_length	size;
@@ -51,7 +36,7 @@ int	map_gen_rooms(t_map *const map, t_v3i const pos)
 	if (blocks.data == NULL)
 		return (0);
 	if (map_get(map, pos) != cell_air)
-		return (0);
+		return (vector_destroy(&blocks), 0);
 	__fill_zone(map, pos, &blocks);
 	size = vector_size(&blocks);
 	while (vector_size(&blocks))

@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 15:51:01 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/10/04 16:00:47 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/10/13 09:19:59 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,6 @@ t_vert	mesh_parse_get_v_uv(
 	t_vert	vert;
 
 	vert = (t_vert){{0.f, 0.f, 0.f}, {0.5f, 0.5f}};
-
 	while (**str == ' ')
 		(*str)++;
 	if (**str < '1' || **str > '9')
@@ -127,7 +126,6 @@ static inline int	__get_info(
 	}
 	vector_destroy(&uv_vec);
 	vector_destroy(&vertex);
-	printf("ERROR PARSE [%d]\n", error);
 	return (error);
 }
 

@@ -29,6 +29,12 @@
 		"camera.h": "c",
 		"map.h": "c",
 		"agrement.h": "c",
-		"generic.h": "c"
+		"generic.h": "c",
+		"holding.h": "c",
+		"entity.h": "c",
+		"fireball.h": "c",
+		"all.h": "c",
+		"inventory.h": "c",
+		"particle.h": "c"
 	}
 }

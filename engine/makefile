@@ -6,7 +6,7 @@
 #    By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/23 16:35:02 by alde-fre          #+#    #+#              #
-#    Updated: 2023/09/29 18:05:13 by alde-fre         ###   ########.fr        #
+#    Updated: 2023/10/13 06:09:32 by alde-fre         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,7 +37,6 @@ SOURCE_NAME= engine_1.c \
 			 drawing_1.c \
 			 drawing_2.c \
 			 drawing_3.c \
-			 drawing_4.c \
 			 sprite_1.c \
 			 utils.c \
 

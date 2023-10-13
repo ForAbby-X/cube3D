@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/15 16:02:01 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/10/03 05:27:06 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/10/13 12:33:50 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,11 @@ static inline void	__depth_rect(
 	t_v2i	p;
 	t_v2i	pix;
 
-	p[y] = 0;
-	while (p[y] < rect.dim[y])
+	p[y] = ft_max(0, -rect.pos[y]);
+	while (p[y] < rect.dim[y] && p[y] + rect.pos[y] < cam->surface->size[y])
 	{
-		p[x] = 0;
-		while (p[x] < rect.dim[x])
+		p[x] = ft_max(0, -rect.pos[x]);
+		while (p[x] < rect.dim[x] && p[x] + rect.pos[x] < cam->surface->size[x])
 		{
 			pix = rect.pos + p;
 			if (depth.color.a == 0 && depth.depth < camera_get_depth(cam, pix))
@@ -70,10 +70,12 @@ void	put_spr_scale(
 	t_color	color;
 
 	pix[y] = ft_max(-spr.pos[y], 0);
-	while (pix[y] < ft_min(spr.spr->size[y] * scale, cam->surface->size[y] - spr.pos[y]))
+	while (pix[y] < spr.spr->size[y] * scale
+		&& spr.pos[y] + (pix[y] - scale) < cam->surface->size[y])
 	{
 		pix[x] = ft_max(-spr.pos[x], 0);
-		while (pix[x] < ft_min(spr.spr->size[x] * scale, cam->surface->size[x] - spr.pos[x]))
+		while (pix[x] < spr.spr->size[x] * scale
+			&& spr.pos[x] + (pix[x] - scale) < cam->surface->size[x])
 		{
 			col = (t_v2i){pix[x] / scale, pix[y] / scale};
 			color = ft_get_color(spr.spr, col);

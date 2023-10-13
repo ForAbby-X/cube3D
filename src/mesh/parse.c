@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/15 13:52:20 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/10/04 14:36:52 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/10/12 17:59:09 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,6 @@ int	mesh_parse_vertex(char *str, t_vector *const vertexs)
 	if ((*str < '0' || *str > '9') && *str != '-')
 		return (1);
 	vertex[z] = ft_atof(str);
-	printf("ADDING VEC [%f,%f,%f]\n", vertex[x], vertex[y], vertex[z]);
 	return (vector_addback(vertexs, &vertex) == NULL);
 }
 
@@ -107,7 +106,6 @@ int	mesh_parse_vertex_tex(char *str, t_vector *const uv_vec)
 	if ((*str < '0' || *str > '9') && *str != '-')
 		return (1);
 	uv[y] = 1.f - ft_atof(str);
-	printf("ADDING UV [%f,%f]\n", uv[x], uv[y]);
 	return (vector_addback(uv_vec, &uv) == NULL);
 }
 

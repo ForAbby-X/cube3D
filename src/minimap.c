@@ -6,36 +6,11 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 23:28:54 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/09/03 16:31:36 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/10/13 09:22:58 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "minimap.h"
-
-// t_v2i	pos;
-// 	t_v2i	rpos;
-// 	t_v2i	wpos;
-
-// 	pos[1] = -2;
-// 	while (++pos[1] <= data->cam.dim[1] / 32 + 1)
-// 	{
-// 		rpos[1] = (pos[1]
-// 				- (data->cam.pos[1] / 32.f - data->cam.pos[1] / 32)) * 32;
-// 		pos[0] = -2;
-// 		while (++pos[0] <= data->cam.dim[0] / 32 + 1)
-// 		{
-// 			rpos[0] = (pos[0]
-// 					- (data->cam.pos[0] / 32.f - data->cam.pos[0] / 32)) * 32;
-// 			wpos = pos + data->cam.pos / 32;
-// 			ft_put_sprite(data->eng, data->spr[2 + 31
-// 				* (ft_get_map(data->map, wpos) == 'E')], rpos);
-// 			if (ft_get_map(data->map, wpos) == '1')
-// 				ft_put_sprite(data->eng, data->spr[3], rpos);
-// 			else
-// 				ft_put_sprite_part(data->eng, data->map->background, rpos,
-// 					(t_rect){wpos * 32, (t_v2i){32, 32}});
-// 		}
-// 	}
+#include "minimap.h"
 
 static inline void	__minimap_crop(
 		t_sprite *const minimap,
@@ -55,13 +30,13 @@ static inline void	__minimap_crop(
 			dist = off[x] * off[x] + off[y] * off[y];
 			if (dist >= 60 * 60)
 				minimap->data[dim[x] + dim[y] * minimap->size[x]]
-				= (t_color){0xFF000000};
+					= (t_color){0xFF000000};
 			else if (cam->fog)
 				minimap->data[dim[x] + dim[y] * minimap->size[x]]
-				= ft_color_inter(minimap->data[dim[x] + dim[y] * minimap->size[x]],
-					cam->fog_color,
-					powf(1.0f - fmaxf(0.f, fminf(1.f, sqrtf(dist) / 10.f
-					/ cam->fog_distance)), 2));	
+					= ft_color_inter(minimap->data[dim[x] + dim[y]
+						* minimap->size[x]], cam->fog_color,
+						powf(1.0f - fmaxf(0.f, fminf(1.f, sqrtf(dist) / 10.f
+									/ cam->fog_distance)), 2));
 			dim[0]++;
 		}
 		dim[1]++;

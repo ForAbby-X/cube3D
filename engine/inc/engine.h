@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/21 10:15:36 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/09/27 04:47:55 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/10/13 08:13:40 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,9 @@
 # include <string.h>
 # include <stdint.h>
 # include <time.h>
+# include <X11/Xlib.h>
+# include <X11/Xutil.h>
+# include <X11/extensions/Xfixes.h>
 # include "mlx.h"
 # include "mlx_int.h"
 # include "libft.h"
@@ -74,13 +77,6 @@ void		ft_put_text(t_engine *eng, t_v2i pos, char *str, t_length size);
 void		ft_put_nbr(t_engine *eng, t_v2i pos, int nbr, t_length size);
 void		ft_put_nbr_f(t_engine *eng, t_v2i pos, float nbr, t_length size);
 
-/* [4] SPRITE */
-void		draw_line(
-				t_engine *const eng,
-				t_v2i const f,
-				t_v2i const s,
-				t_color const color);
-
 /* ENGINE EVENT */
 /* [1] KEYS AND MOUSE */
 int			ft_eng_pressed_keys(int keycode, t_engine *eng);
@@ -90,6 +86,8 @@ int			ft_eng_released_mouse(int keycode, int x, int y, t_engine *eng);
 int			ft_eng_moved_mouse(int x, int y, t_engine *eng);
 /* [2] CLOSING WINDOW*/
 int			ft_eng_close(t_engine *eng);
+void		ft_hide_cursor(t_engine *eng);
+void		ft_show_cursor(t_engine *eng);
 
 /* COLOR */
 t_color		ft_color_d(uint32_t d);

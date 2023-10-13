@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 13:49:15 by vmuller           #+#    #+#             */
-/*   Updated: 2023/10/04 16:08:20 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/10/13 09:21:39 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,8 @@ t_color	ray_to_pixel(
 		color = ft_get_color(spr,
 				(t_v2i){tex_pos[x] * spr->size[x], tex_pos[y] * spr->size[y]});
 	else if (block == cell_door)
-		color = ft_color_f(0.f, fabsf(tex_pos[x] - .5f), 0.f, fabsf(tex_pos[y] - .5f));
+		color = ft_color_f(0.f, fabsf(tex_pos[x] - .5f),
+				0.f, fabsf(tex_pos[y] - .5f));
 	else if (block >= 2048)
 		color = ft_color(0, (block - 2048), 126, 255 - (block - 2048) * 10);
 	else
@@ -141,5 +142,4 @@ void	ray_render(
 		}
 		pix[y]++;
 	}
-	ft_eng_sel_spr(eng, NULL);
 }

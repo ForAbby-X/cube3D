@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 11:25:21 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/05/20 00:19:39 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/10/13 11:14:24 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,6 @@ t_error	vector_reserve(t_vector *const vector, t_length const len)
 {
 	void	*data;
 
-	if (len == vector->capacity)
-		return (VEC_FAILURE);
 	if (len > vector->capacity)
 	{
 		data = malloc(vector->type_size * len);
@@ -28,7 +26,7 @@ t_error	vector_reserve(t_vector *const vector, t_length const len)
 		vector->data = data;
 		vector->capacity = len;
 	}
-	return (0);
+	return (VEC_SUCCES);
 }
 
 t_error	vector_resize(t_vector	*vector, t_length const len)
