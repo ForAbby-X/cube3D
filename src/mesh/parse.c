@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/15 13:52:20 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/10/12 17:59:09 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/10/14 21:08:33 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,11 +50,11 @@ static inline int	__parse_face_complex(char **str, t_mesh_pars pars)
 
 	poly.vert[0] = pars.first_point;
 	poly.vert[1] = pars.last_point;
+	printf("START complex \n\t[%f, %f, %f]\n\t[%f, %f, %f]\n\t[%f, %f, %f]\n", poly.vert[0].point[x], poly.vert[0].point[y], poly.vert[0].point[z], poly.vert[1].point[x], poly.vert[1].point[y], poly.vert[1].point[z], poly.vert[2].point[x], poly.vert[2].point[y], poly.vert[2].point[z]);
 	while (**str >= '1' && **str <= '9')
 	{
-		while (**str == ' ')
-			str++;
 		poly.vert[2] = mesh_parse_get_v_uv(str, pars.vertexs, pars.uvs);
+		printf("DURING complex \n\t[%f, %f, %f]\n\t[%f, %f, %f]\n\t[%f, %f, %f]\n", poly.vert[0].point[x], poly.vert[0].point[y], poly.vert[0].point[z], poly.vert[1].point[x], poly.vert[1].point[y], poly.vert[1].point[z], poly.vert[2].point[x], poly.vert[2].point[y], poly.vert[2].point[z]);
 		if (vector_addback(pars.polygons, &poly) == NULL)
 			return (1);
 		poly.vert[1] = poly.vert[2];
@@ -75,11 +75,7 @@ int	mesh_parse_face(
 	if (*str < '1' || *str > '9')
 		return (1);
 	poly.vert[0] = mesh_parse_get_v_uv(&str, vertexs, uv_vec);
-	while (*str == ' ')
-		str++;
 	poly.vert[1] = mesh_parse_get_v_uv(&str, vertexs, uv_vec);
-	while (*str == ' ')
-		str++;
 	poly.vert[2] = mesh_parse_get_v_uv(&str, vertexs, uv_vec);
 	if (vector_addback(polygons, &poly) == NULL)
 		return (1);
@@ -123,9 +119,6 @@ int	mesh_parse_textures(t_engine *const eng, char *str, t_sprite **const spr)
 		return (1);
 	*temp = '\0';
 	*spr = ft_sprite_p(eng, str);
-	ft_putstr_fd("Loading sprite [", 1);
-	ft_putstr_fd(str, 1);
-	ft_putstr_fd("]\n", 1);
 	if (*spr == NULL)
 		return (1);
 	return (0);

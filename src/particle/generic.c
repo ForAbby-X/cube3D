@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/13 09:52:52 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/10/13 11:59:54 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/10/14 21:33:34 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,11 @@ t_particle	*particle_add(
 	t_particle	*particle;
 
 	particle = vector_addback(&game->particles,
-			&(t_particle){pos, dir, NULL, 0.f, 2.f});
+			&(t_particle){0});
 	if (particle == NULL)
 		return (NULL);
+	particle->pos = pos;
+	particle->dir = dir;
 	particle->death_time = 2.f;
 	return (particle);
 }

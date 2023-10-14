@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 15:17:35 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/05/17 17:39:14 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/10/14 16:04:30 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 void	*_vec_memcpy(void *dest, void *src, t_length const len)
 {
-	void register	*ptr;
-	void *const		start = dest;
+	void		*ptr;
+	void *const	start = dest;
 
 	ptr = src + len;
 	while (src <= ptr - 8)
@@ -43,7 +43,7 @@ void	*_vec_memcpy(void *dest, void *src, t_length const len)
 
 void	_vec_memmov(void *dest, void *src, t_length const len)
 {
-	void register	*ptr;
+	void	*ptr;
 
 	if (dest == src)
 		return ;

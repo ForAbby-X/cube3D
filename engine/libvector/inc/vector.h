@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 15:17:22 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/09/27 06:00:10 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/10/14 15:58:26 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,17 +35,14 @@ void		*_vec_memcpy(void *dest, void *src, t_length const len);
 void		_vec_memmov(void *dest, void *src, t_length len);
 
 t_vector	vector_create(t_length const type_size);
-void		vector_destroy(t_vector *const vector)
-			__attribute__((always_inline));
+void		vector_destroy(t_vector *const vector);
 void		vector_set_copy_method(t_vector *const vector, t_copy_method cpy_m);
 //BOTH VECTORS MUST BE INITIALISED BEFORE
 t_vector	*vector_copy(t_vector *const vec_dest, t_vector *const vec_src);
 
 t_error		vector_reserve(t_vector *const vector, t_length const len);
-t_error		vector_resize(t_vector *const vector, t_length const len)
-			__attribute__((always_inline));
-void		vector_clear(t_vector *const vector)
-			__attribute__((always_inline));
+t_error		vector_resize(t_vector *const vector, t_length const len);
+void		vector_clear(t_vector *const vector);
 t_error		vector_shrink_to_fit(t_vector *const vector);
 
 t_object	vector_addback(t_vector *const vector, t_object object);
@@ -62,14 +59,10 @@ t_vector	*vector_insert_vector(
 t_object	vector_pop(t_vector *const vector);
 t_object	vector_erase(t_vector *const vector, t_length const index);
 
-t_object	vector_get(t_vector const *const vector, t_length const index)
-			__attribute__((always_inline));
-t_object	vector_buffer(t_vector const *const vector)
-			__attribute__((always_inline));
-t_length	vector_size(t_vector const *const vector)
-			__attribute__((always_inline));
-t_length	vector_capacity(t_vector const *const vector)
-			__attribute__((always_inline));
+t_object	vector_get(t_vector const *const vector, t_length const index);
+t_object	vector_buffer(t_vector const *const vector);
+t_length	vector_size(t_vector const *const vector);
+t_length	vector_capacity(t_vector const *const vector);
 t_vector	vector_subvec(
 				t_vector const *const vector,
 				t_length const index,
@@ -77,24 +70,17 @@ t_vector	vector_subvec(
 
 t_length	vector_count_if(
 				t_vector const *const vector,
-				int (*cond)(t_object object))
-			__attribute__((always_inline));
+				int (*cond)(t_object object));
 void		vector_for_each(
 				t_vector const *const vector,
-				void (*func)(t_object object))
-			__attribute__((always_inline));
+				void (*func)(t_object object));
 
-void		_vec_choose_method(t_vector *const vector)
-			__attribute__((always_inline));
+void		_vec_choose_method(t_vector *const vector);
 
-t_object	_1byte_copy_method(void *dest, void *src, t_length const len)
-			__attribute__((always_inline));
-t_object	_2byte_copy_method(void *dest, void *src, t_length const len)
-			__attribute__((always_inline));
-t_object	_4byte_copy_method(void *dest, void *src, t_length const len)
-			__attribute__((always_inline));
-t_object	_8byte_copy_method(void *dest, void *src, t_length const len)
-			__attribute__((always_inline));
+t_object	_1byte_copy_method(void *dest, void *src, t_length const len);
+t_object	_2byte_copy_method(void *dest, void *src, t_length const len);
+t_object	_4byte_copy_method(void *dest, void *src, t_length const len);
+t_object	_8byte_copy_method(void *dest, void *src, t_length const len);
 
 enum e_error
 {

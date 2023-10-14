@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/15 16:02:01 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/10/13 12:33:50 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/10/14 22:56:21 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,17 +21,17 @@ typedef struct s_depth
 static inline void	__depth_rect(
 						t_engine *const eng,
 						t_camera *const cam,
-						t_rect const rect,
+						t_rect rect,
 						t_depth const depth)
 {
 	t_v2i	p;
 	t_v2i	pix;
 
 	p[y] = ft_max(0, -rect.pos[y]);
-	while (p[y] < rect.dim[y] && p[y] + rect.pos[y] < cam->surface->size[y])
+	while (p[y] < rect.dim[y])
 	{
 		p[x] = ft_max(0, -rect.pos[x]);
-		while (p[x] < rect.dim[x] && p[x] + rect.pos[x] < cam->surface->size[x])
+		while (p[x] < rect.dim[x])
 		{
 			pix = rect.pos + p;
 			if (depth.color.a == 0 && depth.depth < camera_get_depth(cam, pix))
@@ -63,29 +63,36 @@ void	put_spr_scale(
 			t_engine *const eng,
 			t_camera *const cam,
 			t_dsprite const spr,
-			float const scale)
+			float scale)
 {
 	t_v2i	pix;
-	t_v2i	col;
+	t_v2i	border;
 	t_color	color;
 
-	pix[y] = ft_max(-spr.pos[y], 0);
-	while (pix[y] < spr.spr->size[y] * scale
-		&& spr.pos[y] + (pix[y] - scale) < cam->surface->size[y])
+	pix[y] = 0;
+	if (spr.pos[y] < 0)
+		pix[y] = -spr.pos[y];
+	border = (t_v2i){spr.spr->size[x] * scale, spr.spr->size[y] * scale};
+	if (spr.pos[x] + border[x] > cam->surface->size[x])
+		border[x] = cam->surface->size[x] - spr.pos[x];
+	if (spr.pos[y] + border[y] > cam->surface->size[y])
+		border[y] = cam->surface->size[y] - spr.pos[y];
+	while (pix[y] < border[y])
 	{
-		pix[x] = ft_max(-spr.pos[x], 0);
-		while (pix[x] < spr.spr->size[x] * scale
-			&& spr.pos[x] + (pix[x] - scale) < cam->surface->size[x])
+		pix[x] = 0;
+		if (spr.pos[x] < 0)
+			pix[x] = -spr.pos[x];
+		while (pix[x] < border[x])
 		{
-			col = (t_v2i){pix[x] / scale, pix[y] / scale};
-			color = ft_get_color(spr.spr, col);
+			color = ft_get_color(spr.spr,
+				(t_v2i){(pix[x] + 0.5f) / scale, (pix[y] + 0.5f) / scale});
 			if (color.a == 0)
 				__depth_rect(eng, cam, (t_rect){spr.pos + pix,
 				{ft_max(scale, 1), ft_max(scale, 1)}},
 					(t_depth){color, spr.depth});
-			pix[x]++;
+			pix[x] += ft_max(scale, 1);
 		}
-		pix[y]++;
+		pix[y] += ft_max(scale, 1);
 	}
 }
 

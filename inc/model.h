@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/15 16:02:13 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/10/03 16:14:02 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/10/14 22:00:07 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,6 @@ struct s_polygon
 struct s_mesh
 {
 	t_vector	polygons;
-	char		*name;
 	t_sprite	*spr;
 };
 
@@ -132,7 +131,7 @@ void	put_spr_scale(
 			t_engine *const eng,
 			t_camera *const cam,
 			t_dsprite const spr,
-			float const scale);
+			float scale);
 void	put_3d_point(
 			t_engine *const eng,
 			t_camera *const cam,

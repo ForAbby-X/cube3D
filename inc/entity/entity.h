@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 07:50:47 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/10/13 11:18:00 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/10/14 16:35:41 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,8 @@ typedef void (*t_func_dstr)(t_entity *const, t_data *const);
 enum e_entity
 {
 	ENTITY_GENERIC,
-	ENTITY_FIREBALL
+	ENTITY_FIREBALL,
+	ENTITY_MIMIC,
 };
 
 void	entities_update(t_data *const game, float const dt);

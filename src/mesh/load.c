@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 15:51:01 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/10/13 09:19:59 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/10/14 21:04:12 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,6 @@ t_vert	mesh_parse_get_v_uv(
 	vert.point = *((t_v3f *)vector_get(vertexs, ft_atoi(*str) - 1));
 	while (**str >= '0' && **str <= '9')
 		++(*str);
-	if (**str == '\0' || **str == '\n')
-		return (vert);
 	if (**str != '/')
 		return (mesh_parse_run_number(str), vert);
 	++(*str);
@@ -124,6 +122,8 @@ static inline int	__get_info(
 		free(line);
 		line = get_next_line(fd);
 	}
+	if (mesh->spr == NULL)
+		mesh->spr = ft_sprite(eng, 1, 1);
 	vector_destroy(&uv_vec);
 	vector_destroy(&vertex);
 	return (error);
@@ -149,10 +149,8 @@ t_mesh	mesh_load(t_engine *const eng, char *path)
 		return (vector_destroy(&mesh.polygons), close(fd),
 			ft_putstr_fd("ERROR: 4 loading mesh:\"", 2),
 			ft_putstr_fd(path, 2), ft_putstr_fd("\"\n", 2), (t_mesh){0});
-	if (mesh.spr == NULL)
-	{
-		mesh.spr = ft_sprite(eng, 1, 1);
-		((u_int64_t *)mesh.spr->data)[0] = (u_int64_t){0x9003fc};
-	}
+	ft_putstr_fd("Created mesh [", 1);
+	ft_putstr_fd(path, 1);
+	ft_putstr_fd("]\n", 1);
 	return (close(fd), mesh);
 }
