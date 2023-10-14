@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 08:05:41 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/10/14 21:29:50 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/10/14 23:54:20 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,23 +22,23 @@ static void	_fireball_update(
 	self->dead = (self->time_alive >= 2.f \
 		|| map_get(&game->map, v3ftoi(self->pos)));
 	if (self->dead)
-		p_fire_explosion_add(game, self->pos - self->dir * 0.1f);
+		p_fire_explosion_add(game, self->pos - self->dir * 4.f * dt);
 }
 
 static void	_fireball_display(t_entity *const self, t_data *const game)
 {
 	t_transform	trans;
+	float const	speed = 6.f + self->time_alive * 6.f;
+	t_v3f const	eff = v3frot((t_v3f){0.f, sinf(self->time_alive * speed),
+			cosf(self->time_alive * speed)}, self->rot);
 
 	trans.rotation[x] = self->rot[x] + sinf(self->time_alive * 4.f) * 0.2f;
 	trans.rotation[y] = self->rot[y] + cosf(self->time_alive * 5.f) * 0.2f;
 	trans.resize = (t_v3f){0.3f, 0.3f, 0.3f};
 	trans.translation = self->pos;
 	mesh_put(game->eng, &game->cam, trans, self->mesh);
-	if (self->time_alive >= 0.0625f)
-	{
-		p_fire_add(game, self->pos, self->dir * 0.5f);
-		self->time_alive = 0.f;
-	}
+	p_fire_add(game, self->pos + eff * 0.05f,
+		eff / (self->time_alive + 1.f))->death_time = 0.3f;
 }
 
 static void	_fireball_destroy(t_entity *const self, t_data *const game)

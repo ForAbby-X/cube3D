@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/15 16:02:01 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/10/14 22:56:21 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/10/14 23:03:45 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,9 +69,7 @@ void	put_spr_scale(
 	t_v2i	border;
 	t_color	color;
 
-	pix[y] = 0;
-	if (spr.pos[y] < 0)
-		pix[y] = -spr.pos[y];
+	pix[y] = ft_max(0, -spr.pos[y]);
 	border = (t_v2i){spr.spr->size[x] * scale, spr.spr->size[y] * scale};
 	if (spr.pos[x] + border[x] > cam->surface->size[x])
 		border[x] = cam->surface->size[x] - spr.pos[x];
@@ -79,9 +77,7 @@ void	put_spr_scale(
 		border[y] = cam->surface->size[y] - spr.pos[y];
 	while (pix[y] < border[y])
 	{
-		pix[x] = 0;
-		if (spr.pos[x] < 0)
-			pix[x] = -spr.pos[x];
+		pix[x] = ft_max(0, -spr.pos[x]);
 		while (pix[x] < border[x])
 		{
 			color = ft_get_color(spr.spr,
