@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 10:36:00 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/10/14 23:21:37 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/10/14 23:58:10 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,6 +125,7 @@ static inline int	__loop(t_engine *eng, t_data *game, double dt)
 	hotbar_put(game);
 	ft_eng_sel_spr(eng, NULL);
 	ft_put_sprite_s(eng, game->cam.surface, (t_v2i){0}, 2);
+	ft_circle(eng, eng->sel_spr->size / 2, 5, (t_color){0xFFFFFF});
 	if (game->show_settings)
 		menu_display(eng, &game->menu);
 	else
