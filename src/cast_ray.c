@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 18:17:19 by vmuller           #+#    #+#             */
-/*   Updated: 2023/10/03 10:28:05 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/10/15 14:02:54 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ static inline void	__loop_ray(
 		inc[z] = ((ray->side_dist[z] <= ray->side_dist[x])
 				&& (ray->side_dist[z] <= ray->side_dist[y]));
 		ray->pos += inc * ray->step;
-		ray->side_dist += v3itof(inc) * ray->delta_dist;
+		ray->side_dist += (t_v3f){inc[x], inc[y], inc[z]} * ray->delta_dist;
 		flag = (map_get(map, ray->pos) == (t_cell){0});
 		--max_dist;
 	}

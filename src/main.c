@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 10:36:00 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/10/14 23:58:10 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/10/15 12:12:52 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,6 +111,9 @@ static inline int	__loop(t_engine *eng, t_data *game, double dt)
 	mesh_put(eng, &game->cam, (t_transform){{time, 0.25f}, {.125f, .125f, .125f}, game->map.spawn + (t_v3f){0.75f, .125f, 0.f}}, &game->models[4]);
 	mesh_put(eng, &game->cam, (t_transform){{time, 0.25f}, {.125f, .125f, .125f}, game->map.spawn + (t_v3f){1.0f, .125f, 0.f}}, &game->models[5]);
 
+	mesh_put(eng, &game->cam, (t_transform){{0.f, 0.f}, {0.5f, 0.5f, 0.5f}, game->map.spawn + (t_v3f){2.f, 0.f, 0.f}}, &game->models[5]);
+
+
 	put_3d_spr(eng, &game->cam, game->sprites[0], game->map.spawn + (t_v3f){1.0f, .8f, 0.f});
 
 	entities_display(game);
@@ -123,17 +126,20 @@ static inline int	__loop(t_engine *eng, t_data *game, double dt)
 	holding_display(eng, &game->cam, &game->models[game->selected_model], &game->holding);
 
 	hotbar_put(game);
+	ft_circle(eng, eng->sel_spr->size / 2, 2, (t_color){0xFFFFFF});
 	ft_eng_sel_spr(eng, NULL);
 	ft_put_sprite_s(eng, game->cam.surface, (t_v2i){0}, 2);
-	ft_circle(eng, eng->sel_spr->size / 2, 5, (t_color){0xFFFFFF});
 	if (game->show_settings)
 		menu_display(eng, &game->menu);
 	else
 	{
 		minimap_display(eng, &game->map, &game->cam, game->minimap);
 		ft_put_text(eng, (t_v2i){10, 120}, "[TAB] MENU", 2);
-		ft_put_nbr(eng, (t_v2i){10, 150}, vector_size(&game->entities), 2);
-		ft_put_nbr(eng, (t_v2i){10, 180}, vector_size(&game->particles), 2);
+		ft_put_nbr(eng, (t_v2i){10, 150}, 1.f / dt, 2);
+		ft_put_text(eng, (t_v2i){10, 180}, "ent:", 2);
+		ft_put_nbr(eng, (t_v2i){68, 180}, vector_size(&game->entities), 2);
+		ft_put_text(eng, (t_v2i){10, 210}, "par:", 2);
+		ft_put_nbr(eng, (t_v2i){68, 210}, vector_size(&game->particles), 2);
 	}
 	game->tick++;
 	game->holding.time_from_start += dt;

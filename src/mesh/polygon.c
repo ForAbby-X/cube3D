@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 01:40:17 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/10/13 07:45:08 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/10/15 10:47:03 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,8 @@ static inline float	__is_culled(t_polygon *const poly, t_camera *const cam)
 {
 	t_v3f const	u = poly->vert[1].point - poly->vert[0].point;
 	t_v3f const	v = poly->vert[2].point - poly->vert[1].point;
-	t_v3f const	dir = v3fnorm(
-			(poly->vert[0].point + (u + v) / 2.f) - cam->pos, 1.f);
-	t_v3f const	normal = v3fnorm(v3fcross(u, v), 1.f);
+	t_v3f const	dir = (poly->vert[0].point + (u + v) / 2.f) - cam->pos;
+	t_v3f const	normal = v3fcross(u, v);
 
 	return (v3fdot(dir, normal));
 }

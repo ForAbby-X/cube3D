@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/15 16:02:01 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/10/14 23:03:45 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/10/15 09:14:47 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,10 +28,10 @@ static inline void	__depth_rect(
 	t_v2i	pix;
 
 	p[y] = ft_max(0, -rect.pos[y]);
-	while (p[y] < rect.dim[y])
+	while (p[y] < rect.dim[x] && rect.pos[y] + p[y] < cam->surface->size[y])
 	{
 		p[x] = ft_max(0, -rect.pos[x]);
-		while (p[x] < rect.dim[x])
+		while (p[x] < rect.dim[x] && rect.pos[x] + p[x] < cam->surface->size[x])
 		{
 			pix = rect.pos + p;
 			if (depth.color.a == 0 && depth.depth < camera_get_depth(cam, pix))
@@ -81,10 +81,10 @@ void	put_spr_scale(
 		while (pix[x] < border[x])
 		{
 			color = ft_get_color(spr.spr,
-				(t_v2i){(pix[x] + 0.5f) / scale, (pix[y] + 0.5f) / scale});
+				(t_v2i){pix[x] / scale, pix[y] / scale});
 			if (color.a == 0)
 				__depth_rect(eng, cam, (t_rect){spr.pos + pix,
-				{ft_max(scale, 1), ft_max(scale, 1)}},
+				{ft_max(scale, 1), 0}},
 					(t_depth){color, spr.depth});
 			pix[x] += ft_max(scale, 1);
 		}
