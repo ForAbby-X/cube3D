@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 16:17:55 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/10/14 20:29:49 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/10/17 16:03:31 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 
 # include "parsing.h"
 # include "raycaster.h"
-#define AZERTY
+// #define AZERTY
 # include "keys.h"
 # include "menu.h"
 # include "aabb.h"

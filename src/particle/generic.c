@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/13 09:52:52 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/10/14 23:20:54 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/10/17 17:54:26 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,13 +53,13 @@ t_particle	*p_fire_explosion_add(
 
 	num = 0;
 	rot = (t_v2f){0.f, 0.f};
-	while (num < 400)
+	while (num < 300)
 	{
 		particle = p_fire_add(game, pos,
-				v3froty(v3frotz((t_v3f){ft_rand(1.f, 3.f)}, rot[y]), rot[x]));
+				v3froty(v3frotz((t_v3f){ft_rand(3.f, 6.f)}, rot[y]), rot[x]));
 		if (particle == NULL)
 			break ;
-		particle->death_time = ft_rand(1.2f, 1.8f);
+		particle->death_time = ft_rand(0.3f, 0.9f);
 		rot += (t_v2f){0.9f, 0.4f};
 		++num;
 	}

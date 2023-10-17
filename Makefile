@@ -83,6 +83,7 @@ SRC		=	main.c \
 			entity/manager.c \
 			entity/generic/manager.c \
 			entity/fireball/manager.c \
+			entity/mimic/manager.c \
 			\
 			particle/manager.c \
 			particle/generic.c \

@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/13 10:00:31 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/10/14 21:35:57 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/10/17 16:45:06 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static inline void	__particule_colision(
 						t_v3f *const velocity)
 {
 	t_v3i	block;
-	
+
 	block = (t_v3i){particle->pos[x] + (*velocity)[x],
 		particle->pos[y], particle->pos[z]};
 	if (map_get(&game->map, block) != cell_air)
