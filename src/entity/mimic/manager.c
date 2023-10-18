@@ -6,11 +6,16 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/14 16:33:08 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/10/17 17:51:27 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/10/18 15:51:14 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "entity/all.h"
+
+static inline float	__diff_angle(float a, float b)
+{
+	return (acosf(cosf(a) * cosf(b) + sinf(a) * sinf(b)));
+}
 
 static void	_mimic_update(
 			t_entity *const self,
@@ -18,25 +23,25 @@ static void	_mimic_update(
 			float const dt)
 {
 	t_v3f		diff;
+	float		r_diff;
 	float		mag;
-	float		angle;
 	float const	value = fabsf(sinf(self->time_alive * 4.f)) * 1.2f;
 
 	diff = game->cam.pos - self->pos;
 	diff[y] = 0.f;
 	mag = diff[x] * diff[x] + diff[z] * diff[z];
 	diff = v3fnorm(diff, 1.f);
-	angle = atan2(diff[z], diff[x]);
 
+	r_diff = __diff_angle(atan2(diff[z], diff[x]), self->rot[x]);
 
 	if (mag > 1.f)
 	{
-		self->rot[x] += (angle - self->rot[x]) * dt * 4.f;
+		self->rot[x] += r_diff * dt * 4.f;
 		self->pos += diff * dt * value;
 	}
 	else
 	{
-		self->rot[x] += ((angle + M_PI) - self->rot[x]) * dt * 4.f;
+		self->rot[x] += (r_diff + M_PI) * dt * 4.f;
 		self->pos -= diff * dt * value * 1.2f;
 	}
 }

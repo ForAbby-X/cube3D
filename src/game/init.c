@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/13 05:54:24 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/10/17 17:43:54 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/10/18 13:31:45 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,8 +75,7 @@ int	game_init(t_engine *const eng, t_data *const game, char **argv)
 	eng->mouse_y = 260;
 	ft_hide_cursor(game->eng);
 
-	for (int i = 0; i < 4; i++)
-		e_mimic_add(game, game->map.spawn + (t_v3f){ft_rand(-4.f, 4.f), 0.0f, ft_rand(-4.f, 4.f)}, (t_v2f){0.f, 0.f});
+	e_mimic_add(game, game->map.spawn, (t_v2f){0.f, 0.f});
 
 	return (0);
 }

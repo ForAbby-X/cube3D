@@ -111,9 +111,9 @@ CFLAGS	= -MMD -MP -Wall -Wextra -Werror -pg
 
 # engine library
 ENGINE		= ./engine/
-ENGINE_LIB	= $(addprefix $(ENGINE),libengine.a)
+ENGINE_LIB	= $(addprefix $(ENGINE), libengine.a)
 ENGINE_INC	= -I ./engine/inc
-ENGINE_LNK	= -l Xext -l X11 -l Xfixes -L ./engine -l engine -l m  -pg
+ENGINE_LNK	= -l Xext -l X11 -l Xfixes -L ./engine -l engine -l m -pg
 
 all: obj $(ENGINE_LIB) $(NAME)
 
