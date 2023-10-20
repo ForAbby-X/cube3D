@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/13 09:52:52 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/10/17 17:54:26 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/10/19 14:18:53 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ t_particle	*particle_add(
 		return (NULL);
 	particle->pos = pos;
 	particle->dir = dir;
+	particle->force = 4.f;
 	particle->death_time = 2.f;
 	return (particle);
 }
@@ -52,14 +53,22 @@ t_particle	*p_fire_explosion_add(
 	t_v2f		rot;
 
 	num = 0;
-	rot = (t_v2f){0.f, 0.f};
-	while (num < 300)
+	rot = (t_v2f){ft_rand(-M_PI, M_PI), ft_rand(-M_PI, M_PI)};
+	while (num < 200)
 	{
 		particle = p_fire_add(game, pos,
 				v3froty(v3frotz((t_v3f){ft_rand(3.f, 6.f)}, rot[y]), rot[x]));
 		if (particle == NULL)
 			break ;
-		particle->death_time = ft_rand(0.3f, 0.9f);
+		particle->death_time = ft_rand(0.6f, 0.8f);
+		particle->force = ft_rand(3.0f, 5.0f);
+		rot += (t_v2f){0.3f, 1.1f};
+		particle = p_fire_add(game, pos,
+				v3froty(v3frotz((t_v3f){ft_rand(7.f, 8.f)}, rot[y]), rot[x]));
+		if (particle == NULL)
+			break ;
+		particle->death_time = ft_rand(0.15f, 0.35f);
+		particle->force = ft_rand(0.3f, 0.8f);
 		rot += (t_v2f){0.9f, 0.4f};
 		++num;
 	}

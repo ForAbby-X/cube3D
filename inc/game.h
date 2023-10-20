@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 16:17:55 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/10/17 16:03:31 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/10/20 05:20:03 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@
 # include "aabb.h"
 # include "model.h"
 # include "holding.h"
-# include "minimap.h"
 # include "inventory.h"
+# include "minimap.h"
 
 int		game_init(t_engine *const eng, t_data *const game, char **argv);
 
@@ -40,7 +40,6 @@ struct s_data
 	float		*depth_buffer;
 	t_sprite	*minimap;
 	t_camera	cam;
-	t_aabb		box;
 	t_menu		menu;
 	size_t		tick;
 	float		sensitivity;

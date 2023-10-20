@@ -35,6 +35,7 @@
 		"fireball.h": "c",
 		"all.h": "c",
 		"inventory.h": "c",
-		"particle.h": "c"
+		"particle.h": "c",
+		"player.h": "c"
 	}
 }

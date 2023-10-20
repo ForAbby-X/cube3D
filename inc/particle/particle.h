@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/13 09:31:26 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/10/17 16:23:03 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/10/19 11:58:28 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ struct s_particle
 {
 	t_v3f		pos;
 	t_v3f		dir;
+	float		force;
 	t_sprite	*spr;
 	float		time_alive;
 	float		death_time;

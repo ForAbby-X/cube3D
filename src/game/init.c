@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/13 05:54:24 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/10/18 13:31:45 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/10/20 07:15:29 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,8 @@ static int	__models_init(t_engine *const eng, t_data *const game)
 	game->models[3] = mesh_load(eng, "models/items/potion.obj");
 	game->models[4] = mesh_load(eng, "models/items/hand.obj");
 	game->models[5] = mesh_load(eng, "models/chest/open.obj");
-	game->models[6] = (t_mesh){0};
+	game->models[6] = mesh_load(eng, "models/candle.obj");
+	game->models[7] = (t_mesh){0};
 	return (0);
 }
 
@@ -61,8 +62,6 @@ int	game_init(t_engine *const eng, t_data *const game, char **argv)
 	game->cam.fog_color = (t_color){0x040018};
 	game->holding = (t_holding){{0.0f, 0.0f, 0.0f}, 0.0f, 0.0f, 0.0f};
 	game->show_settings = 0;
-	game->box = (t_aabb){game->map.spawn - (t_v3f){0.16f, 0.0f, 0.16f},
-	{0.32f, 0.825f, 0.32f}};
 	game->sensitivity = 0.2f;
 	game->entities = vector_create(sizeof(t_entity));
 	if (game->entities.data == NULL)
@@ -75,7 +74,8 @@ int	game_init(t_engine *const eng, t_data *const game, char **argv)
 	eng->mouse_y = 260;
 	ft_hide_cursor(game->eng);
 
-	e_mimic_add(game, game->map.spawn, (t_v2f){0.f, 0.f});
+	e_player_add(game, game->map.spawn + (t_v3f){0.f, 0.5f, 0.f});
+	e_mimic_add(game, game->map.spawn + (t_v3f){2.f, 0.5f, 0.f}, (t_v2f){0.f, 0.f});
 
 	return (0);
 }

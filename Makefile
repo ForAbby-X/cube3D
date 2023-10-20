@@ -62,7 +62,6 @@ SRC		=	main.c \
 			 \
 			camera.c \
 			\
-			collisions.c \
 			 \
 			menu/manager.c \
 			menu/settings.c \
@@ -81,7 +80,10 @@ SRC		=	main.c \
 			mesh/transform.c \
 			\
 			entity/manager.c \
+			entity/collisions.c \
 			entity/generic/manager.c \
+			entity/player/manager.c \
+			entity/player/controls.c \
 			entity/fireball/manager.c \
 			entity/mimic/manager.c \
 			\

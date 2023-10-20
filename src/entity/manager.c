@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/13 05:50:21 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/10/14 17:18:37 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/10/20 07:17:30 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,22 @@ void	entities_update(t_data *const game, float const dt)
 	{
 		ent->update(ent, game, dt);
 		ent->time_alive += dt;
+		ent++;
+		len--;
+	}
+}
+
+void	entities_collisions(t_data *const game)
+{
+	t_entity	*ent;
+	t_length	len;
+
+	ent = game->entities.data;
+	len = game->entities.size;
+	while (len > 0)
+	{
+		// COLLISIONS
+		ent->aabb.pos += ent->vel;
 		ent++;
 		len--;
 	}

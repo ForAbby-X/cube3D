@@ -6,53 +6,48 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 08:05:41 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/10/20 07:29:03 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/10/20 07:29:16 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "entity/all.h"
+#include "entity/player.h"
 
-static void	_entity_update(
+static void	_player_update(
 				t_entity *const self,
 				t_data *const game,
 				float const dt)
 {
-	(void)self;
-	(void)game;
-	(void)dt;
+	player_control(self, game, dt);
 }
 
-static void	_entity_display(t_entity *const self, t_data *const game)
+static void	_player_display(t_entity *const self, t_data *const game)
 {
 	(void)self;
 	(void)game;
 }
 
-static void	_entity_destroy(t_entity *const self, t_data *const game)
+static void	_player_destroy(t_entity *const self, t_data *const game)
 {
 	(void)self;
 	(void)game;
 }
 
-t_entity	*entity_add(t_data *const game, t_v3f const pos)
+t_entity	*e_player_add(t_data *const game, t_v3f const pos)
 {
 	t_entity	*ent;
 
-	if (vector_resize(&game->entities, game->entities.size + 1))
+	ent = entity_add(game, pos);
+	if (ent == NULL)
 		return (NULL);
-	ent = vector_get(&game->entities, game->entities.size - 1);
-	*ent = (t_entity){0};
-	ent->update = &_entity_update;
-	ent->display = &_entity_display;
-	ent->destroy = &_entity_destroy;
-	ent->data = NULL;
+	ent->update = &_player_update;
+	ent->display = &_player_display;
+	ent->destroy = &_player_destroy;
 	ent->dir = (t_v3f){0};
 	ent->rot = (t_v2f){0};
-	ent->aabb = (t_aabb){pos
-		- (t_v3f){.5f, .5f, .5f}, {1.f, 1.f, 1.f}, AABB_NONE};
-	ent->mesh = &game->models[0];
-	ent->time_alive = 0.0f;
-	ent->uuid = 0ul;
-	ent->type = ENTITY_GENERIC;
+	ent->mesh = &game->models[5];
+	ent->aabb = (t_aabb){pos - (t_v3f){0.16f, 0.4125f, 0.16f},
+	{0.32f, 0.825f, 0.32f}, AABB_MOVABLE};
+	ent->type = ENTITY_PLAYER;
 	return (ent);
 }

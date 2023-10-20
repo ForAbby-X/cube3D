@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/15 16:02:01 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/10/15 09:14:47 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/10/19 21:20:59 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,7 +131,7 @@ void	put_3d_spr(
 	if (proj[z] <= cam->fru_near[z] || proj[z] >= cam->fru_far[z])
 		return ;
 	pix = (t_v2i){proj[x], proj[y]};
-	size = 1.0f / proj[z] / cam->fov_ratio * cam->screen_ratio;
+	size = (1.0f / proj[z]) * cam->screen_dist / 100.f;
 	ft_eng_sel_spr(eng, cam->surface);
 	put_spr_scale(eng, cam,
 		(t_dsprite){pix - (t_v2i){

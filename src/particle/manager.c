@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/13 10:00:31 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/10/17 16:45:06 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/10/19 12:01:49 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ void	particles_update(t_data *const game, float const dt)
 		part = vector_get(&game->particles, index);
 		put_3d_spr(game->eng, &game->cam, part->spr, part->pos);
 		vel = part->dir * dt;
+		part->dir = part->dir - part->dir * part->force * dt;
 		__particule_colision(part, game, &vel);
 		part->pos += vel;
 		part->time_alive += dt;
