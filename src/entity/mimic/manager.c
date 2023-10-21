@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/14 16:33:08 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/10/20 07:27:40 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/10/21 08:08:19 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,12 +52,11 @@ static void	_mimic_update(
 static void	_mimic_display(t_entity *const self, t_data *const game)
 {
 	t_transform	trans;
-	float const	value = fabsf(sinf(self->time_alive * 4.f)) * 0.3f;
+	// float const	value = fabsf(sinf(self->time_alive * 4.f)) * 0.3f;
 
 	trans.rotation = self->rot;
-	trans.rotation[y] = value;
-	trans.resize = (t_v3f){0.5f, 0.5f + value, 0.5f};
-	trans.translation = self->aabb.pos + self->aabb.dim / 2.f + (t_v3f){0.f, value, 0.f};
+	trans.resize = (t_v3f){0.5f, 0.5f, 0.5f};
+	trans.translation = self->aabb.pos + (t_v3f){0.25f, 0.f, 0.25f};
 	mesh_put(game->eng, &game->cam, trans, self->mesh);
 }
 
@@ -83,8 +82,8 @@ t_entity	*e_mimic_add(
 	ent->dir = v3froty(v3frotz((t_v3f){1.f}, rot[y]), rot[x]);
 	ent->rot = rot;
 	ent->mesh = &game->models[5];
-	ent->aabb = (t_aabb){pos - (t_v3f){0.25f, 1.0f, 0.25f},
-	{0.5f, 2.0f, 0.5f}, AABB_MOVABLE};
+	ent->aabb = (t_aabb){pos - (t_v3f){0.01f, 0.01f, 0.01f},
+	{0.02f, 0.02f, 0.02f}, AABB_IMMOVABLE};
 	ent->type = ENTITY_MIMIC;
 	return (ent);
 }

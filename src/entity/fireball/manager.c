@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 08:05:41 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/10/20 07:52:46 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/10/21 07:17:05 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static void	_fireball_update(
 			float const dt)
 {
 	self->dead = (self->time_alive >= 2.f \
-		|| map_get(&game->map, v3ftoi(self->aabb.pos)));
+		|| map_get(&game->map, v3ftoi(self->aabb.pos + self->aabb.dim / 2.f)));
 	if (self->dead)
 		p_fire_explosion_add(game, self->aabb.pos + self->aabb.dim / 2.f
 			- self->vel);
@@ -62,7 +62,7 @@ t_entity	*e_fireball_add(
 	ent->display = &_fireball_display;
 	ent->destroy = &_fireball_destroy;
 	ent->dir = v3froty(v3frotz((t_v3f){1.f}, rot[y]), rot[x]);
-	ent->aabb = (t_aabb){pos - (t_v3f){.3f, .3f, .3f}, {.6f, .6f, .6f},
+	ent->aabb = (t_aabb){pos - (t_v3f){.15f, .15f, .15f}, {.3f, .3f, .3f},
 		AABB_IMMOVABLE};
 	ent->rot = rot;
 	ent->mesh = &game->models[1];

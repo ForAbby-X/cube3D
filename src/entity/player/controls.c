@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 14:30:00 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/10/20 08:02:39 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/10/21 07:19:34 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,6 @@ void	player_control(
 	}
 	if (ft_mouse(game->eng, 1).pressed && game->selected_model == 0
 		&& !game->show_settings)
-		e_fireball_add(game, game->cam.pos + v3froty(v3frotz((t_v3f){0.3f},
+		e_fireball_add(game, game->cam.pos + v3froty(v3frotz((t_v3f){0.2f},
 					game->cam.rot[y]), game->cam.rot[x]), game->cam.rot);
 }

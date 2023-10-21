@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 10:36:00 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/10/20 07:38:25 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/10/21 08:10:10 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static inline int	__loop(t_engine *eng, t_data *game, double dt)
 	game->cam.pos = ((t_entity *)game->entities.data)->aabb.pos + ((t_entity *)game->entities.data)->aabb.dim / 2.f;
 	entities_update(game, dt);
 
-	entities_collisions(game);
+	// entities_collisions(game);
 	collision_ent(&game->entities, &game->map);
 
 	entities_destroy(game);
