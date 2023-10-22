@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/08 20:47:41 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/10/21 08:07:08 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/10/22 18:05:36 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,8 @@ t_v3f	aabb_solve(
 {
 	t_v3f const	box_min = box2->pos - box1->dim / 2.0f
 		- (t_v3f){.01f, .01f, .01f};
-	t_v3f const	box_max = box2->pos + box1->dim + box2->dim;
+	t_v3f const	box_max = box2->pos + box1->dim + box2->dim
+		+ (t_v3f){.01f, .01f, .01f};
 	t_v3f const	center = box1->pos + box1->dim / 2.0f;
 	t_v3f		norm;
 	t_v3f		off;
@@ -78,8 +79,9 @@ static inline void	__handle_collision(
 	t_aabb *const box2,
 	t_v3f *const vel2)
 {
-	t_v3f const	to_move = aabb_solve(box1, vel1, box2);
+	t_v3f	to_move;
 
+	to_move = aabb_solve(box1, vel1, box2);
 	if (box1->type == AABB_IMMOVABLE && box2->type == AABB_MOVABLE)
 		*vel2 += to_move;
 	else if (box1->type == AABB_MOVABLE && box2->type == AABB_IMMOVABLE)
@@ -156,44 +158,12 @@ void	collision_ent(t_vector *const entities, t_map *const map)
 	{
 		if (ent->aabb.type != AABB_NONE)
 		{
-			__block_collision(map, &ent->aabb, &ent->vel);
 			__ent_loop(entities, ent);
+			__block_collision(map, &ent->aabb, &ent->vel);
 		}
-		// printf("ENT vel [%u][%f, %f, %f]\n", entities->size - len, ent->vel[x], ent->vel[y], ent->vel[z]);
 		ent->aabb.pos += ent->vel;
 		ent->vel = (t_v3f){0};
 		ent++;
 		len--;
 	}
 }
-
-// void	collision(
-// 	t_map *const map,
-// 	t_aabb *const box)
-// {
-// 	t_v3i		pos;
-// 	t_v3i		block;
-// 	t_aabb		block_box;
-// 	t_v3i const	player_pos = {box->pos[x], box->pos[y], box->pos[z]};
-
-// 	pos[x] = -2;
-// 	while (++pos[x] < 2)
-// 	{
-// 		pos[y] = -2;
-// 		while (++pos[y] < 2)
-// 		{
-// 			pos[z] = -2;
-// 			while (++pos[z] < 2)
-// 			{
-// 				block = player_pos + pos;
-// 				if (map_get(map, block))
-// 				{
-// 					block_box = (t_aabb){{block[x], block[y], block[z]},
-// 					{1.0f, 1.0f, 1.0f}};
-// 					if (is_aabb_in_aabb(*box, block_box))
-// 						__handle_collision(&block_box, box);
-// 				}
-// 			}
-// 		}
-// 	}
-// }
