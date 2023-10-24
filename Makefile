@@ -109,13 +109,13 @@ DEPENDS := $(patsubst %.o,%.d,$(OBJ))
 
 # compiler
 CC		= cc
-CFLAGS	= -MMD -MP -Wall -Wextra -Werror -pg
+CFLAGS	= -MMD -MP -Wall -Wextra -Werror -g3
 
 # engine library
 ENGINE		= ./engine/
 ENGINE_LIB	= $(addprefix $(ENGINE), libengine.a)
 ENGINE_INC	= -I ./engine/inc
-ENGINE_LNK	= -l Xext -l X11 -l Xfixes -L ./engine -l engine -l m -pg
+ENGINE_LNK	= -l Xext -l X11 -l Xfixes -L ./engine -l engine -l m
 
 all: obj $(ENGINE_LIB) $(NAME)
 

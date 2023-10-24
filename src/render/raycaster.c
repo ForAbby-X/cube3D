@@ -6,11 +6,12 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 13:49:15 by vmuller           #+#    #+#             */
-/*   Updated: 2023/10/19 14:15:06 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/10/23 15:24:31 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "raycaster.h"
+#include <float.h>
 
 typedef struct s_plane
 {
@@ -65,11 +66,11 @@ void	get_tex_pos(t_ray *const ray, t_v2f *const tex_pos)
 	(*tex_pos)[y] -= floorf((*tex_pos)[y]);
 	if ((ray->side == x && ray->dir[x] < 0.0f)
 		|| (ray->side == z && ray->dir[z] > 0.0f))
-		(*tex_pos)[x] = 1.0f - (*tex_pos)[x];
+		(*tex_pos)[x] = (1.0f - FLT_EPSILON) - (*tex_pos)[x];
 	if (ray->side == y
 		&& ray->dir[y] < 0.0f)
-		(*tex_pos)[y] = 1.0f - (*tex_pos)[y];
-	(*tex_pos)[y] = 1.0f - (*tex_pos)[y];
+		(*tex_pos)[y] = (1.0f - FLT_EPSILON) - (*tex_pos)[y];
+	(*tex_pos)[y] = (1.0f - FLT_EPSILON) - (*tex_pos)[y];
 }
 
 t_cell_side	get_real_side(t_ray *const ray)
@@ -77,9 +78,9 @@ t_cell_side	get_real_side(t_ray *const ray)
 	if (ray->side == x)
 		return (ray->dir[x] > 0.0f);
 	else if (ray->side == z)
-		return (west + (ray->dir[z] > 0.0f));
+		return (2 + (ray->dir[z] > 0.0f));
 	else
-		return (up + (ray->dir[y] > 0.0f));
+		return (4 + (ray->dir[y] > 0.0f));
 }
 
 t_color	ray_to_pixel(

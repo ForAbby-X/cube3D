@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 22:20:24 by vmuller           #+#    #+#             */
-/*   Updated: 2023/07/13 22:45:43 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/10/23 14:24:08 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static inline int	__pars_clear(t_pars *const pars)
 int	pars_error(t_pars *const pars, char *const str)
 {
 	__pars_clear(pars);
-	ft_putstr_fd("parsing error : ", 2);
+	ft_putstr_fd("Error\nparsing error : ", 2);
 	ft_putstr_fd(str, 2);
 	write(2, (char [1]){'\n'}, 1);
 	return (1);
@@ -46,13 +46,12 @@ t_map	pars_file(
 
 	if (!ft_strrchr(path, '.')
 		|| ft_strncmp(ft_strrchr(path, '.'), ".cub", 5))
-		return (ft_putstr_fd("parsing error : wrong extension\n", 2),
+		return (ft_putstr_fd("Error\nparsing error : wrong extension\n", 2),
 			(t_map){0});
 	fd = open(path, O_RDONLY);
 	if (fd < 0)
 		return ((t_map){0});
-	ft_memset(&pars, 0, sizeof(t_pars));
-	pars.data = vector_create(sizeof(char *));
+	pars = (t_pars){.data = vector_create(sizeof(char *))};
 	if (pars.data.data == NULL)
 		return (get_next_line(-1), vector_destroy(&pars.data), (t_map){0});
 	if (pars_elements(fd, &pars) || pars_map(fd, &pars))

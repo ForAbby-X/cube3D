@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/15 13:52:20 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/10/15 11:30:04 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/10/23 14:25:55 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,11 +50,9 @@ static inline int	__parse_face_complex(char **str, t_mesh_pars pars)
 
 	poly.vert[0] = pars.first_point;
 	poly.vert[1] = pars.last_point;
-	printf("START complex \n\t[%f, %f, %f]\n\t[%f, %f, %f]\n\t[%f, %f, %f]\n", poly.vert[0].point[x], poly.vert[0].point[y], poly.vert[0].point[z], poly.vert[1].point[x], poly.vert[1].point[y], poly.vert[1].point[z], poly.vert[2].point[x], poly.vert[2].point[y], poly.vert[2].point[z]);
 	while (**str >= '1' && **str <= '9')
 	{
 		poly.vert[2] = mesh_parse_get_v_uv(str, pars.vertexs, pars.uvs);
-		printf("DURING complex \n\t[%f, %f, %f]\n\t[%f, %f, %f]\n\t[%f, %f, %f]\n", poly.vert[0].point[x], poly.vert[0].point[y], poly.vert[0].point[z], poly.vert[1].point[x], poly.vert[1].point[y], poly.vert[1].point[z], poly.vert[2].point[x], poly.vert[2].point[y], poly.vert[2].point[z]);
 		if (vector_addback(pars.polygons, &poly) == NULL)
 			return (1);
 		poly.vert[1] = poly.vert[2];

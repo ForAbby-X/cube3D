@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 10:36:00 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/10/22 18:09:26 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/10/24 14:56:23 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,12 @@ static inline int	__loop(t_engine *eng, t_data *game, double dt)
 
 	time += dt;
 
-	game->cam.pos = ((t_entity *)game->entities.data)->aabb.pos + ((t_entity *)game->entities.data)->aabb.dim / 2.f;
+	game->cam.pos = ((t_entity *)game->entities.data)->aabb.pos
+		+ (t_v3f){0.16f, 0.7f, 0.16f};
 	entities_update(game, dt);
 
 	// entities_collisions(game);
-	collision_ent(&game->entities, &game->map);
+	collision_ent(&game->entities, &game->map, dt);
 
 	entities_destroy(game);
 
@@ -61,7 +62,7 @@ static inline int	__loop(t_engine *eng, t_data *game, double dt)
 	hotbar_put(game);
 	ft_circle(eng, eng->sel_spr->size / 2, 2, (t_color){0xFFFFFF});
 	ft_eng_sel_spr(eng, NULL);
-	ft_put_sprite_s(eng, game->cam.surface, (t_v2i){0}, 2);
+	ft_put_sprite_s(eng, game->cam.surface, (t_v2i){0, 0}, 2);
 	if (game->show_settings)
 		menu_display(eng, &game->menu);
 	else
@@ -98,5 +99,7 @@ int	main(int argc, char **argv)
 			ft_putstr_fd("Error: Failed to initialise the game.\n", 1);
 		ft_eng_destroy(eng);
 	}
+	else
+		ft_putstr_fd("Error: Failed to initialise the engine.\n", 1);
 	return (0);
 }

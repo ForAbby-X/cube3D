@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/23 11:48:37 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/07/08 15:59:00 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/10/23 15:00:43 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ t_sprite	*ft_sprite(t_engine *eng, size_t dx, size_t dy)
 	spr->data = (t_color *)(uint32_t *)spr->img.data;
 	spr->size[0] = dx;
 	spr->size[1] = dy;
-	ft_memset(spr->data, 0, sizeof(t_color) * spr->size[0] * spr->size[1]);
+	ft_memset(spr->data, 0x00, sizeof(t_color) * spr->size[0] * spr->size[1]);
 	ft_putstr_fd("Created sprite [", 1);
 	ft_putnbr_fd(spr->size[0], 1);
 	ft_putstr_fd(":", 1);

@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/07 09:29:30 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/10/18 15:43:09 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/10/23 14:19:34 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ t_engine	*ft_eng_create(size_t size_x, size_t size_y, char *title)
 	eng = malloc(sizeof(t_engine));
 	if (eng == NULL)
 		return (NULL);
-	ft_memset(eng, 0, sizeof(t_engine));
+	*eng = (t_engine){0};
 	eng->mlx = mlx_init();
 	if (eng->mlx == NULL)
 		return (free(eng), NULL);

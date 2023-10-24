@@ -6,7 +6,7 @@
 #    By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/23 16:35:02 by alde-fre          #+#    #+#              #
-#    Updated: 2023/10/14 15:59:07 by alde-fre         ###   ########.fr        #
+#    Updated: 2023/10/23 14:58:55 by alde-fre         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,7 @@
 
 # Compiler options
 CC=cc
-CFLAGS=-Wall -Wextra -Werror -Ofast
+CFLAGS=-Wall -Wextra -Werror -Ofast -g3
 LDFLAGS=
 BINARY_NAME=
 LIBRARY_NAME=libengine.a
