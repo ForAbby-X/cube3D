@@ -6,17 +6,15 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 17:53:45 by vmuller           #+#    #+#             */
-/*   Updated: 2023/09/20 15:35:15 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/10/26 13:41:51 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
 
-static inline void	__closed_error(
-	t_engine *const eng,
-	t_map *const map)
+static inline void	__closed_error(t_map *const map)
 {
-	map_destroy(eng, map);
+	map_destroy(map);
 	ft_putstr_fd("parsing error : map isn't closed\n", 2);
 }
 
@@ -33,7 +31,7 @@ static inline int	__is_closed(t_map *const map, t_v3i pos)
 	return (1);
 }
 
-int	is_map_closed(t_engine *const eng, t_map *const map)
+int	is_map_closed(t_map *const map)
 {
 	t_v3i	pos;
 
@@ -45,7 +43,7 @@ int	is_map_closed(t_engine *const eng, t_map *const map)
 		while (pos[z] < map->size[z])
 		{
 			if (map_get(map, pos) == 0 && !__is_closed(map, pos))
-				return (__closed_error(eng, map), 0);
+				return (__closed_error(map), 0);
 			pos[z]++;
 		}
 		pos[x]++;

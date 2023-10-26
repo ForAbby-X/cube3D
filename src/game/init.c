@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/13 05:54:24 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/10/22 15:52:48 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/10/25 16:38:34 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static int	__models_init(t_engine *const eng, t_data *const game)
 {
 	game->selected_model = 0;
 	game->models[0] = mesh_load(eng, "models/items/wand.obj");
-	game->models[1] = mesh_load(eng, "models/projectile.obj");
+	game->models[1] = mesh_load(eng, "models/denis.obj");
 	game->models[2] = mesh_load(eng, "models/items/sword.obj");
 	game->models[3] = mesh_load(eng, "models/items/potion.obj");
 	game->models[4] = mesh_load(eng, "models/items/hand.obj");

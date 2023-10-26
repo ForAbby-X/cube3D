@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 22:20:24 by vmuller           #+#    #+#             */
-/*   Updated: 2023/10/23 14:24:08 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/10/26 13:42:27 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ t_map	pars_file(
 		return (get_next_line(-1), vector_destroy(&pars.data), (t_map){0});
 	get_next_line(-1);
 	if (pars_to_map(eng, &pars, &map)
-		|| (!is_map_closed(eng, &map) && __pars_clear(&pars)))
+		|| (!is_map_closed(&map) && __pars_clear(&pars)))
 		return (vector_destroy(&pars.data), (t_map){0});
 	__pars_clear(&pars);
 	vector_destroy(&pars.data);

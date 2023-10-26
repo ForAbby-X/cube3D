@@ -36,6 +36,7 @@
 		"all.h": "c",
 		"inventory.h": "c",
 		"particle.h": "c",
-		"player.h": "c"
+		"player.h": "c",
+		"typeinfo": "c"
 	}
 }

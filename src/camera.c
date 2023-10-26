@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 10:32:25 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/10/19 19:18:11 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/10/26 13:44:27 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ t_camera	camera_create(t_engine *const eng, t_v2i const surface)
 		return ((t_camera){0});
 	cam.depth_buffer = malloc(sizeof(float) * surface[x] * surface[y]);
 	if (cam.depth_buffer == NULL)
-		return (ft_destroy_sprite(eng, cam.surface), (t_camera){0});
+		return ((t_camera){0});
 	cam.fog = 1;
 	cam.fog_color = (t_color){0};
 	cam.fog_distance = 12.0f;
@@ -34,19 +34,17 @@ t_camera	camera_create(t_engine *const eng, t_v2i const surface)
 	cam.fru_far = (t_v3f){cam.surface->size[x], cam.surface->size[y], 2000.f};
 	cam.poly_clip = vector_create(sizeof(t_polygon));
 	if (cam.poly_clip.data == NULL)
-		return (camera_destroy(eng, &cam), (t_camera){0});
+		return ((t_camera){0});
 	cam.poly_raw = vector_create(sizeof(t_polygon));
 	if (cam.poly_raw.data == NULL)
-		return (camera_destroy(eng, &cam), (t_camera){0});
+		return ((t_camera){0});
 	return (cam);
 }
 
-void	camera_destroy(t_engine *const eng, t_camera *const cam)
+void	camera_destroy(t_camera *const cam)
 {
 	vector_destroy(&cam->poly_raw);
 	vector_destroy(&cam->poly_clip);
-	if (cam->surface)
-		ft_destroy_sprite(eng, cam->surface);
 	free(cam->depth_buffer);
 }
 

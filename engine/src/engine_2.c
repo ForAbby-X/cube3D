@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/07 09:29:30 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/10/23 14:19:34 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/10/26 13:50:28 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,23 +88,23 @@ t_engine	*ft_eng_create(size_t size_x, size_t size_y, char *title)
 
 	ft_putstr_fd("Creating engine...\n", 1);
 	eng = malloc(sizeof(t_engine));
-	if (eng == NULL)
-		return (NULL);
 	*eng = (t_engine){0};
 	eng->mlx = mlx_init();
 	if (eng->mlx == NULL)
-		return (free(eng), NULL);
+		return (NULL);
 	eng->win = mlx_new_window(eng->mlx, size_x, size_y, title);
 	if (eng->win == NULL)
-		return (free(eng->mlx), free(eng), NULL);
+		return (free(eng->mlx), NULL);
+	eng->textures = vector_create(sizeof(t_sprite));
+	if (eng->textures.data == NULL)
+		return (mlx_destroy_window(eng->mlx, eng->win), free(eng->mlx), NULL);
 	eng->screen = ft_sprite(eng, size_x, size_y);
 	if (eng->screen == NULL)
-		return (mlx_destroy_window(eng->mlx, eng->win),
-			free(eng->mlx), free(eng), NULL);
+		return (free(eng->mlx),
+			mlx_destroy_window(eng->mlx, eng->win), NULL);
 	eng->win_x = size_x;
 	eng->win_y = size_y;
 	if (_ft_eng_create_2(eng) == 0)
-		return (ft_destroy_sprite(eng, eng->screen), mlx_destroy_window(
-				eng->mlx, eng->win), free(eng->mlx), free(eng), NULL);
+		return (mlx_destroy_window(eng->mlx, eng->win), free(eng->mlx), NULL);
 	return (eng);
 }

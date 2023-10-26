@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 20:57:21 by vmuller           #+#    #+#             */
-/*   Updated: 2023/07/12 15:44:59 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/10/26 13:43:08 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,6 @@ int			pars_to_map(
 				t_pars *const pars,
 				t_map *const map);
 
-int			is_map_closed(t_engine *const eng, t_map *const map);
+int			is_map_closed(t_map *const map);
 
 #endif

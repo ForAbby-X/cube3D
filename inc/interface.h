@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 15:23:29 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/07/18 11:29:18 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/10/26 13:43:31 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ t_gui		gui_create(
 				t_v2i const pos,
 				t_v2i const size,
 				char const *const title);
-void		gui_destroy(t_engine *const eng, t_gui *const gui);
+void		gui_destroy(t_gui *const gui);
 t_gui_obj	*gui_add(t_gui *const gui, t_gui_obj *const obj);
 
 t_gui_obj	*gui_add_text(t_gui *const gui, char const *const str);

@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/23 10:55:22 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/10/12 17:33:50 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/10/26 13:52:07 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,8 @@ t_key	ft_mouse(t_engine *eng, int key_code)
 void	ft_eng_destroy(t_engine *eng)
 {
 	mlx_loop_end(eng->mlx);
-	ft_destroy_sprite(eng, eng->screen);
-	ft_destroy_sprite(eng, eng->ascii_spr);
+	ft_engine_destroy_sprite(eng);
+	vector_destroy(&eng->textures);
 	mlx_destroy_window(eng->mlx, eng->win);
 	mlx_destroy_display(eng->mlx);
 	free(eng->mlx);

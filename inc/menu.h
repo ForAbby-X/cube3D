@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 15:34:19 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/07/14 12:24:26 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/10/26 13:46:07 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ struct s_menu
 };
 
 t_menu	menu_create(void);
-void	menu_destroy(t_engine *const eng, t_menu *const menu);
+void	menu_destroy(t_menu *const menu);
 
 t_gui	*menu_add(t_menu *const menu, t_gui *const gui);
 

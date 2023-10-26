@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 10:48:47 by vmuller           #+#    #+#             */
-/*   Updated: 2023/10/23 15:09:26 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/10/26 13:39:42 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,10 +38,9 @@ t_map	map_create(t_v3i const size)
 	return (map);
 }
 
-void	map_destroy(t_engine *const eng, t_map *const map)
+void	map_destroy(t_map *const map)
 {
 	t_v3i		pos;
-	t_length	i;
 
 	pos[x] = 0;
 	while (pos[x] < map->size[x])
@@ -57,11 +56,4 @@ void	map_destroy(t_engine *const eng, t_map *const map)
 	}
 	free(map->data);
 	map->size = (t_v3i){0, 0, 0};
-	i = 0;
-	while (i < 6)
-	{
-		if (map->sprites[i])
-			ft_destroy_sprite(eng, map->sprites[i]);
-		i++;
-	}
 }

@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 15:50:12 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/10/13 09:19:10 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/10/26 13:45:51 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,10 @@ t_menu	menu_create(void)
 	return (menu);
 }
 
-void	menu_destroy(t_engine *const eng, t_menu *const menu)
+void	menu_destroy(t_menu *const menu)
 {
 	while (vector_size(&menu->data))
-		gui_destroy(eng, vector_pop(&menu->data));
+		gui_destroy(vector_pop(&menu->data));
 	vector_destroy(&menu->data);
 }
 

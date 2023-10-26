@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 10:37:59 by vmuller           #+#    #+#             */
-/*   Updated: 2023/09/29 21:24:09 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/10/26 13:39:51 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ typedef unsigned int	t_cell;
 typedef struct s_map	t_map;
 
 t_map	map_create(t_v3i const size);
-void	map_destroy(t_engine *const eng, t_map *const map);
+void	map_destroy(t_map *const map);
 
 t_cell	map_get(t_map const *const map, t_v3i const pos);
 t_v3i	map_size(t_map const *const map);

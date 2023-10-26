@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 17:24:53 by vmuller           #+#    #+#             */
-/*   Updated: 2023/09/30 14:51:10 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/10/26 13:41:18 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,11 @@
 #include "agrement.h"
 
 static inline int	__to_map_error(
-	t_engine *const eng,
 	t_pars *const pars,
 	t_map *const map,
 	char *const str)
 {
-	map_destroy(eng, map);
+	map_destroy(map);
 	return (pars_error(pars, str));
 }
 
@@ -81,18 +80,18 @@ static inline int	__pars_set_colors(
 {
 	map->sky_color = __get_color(pars->elements[5]);
 	if (map->sky_color.d == 0xFF000000)
-		return (__to_map_error(eng, pars, map, "invalid sky color format"));
+		return (__to_map_error(pars, map, "invalid sky color format"));
 	map->ground_color = __get_color(pars->elements[4]);
 	if (map->ground_color.d == 0xFF000000)
-		return (__to_map_error(eng, pars, map, "invalid ground color format"));
+		return (__to_map_error(pars, map, "invalid ground color format"));
 	map->sprites[4]
 		= load_tint_sprite(eng, "assets/ceilling.xpm", map->sky_color);
 	if (map->sprites[4] == NULL)
-		return (__to_map_error(eng, pars, map, "memory error on map creation"));
+		return (__to_map_error(pars, map, "memory error on map creation"));
 	map->sprites[5]
 		= load_tint_sprite(eng, "assets/floor.xpm", map->ground_color);
 	if (map->sprites[5] == NULL)
-		return (__to_map_error(eng, pars, map, "memory error on map creation"));
+		return (__to_map_error(pars, map, "memory error on map creation"));
 	map->spawn[x] = pars->spawn[x] + 0.5f;
 	map->spawn[y] = pars->spawn[y];
 	map->spawn[z] = pars->spawn[z] + 0.5f;
@@ -114,8 +113,7 @@ int	pars_to_map(
 	{
 		map->sprites[i] = ft_sprite_p(eng, pars->elements[i]);
 		if (map->sprites[i] == NULL)
-			return (__to_map_error(eng, pars, map,
-					"memory error on map creation"));
+			return (__to_map_error(pars, map, "memory error on map creation"));
 		i++;
 	}
 	if (__pars_set_colors(eng, pars, map))

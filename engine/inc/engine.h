@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/21 10:15:36 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/10/13 08:13:40 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/10/26 17:15:24 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ uint8_t		ft_color_med(t_color col);
 /* SPRITE */
 t_sprite	*ft_sprite(t_engine *eng, size_t dx, size_t dy);
 t_sprite	*ft_sprite_p(t_engine *eng, char *path);
-int			ft_destroy_sprite(t_engine *eng, t_sprite *spr);
+void		ft_engine_destroy_sprite(t_engine *eng);
 t_sprite	*ft_cpy_sprite(t_engine *eng, t_sprite *spr);
 
 /* UTILS */
@@ -135,6 +135,7 @@ struct	s_engine
 	int				mouse_x;
 	int				mouse_y;
 	int				(*on_repeat)(t_engine *, t_data *, double);
+	t_vector		textures;
 	t_data			*data;
 };
 
@@ -155,6 +156,7 @@ struct	s_sprite
 	t_img	img;
 	t_color	*data;
 	t_v2i	size;
+	char	*name;
 };
 
 struct s_rect

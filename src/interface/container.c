@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 11:00:48 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/10/13 09:18:10 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/10/26 13:43:06 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,10 +38,9 @@ t_gui	gui_create(
 	return (gui);
 }
 
-void	gui_destroy(t_engine *const eng, t_gui *const gui)
+void	gui_destroy(t_gui *const gui)
 {
 	vector_for_each(&gui->objects, &gui_obj_destroy);
-	ft_destroy_sprite(eng, gui->surface);
 	vector_destroy(&gui->objects);
 	free(gui->title);
 }
