@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/15 16:02:01 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/10/19 21:20:59 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/10/28 16:21:57 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,9 +108,10 @@ void	put_3d_point(
 	pix = (t_v2i){proj[x], proj[y]};
 	if (proj[z] > camera_get_depth(cam, pix))
 		return ;
-	size = proj[z] * cam->screen_dist * ssize;
+	// size = proj[z] * cam->screen_dist * ssize;
+	size = (1.0f / proj[z]) * cam->screen_dist * ssize;
 	ft_eng_sel_spr(eng, cam->surface);
-	if (size > 1)
+	if (size > 1.f)
 		ft_circle(eng, pix, size, (t_color){0x00EF00});
 	else
 		ft_draw(eng, pix, (t_color){0x00EF00});

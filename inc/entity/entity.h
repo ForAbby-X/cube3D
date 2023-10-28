@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 07:50:47 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/10/21 02:02:21 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/10/28 15:24:45 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ enum e_entity
 	ENTITY_PLAYER,
 	ENTITY_FIREBALL,
 	ENTITY_MIMIC,
+	ENTITY_DOOR,
 };
 
 void	entities_update(t_data *const game, float const dt);

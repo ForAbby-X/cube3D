@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/08 20:47:41 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/10/26 17:24:52 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/10/28 17:26:46 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,28 +29,31 @@ static inline float	__ray_box_intersection(
 			t_v3f const box_pos,
 			t_v3f const box_dim)
 {
-	t_v3f		inv = 1.f / ray_dir;
-	if (inv[x] == 0.0f)
-		inv[x] = __FLT_EPSILON__;
-	if (inv[y] == 0.0f)
-		inv[y] = __FLT_EPSILON__;
-	if (inv[z] == 0.0f)
-		inv[z] = __FLT_EPSILON__;
+	t_v3f const	inv = 1.f / ray_dir;
 	t_v3f const	t1 = (box_pos - ray_pos) * inv;
 	t_v3f const	t2 = (box_pos + box_dim - ray_pos) * inv;
 	t_v2f		tt;
 
-	tt = (t_v2f){0.f, INFINITY};
-	tt[0] = tmax(tt[0], tmin(tmin(t1[x], t2[x]), tt[1]));
-	tt[1] = tmin(tt[1], tmax(tmax(t1[x], t2[x]), tt[0]));
-	tt[0] = tmax(tt[0], tmin(tmin(t1[y], t2[y]), tt[1]));
-	tt[1] = tmin(tt[1], tmax(tmax(t1[y], t2[y]), tt[0]));
-	tt[0] = tmax(tt[0], tmin(tmin(t1[z], t2[z]), tt[1]));
-	tt[1] = tmin(tt[1], tmax(tmax(t1[z], t2[z]), tt[0]));
-	printf("TT : %f, %f\n", tt[0], tt[1]);
-	if (tt[0] < tt[1])
+	tt = (t_v2f){-INFINITY, INFINITY};
+	if (ray_dir[x] != 0)
+	{
+		tt[0] = tmax(tt[0], tmin(t1[x], t2[x]));
+		tt[1] = tmin(tt[1], tmax(t1[x], t2[x]));
+	}
+	if (ray_dir[y] != 0)
+	{
+		tt[0] = tmax(tt[0], tmin(t1[y], t2[y]));
+		tt[1] = tmin(tt[1], tmax(t1[y], t2[y]));
+	}
+	if (ray_dir[z] != 0)
+	{
+		tt[0] = tmax(tt[0], tmin(t1[z], t2[z]));
+		tt[1] = tmin(tt[1], tmax(t1[z], t2[z]));
+	}
+	if (tt[1] >= tt[0])
 		return (tt[0]);
-	return (1.f);
+	else
+		return (1.f);
 }
 
 int	is_ray_box_intersecting(
@@ -59,13 +62,7 @@ int	is_ray_box_intersecting(
 			t_v3f const box_pos,
 			t_v3f const box_dim)
 {
-	t_v3f		inv = 1.f / ray_dir;
-	if (inv[x] == 0.0f)
-		inv[x] = __FLT_EPSILON__;
-	if (inv[y] == 0.0f)
-		inv[y] = __FLT_EPSILON__;
-	if (inv[z] == 0.0f)
-		inv[z] = __FLT_EPSILON__;
+	t_v3f const	inv = 1.f / (ray_dir + 0.001f);
 	t_v3f const	t1 = (box_pos - ray_pos) * inv;
 	t_v3f const	t2 = (box_pos + box_dim - ray_pos) * inv;
 	t_v2f		tt;
@@ -79,7 +76,7 @@ int	is_ray_box_intersecting(
 	tt[1] = tmin(tt[1], tmax(tmax(t1[y], t2[y]), tt[0]));
 	tt[0] = tmax(tt[0], tmin(tmin(t1[z], t2[z]), tt[1]));
 	tt[1] = tmin(tt[1], tmax(tmax(t1[z], t2[z]), tt[0]));
-	return (tt[0] < tt[1] && tt[0] < 1.f);
+	return (tt[0] < tt[1] && tt[0] < 1.f && tt[0] > -1.0f);
 }
 
 t_v3f	ray_box_intersection(
@@ -117,8 +114,8 @@ int	is_aabb_entering_aabb(
 	int			result;
 
 	result = is_ray_box_intersecting(center, dir1, box_pos, box_dim);
-	if (result)
-		printf("COLLISION DETECTED\n");
+	// if (result)
+	// 	printf("COLLISION DETECTED\n");
 	return (result);
 }
 
@@ -127,21 +124,22 @@ t_v3f	aabb_solve(
 			t_v3f const *const vel1,
 			t_aabb const *const box2)
 {
-	t_v3f const	box_pos = box2->pos - box1->dim / 2.f;
-	t_v3f const	box_dim = box1->dim + box2->dim;
+	t_v3f const	box_pos = box2->pos - box1->dim / 2.f - 0.01f;
+	t_v3f const	box_dim = box1->dim + box2->dim + 0.02f;
 	t_v3f const	center = box1->pos + box1->dim / 2.0f;
 	t_v3f		norm;
 	t_v3f		off;
 
 	off = ray_box_intersection(center, *vel1, box_pos, box_dim);
 	norm = off - (box2->pos + box2->dim / 2.0f);
-	float max = tmax(tmax(fabsf(norm[x]), fabsf(norm[y])), fabsf(norm[z]));
+	// float max = tmax(tmax(fabsf(norm[x]), fabsf(norm[y])), fabsf(norm[z]));
 	off = center + *vel1 - off;
-	if (fabsf(norm[x]) == max)
-		return ((t_v3f){off[x], 0.f, 0.f});
-	else if (fabsf(norm[y]) == max)
-		return ((t_v3f){0.f, off[y], 0.f});
-	return ((t_v3f){0.f, 0.f, off[z]});
+	return (off);
+	// if (fabsf(norm[x]) == max)
+	// 	return ((t_v3f){off[x], 0.f, 0.f});
+	// else if (fabsf(norm[y]) == max)
+	// 	return ((t_v3f){0.f, off[y], 0.f});
+	// return ((t_v3f){0.f, 0.f, off[z]});
 }
 
 static inline void	__handle_collision(
@@ -189,7 +187,7 @@ static inline void	__block_collision(
 					continue ;
 				block_box = (t_aabb){{block[x], block[y], block[z]},
 				{1.0f, 1.0f, 1.0f}, AABB_IMMOVABLE};
-				if (is_aabb_entering_aabb(&player, *vel, &block_box))
+				if (is_aabb_in_aabb(player, block_box))
 					__handle_collision(box, vel, &block_box, &(t_v3f){0});
 			}
 		}
@@ -203,6 +201,7 @@ static inline void	__ent_loop(
 {
 	t_entity	*ent;
 	t_length	len;
+	t_aabb		next;
 	// t_v3f		diff;
 
 	(void)dt;
@@ -210,6 +209,8 @@ static inline void	__ent_loop(
 	len = entities->size;
 	while (len > 0)
 	{
+		next = self->aabb;
+		next.pos += self->vel;
 		// if (self != ent && (ent->aabb.type & self->aabb.type) == AABB_MOVABLE
 		// 	&& is_aabb_in_aabb(self->aabb, ent->aabb))
 		// {
@@ -220,9 +221,9 @@ static inline void	__ent_loop(
 		// 	self->vel += diff / 2.f * dt;
 		// 	ent->vel -= diff / 2.f * dt;
 		// }
-		if (self != ent && ent->aabb.type != AABB_NONE
-			&& is_aabb_entering_aabb(&self->aabb, self->vel, &ent->aabb))
-			__handle_collision(&self->aabb, &self->vel, &ent->aabb, &ent->vel);
+		// if (self != ent && ent->aabb.type != AABB_NONE
+		// 	&& is_aabb_in_aabb(next, ent->aabb))
+		// 	__handle_collision(&self->aabb, &self->vel, &ent->aabb, &ent->vel);
 		ent++;
 		len--;
 	}

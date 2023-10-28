@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 10:37:59 by vmuller           #+#    #+#             */
-/*   Updated: 2023/10/26 13:39:51 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/10/28 15:15:35 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,8 @@ enum	e_cell
 {
 	cell_air = 0,
 	cell_wall = 1,
-	cell_door = 254,
+	cell_door_x = 253,
+	cell_door_z = 254,
 	cell_void = 255,
 	cell_zone = 2048
 };
@@ -42,6 +43,8 @@ void	map_fill(t_map *const map, t_v3i pos1, t_v3i pos2, t_cell const cell);
 int		map_iterate(
 			t_map *const map,
 			int (*func)(t_map *const map, t_v3i const pos));
+
+void	map_generate(t_data *const game);
 
 struct s_map
 {

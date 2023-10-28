@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 18:17:19 by vmuller           #+#    #+#             */
-/*   Updated: 2023/10/22 15:04:49 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/10/28 11:02:06 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,8 @@ static inline void	__setup_ray_step_delta_dist(
 
 static inline void	__setup_ray(
 	t_ray *const ray,
-	t_v3f *const pos,
-	t_v3f *const dir)
+	t_v3f const *const pos,
+	t_v3f const *const dir)
 {
 	ray->pos = (t_v3i){(*pos)[x], (*pos)[y], (*pos)[z]};
 	ray->dir = *dir;
@@ -89,13 +89,13 @@ static inline void	__loop_ray(
 
 t_ray	cast_ray(
 	t_map *const map,
-	t_v3f *const pos,
-	t_v3f *const dir,
+	t_v3f const pos,
+	t_v3f const dir,
 	float const max_dist)
 {
 	t_ray	ray;
 
-	__setup_ray(&ray, pos, dir);
+	__setup_ray(&ray, &pos, &dir);
 	__loop_ray(map, &ray, max_dist);
 	return (ray);
 }

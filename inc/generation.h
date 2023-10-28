@@ -1,41 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cast_ray.h                                         :+:      :+:    :+:   */
+/*   generation.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/29 11:08:35 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/10/28 11:00:18 by alde-fre         ###   ########.fr       */
+/*   Created: 2023/10/28 14:50:35 by alde-fre          #+#    #+#             */
+/*   Updated: 2023/10/28 15:10:10 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef CAST_RAY_H
-# define CAST_RAY_H
+#ifndef GENERATION_H
+# define GENERATION_H
 
-# include "map.h"
+# include "game.h"
+# include "entity/entity.h"
+# include "entity/all.h"
+# include "particle/particle.h"
 
-typedef struct s_ray	t_ray;
+void	map_generate(t_data *const game);
 
-t_ray	cast_ray(
-			t_map *const map,
-			t_v3f const pos,
-			t_v3f const dir,
-			float const max_dist);
-
-struct s_ray
-{
-	t_v3i	pos;
-	t_v3f	dir;
-	t_v3f	start;
-	t_v3f	end;
-	t_v3f	delta_dist;
-	t_v3f	side_dist;
-	t_v3i	step;
-	int		side;
-	float	dist;
-};
-
-t_v3f	inter_ray_plane(t_v3f plane, t_xyz axis, t_v3f p1, t_v3f p2);
+void	generate_room(t_data *const game, t_v3i const pos);
 
 #endif

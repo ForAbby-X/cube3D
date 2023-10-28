@@ -6,13 +6,12 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/13 05:54:24 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/10/25 16:38:34 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/10/28 16:14:32 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "game.h"
-#include "entity/all.h"
-#include "particle/particle.h"
+#include "agrement.h"
+#include "generation.h"
 
 static int	__sprite_init(t_engine *const eng, t_data *const game)
 {
@@ -29,13 +28,14 @@ static int	__models_init(t_engine *const eng, t_data *const game)
 {
 	game->selected_model = 0;
 	game->models[0] = mesh_load(eng, "models/items/wand.obj");
-	game->models[1] = mesh_load(eng, "models/denis.obj");
+	game->models[1] = mesh_load(eng, "models/projectile.obj");
 	game->models[2] = mesh_load(eng, "models/items/sword.obj");
-	game->models[3] = mesh_load(eng, "models/items/potion.obj");
+	game->models[3] = mesh_load(eng, "models/items/pickaxe.obj");
 	game->models[4] = mesh_load(eng, "models/items/hand.obj");
 	game->models[5] = mesh_load(eng, "models/chest/open.obj");
 	game->models[6] = mesh_load(eng, "models/candle.obj");
-	game->models[7] = (t_mesh){0};
+	game->models[7] = mesh_load(eng, "models/doors/single_door.obj");
+	game->models[8] = (t_mesh){0};
 	return (0);
 }
 
@@ -75,7 +75,8 @@ int	game_init(t_engine *const eng, t_data *const game, char **argv)
 	ft_hide_cursor(game->eng);
 
 	e_player_add(game, game->map.spawn + (t_v3f){0.f, .5f, 0.f});
-	e_mimic_add(game, game->map.spawn + (t_v3f){2.f, 0.5f, 0.f}, (t_v2f){0.f, 0.f});
+	map_agrement(&game->map);
+	map_generate(game);
 
 	return (0);
 }

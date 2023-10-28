@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/12 21:56:14 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/10/19 19:06:53 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/10/28 15:23:30 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,5 +26,6 @@ t_entity	*e_mimic_add(
 				t_data *const game,
 				t_v3f const pos,
 				t_v2f const rot);
+t_entity	*e_door_add(t_data *const game, t_v3f const pos, t_v2f const rot);
 
 #endif

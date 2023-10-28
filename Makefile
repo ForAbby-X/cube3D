@@ -45,6 +45,9 @@ SRC		=	main.c \
 			map/agrement/doors.c \
 			map/agrement/rooms.c \
 			map/agrement/elevate.c \
+			map/generation/all.c \
+			map/generation/doors.c \
+			map/generation/rooms.c \
 			 \
 			render/raycaster.c \
 			render/reflection.c \
@@ -86,6 +89,7 @@ SRC		=	main.c \
 			entity/player/controls.c \
 			entity/fireball/manager.c \
 			entity/mimic/manager.c \
+			entity/door/manager.c \
 			\
 			particle/manager.c \
 			particle/generic.c \

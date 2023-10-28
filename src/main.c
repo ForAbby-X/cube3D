@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 10:36:00 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/10/26 14:45:34 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/10/28 14:16:41 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,15 @@ static inline int	__loop(t_engine *eng, t_data *game, double dt)
 
 	if (game->show_settings)
 		menu_update(eng, &game->menu);
+
+	t_ray	ray = cast_ray(&game->map, game->cam.pos, v3froty(v3frotz((t_v3f){1.f}, game->cam.rot[y]), game->cam.rot[x]), 999);
+	if (!game->show_settings && ft_mouse(eng, 1).pressed
+		&& game->selected_model == 3
+		&& map_get(&game->map, ray.pos) == cell_wall)
+	{
+		p_block_add(game, v3itof(ray.pos) + (t_v3f){.5f, .5f, .5f});
+		map_set(&game->map, ray.pos, cell_air);
+	}
 
 	game->cam.pos[y] += sinf(game->holding.energy_vel * 5.f) * 0.03f;
 	camera_update(&game->cam);

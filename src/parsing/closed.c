@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 17:53:45 by vmuller           #+#    #+#             */
-/*   Updated: 2023/10/26 13:41:51 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/10/28 13:41:59 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int	is_map_closed(t_map *const map)
 {
 	t_v3i	pos;
 
-	pos[y] = 1;
+	pos[y] = 3;
 	pos[x] = 0;
 	while (pos[x] < map->size[x])
 	{

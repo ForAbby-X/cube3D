@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/13 05:50:21 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/10/21 01:24:23 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/10/28 16:23:35 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,8 @@ void	entities_display(t_data *const game)
 	while (len > 0)
 	{
 		ent->display(ent, game);
+		put_3d_point(game->eng, &game->cam, ent->aabb.pos, 0.05f);
+		put_3d_point(game->eng, &game->cam, ent->aabb.pos + ent->aabb.dim, 0.05f);
 		ent++;
 		len--;
 	}
