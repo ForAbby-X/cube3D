@@ -64,13 +64,12 @@ SRC		=	main.c \
 			holding/holding.c \
 			 \
 			camera.c \
-			\
 			 \
 			menu/manager.c \
 			menu/settings.c \
-			\
+			 \
 			minimap.c \
-			\
+			 \
 			mesh/load.c \
 			mesh/destroy.c \
 			mesh/parse.c \
@@ -81,7 +80,7 @@ SRC		=	main.c \
 			mesh/rasteriser.c \
 			mesh/utils.c \
 			mesh/transform.c \
-			\
+			 \
 			entity/manager.c \
 			entity/collisions.c \
 			entity/generic/manager.c \
@@ -90,7 +89,7 @@ SRC		=	main.c \
 			entity/fireball/manager.c \
 			entity/mimic/manager.c \
 			entity/door/manager.c \
-			\
+			 \
 			particle/manager.c \
 			particle/generic.c \
 

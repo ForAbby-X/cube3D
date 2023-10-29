@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 22:20:24 by vmuller           #+#    #+#             */
-/*   Updated: 2023/10/28 13:40:12 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/10/29 16:30:09 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	pars_error(t_pars *const pars, char *const str)
 	__pars_clear(pars);
 	ft_putstr_fd("Error\nparsing error : ", 2);
 	ft_putstr_fd(str, 2);
-	write(2, (char [1]){'\n'}, 1);
+	ft_putstr_fd("\n", 2);
 	return (1);
 }
 

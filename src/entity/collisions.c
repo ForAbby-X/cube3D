@@ -6,24 +6,52 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/08 20:47:41 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/10/28 17:26:46 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/10/29 17:38:17 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "aabb.h"
 #include "entity/entity.h"
 
-static inline float	tmin(float x, float y)
-{
-    return (x < y ? x : y);
-}
-
-static inline float	tmax(float x, float y)
-{
-    return (x > y ? x : y);
-}
-
 static inline float	__ray_box_intersection(
+			t_v3f const ray_pos,
+			t_v3f const ray_dir,
+			t_v3f const box_pos,
+			t_v3f const box_dim)
+{
+	t_v3f const	inv = 1.f / ray_dir;
+	t_v3f const	t1 = (box_pos - ray_pos) * inv;
+	t_v3f const	t2 = ((box_pos + box_dim) - ray_pos) * inv;
+	t_v2f		tt;
+
+	if (ray_dir[x] == 0.f && ray_dir[y] == 0.f && ray_dir[z] == 0.f)
+		return (1.f);
+	tt = (t_v2f){-INFINITY, INFINITY};
+	if (ray_dir[x] != 0)
+	{
+		tt[0] = fmaxf(tt[0], fminf(t1[x], t2[x]));
+		tt[1] = fminf(tt[1], fmaxf(t1[x], t2[x]));
+	}
+	if (ray_dir[y] != 0)
+	{
+		tt[0] = fmaxf(tt[0], fminf(t1[y], t2[y]));
+		tt[1] = fminf(tt[1], fmaxf(t1[y], t2[y]));
+	}
+	if (ray_dir[z] != 0)
+	{
+		tt[0] = fmaxf(tt[0], fminf(t1[z], t2[z]));
+		tt[1] = fminf(tt[1], fmaxf(t1[z], t2[z]));
+	}
+	if (tt[1] >= tt[0] && tt[0] >= 0.f && tt[0] < 1.f && tt[1] >= 0.f)
+	{
+		printf("===--~\nCollision for T : %f\n", tt[0]);
+		return (tt[0]);
+	}
+	else
+		return (1.f);
+}
+
+int	is_ray_box_intersecting(
 			t_v3f const ray_pos,
 			t_v3f const ray_dir,
 			t_v3f const box_pos,
@@ -35,48 +63,24 @@ static inline float	__ray_box_intersection(
 	t_v2f		tt;
 
 	tt = (t_v2f){-INFINITY, INFINITY};
-	if (ray_dir[x] != 0)
-	{
-		tt[0] = tmax(tt[0], tmin(t1[x], t2[x]));
-		tt[1] = tmin(tt[1], tmax(t1[x], t2[x]));
-	}
-	if (ray_dir[y] != 0)
-	{
-		tt[0] = tmax(tt[0], tmin(t1[y], t2[y]));
-		tt[1] = tmin(tt[1], tmax(t1[y], t2[y]));
-	}
-	if (ray_dir[z] != 0)
-	{
-		tt[0] = tmax(tt[0], tmin(t1[z], t2[z]));
-		tt[1] = tmin(tt[1], tmax(t1[z], t2[z]));
-	}
-	if (tt[1] >= tt[0])
-		return (tt[0]);
-	else
-		return (1.f);
-}
-
-int	is_ray_box_intersecting(
-			t_v3f const ray_pos,
-			t_v3f const ray_dir,
-			t_v3f const box_pos,
-			t_v3f const box_dim)
-{
-	t_v3f const	inv = 1.f / (ray_dir + 0.001f);
-	t_v3f const	t1 = (box_pos - ray_pos) * inv;
-	t_v3f const	t2 = (box_pos + box_dim - ray_pos) * inv;
-	t_v2f		tt;
-
-	if (ray_dir[x] == 0.0f && ray_dir[y] == 0.0f && ray_dir[z] == 0.0f)
+	if (ray_dir[x] == 0.f && ray_dir[y] == 0.f && ray_dir[z] == 0.f)
 		return (0);
-	tt = (t_v2f){0.f, INFINITY};
-	tt[0] = tmax(tt[0], tmin(tmin(t1[x], t2[x]), tt[1]));
-	tt[1] = tmin(tt[1], tmax(tmax(t1[x], t2[x]), tt[0]));
-	tt[0] = tmax(tt[0], tmin(tmin(t1[y], t2[y]), tt[1]));
-	tt[1] = tmin(tt[1], tmax(tmax(t1[y], t2[y]), tt[0]));
-	tt[0] = tmax(tt[0], tmin(tmin(t1[z], t2[z]), tt[1]));
-	tt[1] = tmin(tt[1], tmax(tmax(t1[z], t2[z]), tt[0]));
-	return (tt[0] < tt[1] && tt[0] < 1.f && tt[0] > -1.0f);
+	if (ray_dir[x] != 0.f)
+	{
+		tt[0] = fmaxf(tt[0], fminf(t1[x], t2[x]));
+		tt[1] = fminf(tt[1], fmaxf(t1[x], t2[x]));
+	}
+	if (ray_dir[y] != 0.f)
+	{
+		tt[0] = fmaxf(tt[0], fminf(t1[y], t2[y]));
+		tt[1] = fminf(tt[1], fmaxf(t1[y], t2[y]));
+	}
+	if (ray_dir[z] != 0.f)
+	{
+		tt[0] = fmaxf(tt[0], fminf(t1[z], t2[z]));
+		tt[1] = fminf(tt[1], fmaxf(t1[z], t2[z]));
+	}
+	return (tt[1] >= tt[0] && tt[0] >= 0.f && tt[0] < 1.f && tt[1] >= 0.f);
 }
 
 t_v3f	ray_box_intersection(
@@ -114,9 +118,19 @@ int	is_aabb_entering_aabb(
 	int			result;
 
 	result = is_ray_box_intersecting(center, dir1, box_pos, box_dim);
-	// if (result)
-	// 	printf("COLLISION DETECTED\n");
 	return (result);
+}
+
+static inline t_v3f	__get_norm(t_v3f const point, t_v3f const center)
+{
+	t_v3f const	diff = point - center;
+	t_v3f const	abs = {fabsf(diff[x]), fabsf(diff[y]), fabsf(diff[z])};
+
+	if (abs[x] > abs[y] && abs[x] > abs[z])
+		return ((t_v3f){1.f, 0.f, 0.f});
+	else if (abs[y] > abs[x] && abs[y] > abs[z])
+		return ((t_v3f){0.f, 1.f, 0.f});
+	return ((t_v3f){0.f, 0.f, 1.f});
 }
 
 t_v3f	aabb_solve(
@@ -124,22 +138,16 @@ t_v3f	aabb_solve(
 			t_v3f const *const vel1,
 			t_aabb const *const box2)
 {
-	t_v3f const	box_pos = box2->pos - box1->dim / 2.f - 0.01f;
-	t_v3f const	box_dim = box1->dim + box2->dim + 0.02f;
+	t_v3f const	box_pos = box2->pos - box1->dim / 2.f;
+	t_v3f const	box_dim = box1->dim + box2->dim + 0.001f;
 	t_v3f const	center = box1->pos + box1->dim / 2.0f;
 	t_v3f		norm;
 	t_v3f		off;
 
 	off = ray_box_intersection(center, *vel1, box_pos, box_dim);
-	norm = off - (box2->pos + box2->dim / 2.0f);
-	// float max = tmax(tmax(fabsf(norm[x]), fabsf(norm[y])), fabsf(norm[z]));
-	off = center + *vel1 - off;
-	return (off);
-	// if (fabsf(norm[x]) == max)
-	// 	return ((t_v3f){off[x], 0.f, 0.f});
-	// else if (fabsf(norm[y]) == max)
-	// 	return ((t_v3f){0.f, off[y], 0.f});
-	// return ((t_v3f){0.f, 0.f, off[z]});
+	norm = __get_norm(off, box2->pos + box2->dim / 2.f);
+	off = (center + *vel1) - off;
+	return (off * norm);
 }
 
 static inline void	__handle_collision(
@@ -151,10 +159,15 @@ static inline void	__handle_collision(
 	t_v3f	to_move;
 
 	to_move = aabb_solve(box1, vel1, box2);
+	printf("NORM : %f %f %f\n", to_move[x], to_move[y], to_move[z]);
 	if (box1->type == AABB_IMMOVABLE && box2->type == AABB_MOVABLE)
 		*vel2 += to_move;
 	else if (box1->type == AABB_MOVABLE && box2->type == AABB_IMMOVABLE)
+	{
+		printf("VEL BEFORE : %f, %f, %f\n", (*vel1)[x], (*vel1)[y], (*vel1)[z]);
 		*vel1 -= to_move;
+		printf("VEL AFTER : %f, %f, %f\n", (*vel1)[x], (*vel1)[y], (*vel1)[z]);
+	}
 	else if (box1->type == AABB_MOVABLE && box2->type == AABB_MOVABLE)
 	{
 		*vel1 -= to_move / 2.0f;
@@ -171,7 +184,6 @@ static inline void	__block_collision(
 	t_v3i			block;
 	t_aabb			block_box;
 	t_v3i const		player_pos = v3ftoi(box->pos + box->dim / 2.f + *vel);
-	t_aabb const	player = {box->pos + *vel, box->dim, box->type};
 
 	pos[x] = -2;
 	while (++pos[x] < 2)
@@ -183,11 +195,11 @@ static inline void	__block_collision(
 			while (++pos[z] < 2)
 			{
 				block = player_pos + pos;
-				if (!map_get(map, block))
+				if (map_get(map, block) != cell_wall)
 					continue ;
 				block_box = (t_aabb){{block[x], block[y], block[z]},
-				{1.0f, 1.0f, 1.0f}, AABB_IMMOVABLE};
-				if (is_aabb_in_aabb(player, block_box))
+				{1.f, 1.f, 1.f}, AABB_IMMOVABLE};
+				if (is_aabb_entering_aabb(box, *vel, &block_box))
 					__handle_collision(box, vel, &block_box, &(t_v3f){0});
 			}
 		}
@@ -222,7 +234,7 @@ static inline void	__ent_loop(
 		// 	ent->vel -= diff / 2.f * dt;
 		// }
 		// if (self != ent && ent->aabb.type != AABB_NONE
-		// 	&& is_aabb_in_aabb(next, ent->aabb))
+		// 	&& is_aabb_entering_aabb(&self->aabb, self->vel, &ent->aabb))
 		// 	__handle_collision(&self->aabb, &self->vel, &ent->aabb, &ent->vel);
 		ent++;
 		len--;
