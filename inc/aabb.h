@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/08 21:01:42 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/10/25 18:09:41 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/10/30 18:09:56 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,10 +39,11 @@ t_v3f	ray_box_intersection(
 			t_v3f const b_max);
 
 int		is_aabb_in_aabb(t_aabb const box1, t_aabb const box2);
-t_v3f	aabb_solve(
+int		aabb_solve(
 			t_aabb const *const box1,
-			t_v3f const *const vel1,
-			t_aabb const *const box2);
+			t_v3f *const vel1,
+			t_aabb const *const box2,
+			t_v3f *const vel2);
 
 void	collision_ent(
 			t_vector *const entities,

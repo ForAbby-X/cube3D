@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/08 20:47:41 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/10/29 17:38:17 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/10/30 17:29:41 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,12 @@ static inline float	__ray_box_intersection(
 			t_v3f const box_pos,
 			t_v3f const box_dim)
 {
-	t_v3f const	inv = 1.f / ray_dir;
-	t_v3f const	t1 = (box_pos - ray_pos) * inv;
-	t_v3f const	t2 = ((box_pos + box_dim) - ray_pos) * inv;
+	t_v3f const	t1 = (box_pos - ray_pos) / ray_dir;
+	t_v3f const	t2 = ((box_pos + box_dim) - ray_pos) / ray_dir;
 	t_v2f		tt;
 
 	if (ray_dir[x] == 0.f && ray_dir[y] == 0.f && ray_dir[z] == 0.f)
-		return (1.f);
+		return (INFINITY);
 	tt = (t_v2f){-INFINITY, INFINITY};
 	if (ray_dir[x] != 0)
 	{
@@ -42,45 +41,9 @@ static inline float	__ray_box_intersection(
 		tt[0] = fmaxf(tt[0], fminf(t1[z], t2[z]));
 		tt[1] = fminf(tt[1], fmaxf(t1[z], t2[z]));
 	}
-	if (tt[1] >= tt[0] && tt[0] >= 0.f && tt[0] < 1.f && tt[1] >= 0.f)
-	{
-		printf("===--~\nCollision for T : %f\n", tt[0]);
+	if (tt[1] >= tt[0] && tt[1] >= 0.0f && tt[0] >= 0.f)
 		return (tt[0]);
-	}
-	else
-		return (1.f);
-}
-
-int	is_ray_box_intersecting(
-			t_v3f const ray_pos,
-			t_v3f const ray_dir,
-			t_v3f const box_pos,
-			t_v3f const box_dim)
-{
-	t_v3f const	inv = 1.f / ray_dir;
-	t_v3f const	t1 = (box_pos - ray_pos) * inv;
-	t_v3f const	t2 = (box_pos + box_dim - ray_pos) * inv;
-	t_v2f		tt;
-
-	tt = (t_v2f){-INFINITY, INFINITY};
-	if (ray_dir[x] == 0.f && ray_dir[y] == 0.f && ray_dir[z] == 0.f)
-		return (0);
-	if (ray_dir[x] != 0.f)
-	{
-		tt[0] = fmaxf(tt[0], fminf(t1[x], t2[x]));
-		tt[1] = fminf(tt[1], fmaxf(t1[x], t2[x]));
-	}
-	if (ray_dir[y] != 0.f)
-	{
-		tt[0] = fmaxf(tt[0], fminf(t1[y], t2[y]));
-		tt[1] = fminf(tt[1], fmaxf(t1[y], t2[y]));
-	}
-	if (ray_dir[z] != 0.f)
-	{
-		tt[0] = fmaxf(tt[0], fminf(t1[z], t2[z]));
-		tt[1] = fminf(tt[1], fmaxf(t1[z], t2[z]));
-	}
-	return (tt[1] >= tt[0] && tt[0] >= 0.f && tt[0] < 1.f && tt[1] >= 0.f);
+	return (INFINITY);
 }
 
 t_v3f	ray_box_intersection(
@@ -92,7 +55,9 @@ t_v3f	ray_box_intersection(
 	float	t;
 
 	t = __ray_box_intersection(ray_pos, ray_dir, box_pos, box_dim);
-	return (ray_pos + ray_dir * t);
+	if (t >= 1.f)
+		return ((t_v3f){0.f, 0.f, 0.f});
+	return (ray_pos + ray_dir * fminf(t, 1.0f));
 }
 
 int	is_aabb_in_aabb(t_aabb const box1, t_aabb const box2)
@@ -107,72 +72,65 @@ int	is_aabb_in_aabb(t_aabb const box1, t_aabb const box2)
 	return (1);
 }
 
-int	is_aabb_entering_aabb(
-		t_aabb const *const box1,
-		t_v3f const dir1,
-		t_aabb const *const box2)
-{
-	t_v3f const	box_pos = box2->pos - box1->dim / 2.f;
-	t_v3f const	box_dim = box1->dim + box2->dim;
-	t_v3f const	center = box1->pos + box1->dim / 2.f;
-	int			result;
+// int	is_aabb_entering_aabb(
+// 		t_aabb const *const box1,
+// 		t_v3f const dir1,
+// 		t_aabb const *const box2)
+// {
+// 	t_v3f const	box_pos = box2->pos - box1->dim / 2.f;
+// 	t_v3f const	box_dim = box1->dim + box2->dim;
+// 	t_v3f const	center = box1->pos + box1->dim / 2.f;
+// 	int			result;
 
-	result = is_ray_box_intersecting(center, dir1, box_pos, box_dim);
-	return (result);
-}
+// 	result = is_ray_box_intersecting(center, dir1, box_pos, box_dim);
+// 	return (result);
+// }
 
 static inline t_v3f	__get_norm(t_v3f const point, t_v3f const center)
 {
 	t_v3f const	diff = point - center;
 	t_v3f const	abs = {fabsf(diff[x]), fabsf(diff[y]), fabsf(diff[z])};
+	float const	max = fmaxf(fmaxf(abs[x], abs[y]), abs[z]);
+	t_v3f		ret;
 
-	if (abs[x] > abs[y] && abs[x] > abs[z])
-		return ((t_v3f){1.f, 0.f, 0.f});
-	else if (abs[y] > abs[x] && abs[y] > abs[z])
-		return ((t_v3f){0.f, 1.f, 0.f});
-	return ((t_v3f){0.f, 0.f, 1.f});
+	ret = (t_v3f){0};
+	return ((t_v3f){1.f, 1.f, 1.f});
+	if (abs[x] == max)
+		ret[x] = 1.f;
+	if (abs[y] == max)
+		ret[y] = 1.f;
+	if (abs[z] == max)
+		ret[z] = 1.f;
+	return (ret);
 }
 
-t_v3f	aabb_solve(
-			t_aabb const *const box1,
-			t_v3f const *const vel1,
-			t_aabb const *const box2)
+int	aabb_solve(
+		t_aabb const *const box1,
+		t_v3f *const vel1,
+		t_aabb const *const box2,
+		t_v3f *const vel2)
 {
 	t_v3f const	box_pos = box2->pos - box1->dim / 2.f;
-	t_v3f const	box_dim = box1->dim + box2->dim + 0.001f;
+	t_v3f const	box_dim = box1->dim + box2->dim;
 	t_v3f const	center = box1->pos + box1->dim / 2.0f;
 	t_v3f		norm;
 	t_v3f		off;
 
 	off = ray_box_intersection(center, *vel1, box_pos, box_dim);
+	if (off[x] == 0.f && off[y] == 0.f && off[z] == 0.f)
+		return (0);
 	norm = __get_norm(off, box2->pos + box2->dim / 2.f);
-	off = (center + *vel1) - off;
-	return (off * norm);
-}
-
-static inline void	__handle_collision(
-	t_aabb *const box1,
-	t_v3f *const vel1,
-	t_aabb *const box2,
-	t_v3f *const vel2)
-{
-	t_v3f	to_move;
-
-	to_move = aabb_solve(box1, vel1, box2);
-	printf("NORM : %f %f %f\n", to_move[x], to_move[y], to_move[z]);
+	off = ((center + *vel1) - off) * norm;
 	if (box1->type == AABB_IMMOVABLE && box2->type == AABB_MOVABLE)
-		*vel2 += to_move;
+		*vel2 += off;
 	else if (box1->type == AABB_MOVABLE && box2->type == AABB_IMMOVABLE)
-	{
-		printf("VEL BEFORE : %f, %f, %f\n", (*vel1)[x], (*vel1)[y], (*vel1)[z]);
-		*vel1 -= to_move;
-		printf("VEL AFTER : %f, %f, %f\n", (*vel1)[x], (*vel1)[y], (*vel1)[z]);
-	}
+		*vel1 -= off;
 	else if (box1->type == AABB_MOVABLE && box2->type == AABB_MOVABLE)
 	{
-		*vel1 -= to_move / 2.0f;
-		*vel2 += to_move / 2.0f;
+		*vel1 -= off / 2.0f;
+		*vel2 += off / 2.0f;
 	}
+	return (0);
 }
 
 static inline void	__block_collision(
@@ -199,8 +157,7 @@ static inline void	__block_collision(
 					continue ;
 				block_box = (t_aabb){{block[x], block[y], block[z]},
 				{1.f, 1.f, 1.f}, AABB_IMMOVABLE};
-				if (is_aabb_entering_aabb(box, *vel, &block_box))
-					__handle_collision(box, vel, &block_box, &(t_v3f){0});
+				aabb_solve(box, vel, &block_box, &(t_v3f){0});
 			}
 		}
 	}
