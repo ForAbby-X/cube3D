@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 20:57:07 by vmuller           #+#    #+#             */
-/*   Updated: 2023/10/03 16:31:05 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/11/02 19:58:01 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,23 @@ static t_lookup const	g_pars_look[] = {
 {NULL, 0, 0}
 };
 
+static inline int	__search_token(
+						char *str,
+						t_pars *const pars,
+						t_length *const index)
+{
+	*index = 0;
+	while (g_pars_look[*index].str
+		&& ft_strncmp(g_pars_look[*index].str, str, g_pars_look[*index].len))
+		++(*index);
+	if (g_pars_look[*index].str == NULL
+		|| !ft_strchr(" \t\v", str[g_pars_look[*index].len]))
+		return (pars_error(pars, "unrecognised token"));
+	if (pars->elements[g_pars_look[*index].index])
+		return (pars_error(pars, "double element detected"));
+	return (0);
+}
+
 static inline int	__line_get_elem(
 	char *str,
 	t_pars *const pars)
@@ -36,27 +53,25 @@ static inline int	__line_get_elem(
 	t_length	index;
 	char		*end;
 
+	if (*str == '\n')
+		return (0);
 	while (ft_strchr(" \t\v", *str))
-		str++;
-	index = 0;
-	while (g_pars_look[index].str
-		&& ft_strncmp(g_pars_look[index].str, str, g_pars_look[index].len))
-		index++;
-	if (g_pars_look[index].str == NULL
-		|| !ft_strchr(" \t\v", str[g_pars_look[index].len]))
-		return (*str != '\n' && pars_error(pars, "unrecognised token"));
-	if (pars->elements[g_pars_look[index].index])
-		return (pars_error(pars, "double element detected"));
+		++str;
+	if (__search_token(str, pars, &index))
+		return (1);
 	str += g_pars_look[index].len;
 	while (ft_strchr(" \t\v", *str))
-		str++;
+		++str;
 	end = str;
-	while (!ft_strchr(" \t\v\n\0", *end))
+	while (!ft_strchr(" \t\v\n", *end))
 		end++;
 	if (str == end)
-		return (pars_error(pars, "no element detected"));
-	*end = '\0';
-	pars->elements[g_pars_look[index].index] = ft_strdup(str);
+		return (pars_error(pars, "missing element content"));
+	pars->elements[g_pars_look[index].index] = ft_substr(str, 0, end - str);
+	while (ft_strchr(" \t\v", *end))
+		++end;
+	if (*end != '\n' && *end != '\0')
+		return (pars_error(pars, "residual characters after element"));
 	return (0);
 }
 

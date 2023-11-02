@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/29 11:58:47 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/10/28 15:15:00 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/11/02 19:59:41 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ int	map_gen_merge_rooms(t_map *const map, t_v3i const pos)
 	t_cell	size_1;
 	t_cell	size_2;
 
-	if (map_get(map, pos) != cell_door_x || map_get(map, pos) != cell_door_z)
+	if (map_get(map, pos) != cell_door_x && map_get(map, pos) != cell_door_z)
 		return (0);
 	if (map_get(map, pos + (t_v3i){1, 0, 0}) >= 2048)
 	{

@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 17:24:53 by vmuller           #+#    #+#             */
-/*   Updated: 2023/10/29 12:20:01 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/11/02 18:29:51 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,11 +90,11 @@ static inline int	__pars_set_colors(
 	map->sprites[4]
 		= load_tint_sprite(eng, "assets/ceilling.xpm", map->sky_color);
 	if (map->sprites[4] == NULL)
-		return (__to_map_error(pars, map, "memory error on map creation"));
+		return (__to_map_error(pars, map, "memory error on ceilling image"));
 	map->sprites[5]
 		= load_tint_sprite(eng, "assets/floor.xpm", map->ground_color);
 	if (map->sprites[5] == NULL)
-		return (__to_map_error(pars, map, "memory error on map creation"));
+		return (__to_map_error(pars, map, "memory error on floor image"));
 	map->spawn[x] = pars->spawn[x] + 0.5f;
 	map->spawn[y] = pars->spawn[y] + 2.f;
 	map->spawn[z] = pars->spawn[z] + 0.5f;
@@ -116,7 +116,7 @@ int	pars_to_map(
 	{
 		map->sprites[i] = ft_sprite_p(eng, pars->elements[i]);
 		if (map->sprites[i] == NULL)
-			return (__to_map_error(pars, map, "memory error on map creation"));
+			return (__to_map_error(pars, map, "memory error on textures"));
 		i++;
 	}
 	if (__pars_set_colors(eng, pars, map))

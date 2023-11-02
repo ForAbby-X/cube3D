@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 22:20:24 by vmuller           #+#    #+#             */
-/*   Updated: 2023/10/29 16:30:09 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/11/02 17:39:38 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,8 @@ t_map	pars_file(
 	fd = open(path, O_RDONLY);
 	if (fd < 0)
 		return ((t_map){0});
-	pars = (t_pars){.data = vector_create(sizeof(char *))};
+	pars = (t_pars){0};
+	pars.data = vector_create(sizeof(char *));
 	if (pars.data.data == NULL)
 		return (get_next_line(-1), vector_destroy(&pars.data), (t_map){0});
 	if (pars_elements(fd, &pars) || pars_map(fd, &pars))

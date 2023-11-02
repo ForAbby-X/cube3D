@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/08 20:47:41 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/10/30 17:29:41 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/11/02 16:08:10 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -213,7 +213,9 @@ void	collision_ent(
 		if (ent->aabb.type != AABB_NONE)
 		{
 			__ent_loop(entities, ent, dt);
-			__block_collision(map, &ent->aabb, &ent->vel);
+			(void)map;
+			(void)__block_collision;
+			// __block_collision(map, &ent->aabb, &ent->vel);
 		}
 		ent->aabb.pos += ent->vel;
 		ent->vel = (t_v3f){0};
