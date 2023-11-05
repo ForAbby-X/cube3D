@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/08 21:01:42 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/11/02 16:05:03 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/11/05 05:45:55 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,10 +33,10 @@ struct s_aabb
 };
 
 t_v3f	ray_box_intersection(
-			t_v3f const p1,
-			t_v3f const p2,
-			t_v3f const b_min,
-			t_v3f const b_max);
+			t_v3f const ray_pos,
+			t_v3f const ray_dir,
+			t_v3f const box_pos,
+			t_v3f const box_dim);
 
 int		is_aabb_in_aabb(t_aabb const box1, t_aabb const box2);
 int		aabb_solve(
