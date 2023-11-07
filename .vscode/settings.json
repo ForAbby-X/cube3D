@@ -37,6 +37,7 @@
 		"inventory.h": "c",
 		"particle.h": "c",
 		"player.h": "c",
-		"typeinfo": "c"
+		"typeinfo": "c",
+		"cast_ray.h": "c"
 	}
 }

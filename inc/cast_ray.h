@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 11:08:35 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/10/28 11:00:18 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/11/07 10:15:47 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,15 @@
 # define CAST_RAY_H
 
 # include "map.h"
+# include "aabb.h"
 
 typedef struct s_ray	t_ray;
+
+int		ray_box_intersection(
+			t_v3f const ray_pos,
+			t_v3f const ray_dir,
+			t_aabb const box,
+			float *const t);
 
 t_ray	cast_ray(
 			t_map *const map,
@@ -35,7 +42,5 @@ struct s_ray
 	int		side;
 	float	dist;
 };
-
-t_v3f	inter_ray_plane(t_v3f plane, t_xyz axis, t_v3f p1, t_v3f p2);
 
 #endif

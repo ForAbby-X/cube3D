@@ -6,22 +6,36 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 18:17:19 by vmuller           #+#    #+#             */
-/*   Updated: 2023/10/28 11:02:06 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/11/07 16:06:20 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cast_ray.h"
 
-t_v3f	inter_ray_plane(t_v3f plane, t_xyz axis, t_v3f p1, t_v3f p2)
+int	ray_box_intersection(
+			t_v3f const ray_pos,
+			t_v3f const ray_dir,
+			t_aabb const box,
+			float *const t)
 {
-	t_v3f const	diff_r = p2 - p1;
-	float const	t = (plane[axis] - p1[axis]) / diff_r[axis];
+	t_v3f const	dir_inv = 1.f / ray_dir;
+	t_v2f		tmm;
+	t_v2f		tg;
+	int			d;
 
-	if (t > 1.0f)
-		return (p2);
-	if (t < 0.0f)
-		return (p1);
-	return (p1 + diff_r * t);
+	tmm = (t_v2f){0.0f, INFINITY};
+	d = 0;
+	while (d < 3)
+	{
+		tg[0] = (box.pos[d] - ray_pos[d]) * dir_inv[d];
+		tg[1] = (box.pos[d] + box.dim[d] - __FLT_EPSILON__ - ray_pos[d])
+			* dir_inv[d];
+		tmm[0] = fmin(fmax(tg[0], tmm[0]), fmax(tg[1], tmm[0]));
+		tmm[1] = fmax(fmin(tg[0], tmm[1]), fmin(tg[1], tmm[1]));
+		++d;
+	}
+	*t = tmm[0];
+	return (tmm[0] < tmm[1] && tmm[1] >= 0.f && tmm[0] >= 0.f && tmm[0] <= 1.f);
 }
 
 static inline void	__setup_ray_step_delta_dist(
