@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/28 13:55:20 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/10/28 15:18:48 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/11/07 05:43:52 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static inline void	__fill_small_room(t_data *const game, t_vector *const room)
 {
 	t_v3f	pos;
 
-	pos = v3itof(*(t_v3i *)vector_get(room, rand() % room->size));
+	pos = v3itof(*(t_v3i *)vector_erase(room, rand() % room->size));
 	e_mimic_add(game, pos + (t_v3f){.5f, .0f, .5f}, (t_v2f){ft_rand(-M_PI, M_PI), 0.f});
 }
 

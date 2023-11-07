@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 07:50:47 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/10/28 15:24:45 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/11/07 07:11:25 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ typedef void (*t_func_dstr)(t_entity *const s, t_data *const g);
 
 enum e_entity
 {
+	ENTITY_NONE,
 	ENTITY_GENERIC,
 	ENTITY_PLAYER,
 	ENTITY_FIREBALL,
@@ -50,6 +51,7 @@ struct s_entity
 	t_mesh		*mesh;
 	float		time_alive;
 	int			dead;
+	t_ent_type	collided;
 	t_ent_id	uuid;
 	t_ent_type	type;
 };

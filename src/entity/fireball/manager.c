@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 08:05:41 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/10/29 12:13:23 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/11/07 07:13:33 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static void	_fireball_update(
 			t_data *const game,
 			float const dt)
 {
-	self->dead = (self->time_alive >= 2.f \
+	self->dead = (self->time_alive >= 2.f || (self->collided != ENTITY_PLAYER && self->collided != ENTITY_NONE) \
 		|| map_get(&game->map, v3ftoi(self->aabb.pos + self->aabb.dim / 2.f
 					+ self->dir * 4.f * dt)));
 	if (self->dead)

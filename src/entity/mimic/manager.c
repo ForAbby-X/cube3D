@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/14 16:33:08 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/11/04 19:14:43 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/11/06 09:04:18 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,8 +82,8 @@ t_entity	*e_mimic_add(
 	ent->dir = v3froty(v3frotz((t_v3f){1.f}, rot[y]), rot[x]);
 	ent->rot = rot;
 	ent->mesh = &game->models[5];
-	ent->aabb = (t_aabb){pos - (t_v3f){0.25f, 0.0f, 0.25f},
-	{0.5f, 0.5f, 0.5f}, AABB_MOVABLE};
+	ent->aabb = (t_aabb){pos - (t_v3f){0.05f, 0.0f, 0.05f},
+	{0.1f, 0.5f, 0.1f}, AABB_IMMOVABLE};
 	ent->type = ENTITY_MIMIC;
 	return (ent);
 }

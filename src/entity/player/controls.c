@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 14:30:00 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/10/21 07:19:34 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/11/07 05:19:04 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,9 +54,9 @@ void	player_control(
 	if (!game->show_settings)
 	{
 		game->cam.rot[x] += ((float)game->eng->mouse_x - 500)
-			* (game->sensitivity / 100.f * game->cam.fov_ratio);
+			* (game->sensitivity / 100.f);
 		game->cam.rot[y] -= ((float)game->eng->mouse_y - 260)
-			* (game->sensitivity / 100.f * game->cam.fov_ratio);
+			* (game->sensitivity / 100.f);
 		mlx_mouse_move(game->eng->mlx, game->eng->win, 500, 260);
 	}
 	if (game->cam.rot[x] < -M_PI)
