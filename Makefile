@@ -91,6 +91,8 @@ SRC		=	main.c \
 			 \
 			particle/manager.c \
 			particle/generic.c \
+			 \
+			chunk.c \
 
 INC		=	vec3.h \
 			camera.h \

@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 14:30:00 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/11/07 05:19:04 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/11/09 05:30:32 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,11 +30,7 @@ static inline void	__player_move(
 		vel += (t_v3f){-dir[z], 0.f, dir[x]};
 	if (eng->keys[K_LEFT])
 		vel -= (t_v3f){-dir[z], 0.f, dir[x]};
-	if (eng->keys[XK_space])
-		vel[y] = vel[y] + 1.f;
-	if (eng->keys[XK_Shift_L])
-		vel[y] = vel[y] - 1.f;
-	self->vel = v3fnorm(vel, dt * 2.f);
+	self->vel += v3fnorm(vel, dt * 2.f);
 	if (eng->keys[XK_Right])
 		game->cam.rot[x] += dt * 2.f;
 	if (eng->keys[XK_Left])

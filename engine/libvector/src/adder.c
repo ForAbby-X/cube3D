@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 15:20:39 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/10/19 11:22:43 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/11/09 08:29:17 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ t_vector	*vector_insert_vector(
 {
 	if (vec_dest->type_size != vec_src->type_size || index > vec_dest->size)
 		return (NULL);
-	if (vec_dest->size + vec_src->size > vec_dest->capacity)
+	if (vec_dest->size + vec_src->size >= vec_dest->capacity)
 		if (vector_reserve(vec_dest,
 				vec_dest->capacity + vec_src->size + vec_dest->capacity / 2))
 			return (NULL);

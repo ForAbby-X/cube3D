@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 10:36:00 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/11/07 05:55:27 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/11/09 08:21:54 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,12 @@ static inline int	__loop(t_engine *eng, t_data *game, double dt)
 
 	game->cam.pos = ((t_entity *)game->entities.data)->aabb.pos
 		+ (t_v3f){0.16f, 0.7f, 0.16f};
+
+	chunks_fill(&game->chunks, &game->entities);
+
 	entities_update(game, dt);
 
-	entities_collisions(game);
-	collision_ent(&game->entities, &game->map);
-
+	collision_ent(game, &game->loaded_ents, &game->map);
 	entities_destroy(game);
 
 	holding_update(eng, &game->cam, &game->holding, dt); // TO DO IN PLAYER AI
@@ -57,6 +58,7 @@ static inline int	__loop(t_engine *eng, t_data *game, double dt)
 
 	entities_display(game);
 	particles_update(game, dt);
+
 
 	if (game->cam.fog)
 		shader_apply_depth(&game->cam);

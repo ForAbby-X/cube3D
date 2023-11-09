@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 18:17:19 by vmuller           #+#    #+#             */
-/*   Updated: 2023/11/07 16:06:20 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/11/09 04:10:05 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,12 +30,12 @@ int	ray_box_intersection(
 		tg[0] = (box.pos[d] - ray_pos[d]) * dir_inv[d];
 		tg[1] = (box.pos[d] + box.dim[d] - __FLT_EPSILON__ - ray_pos[d])
 			* dir_inv[d];
-		tmm[0] = fmin(fmax(tg[0], tmm[0]), fmax(tg[1], tmm[0]));
-		tmm[1] = fmax(fmin(tg[0], tmm[1]), fmin(tg[1], tmm[1]));
+		tmm[0] = fmax(tmm[0], fmin(fmin(tg[0], tg[1]), tmm[1]));
+        tmm[1] = fmin(tmm[1], fmax(fmax(tg[0], tg[1]), tmm[0]));
 		++d;
 	}
 	*t = tmm[0];
-	return (tmm[0] < tmm[1] && tmm[1] >= 0.f && tmm[0] >= 0.f && tmm[0] <= 1.f);
+	return (tmm[0] < tmm[1] && tmm[1] >= 0.f && tmm[0] >= 0.f && tmm[0] < 1.f);
 }
 
 static inline void	__setup_ray_step_delta_dist(

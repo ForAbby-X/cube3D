@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/13 05:50:21 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/10/28 16:23:35 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/11/09 08:24:29 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,29 +17,16 @@ void	entities_update(t_data *const game, float const dt)
 	t_entity	*ent;
 	t_length	len;
 
-	ent = game->entities.data;
-	len = game->entities.size;
+	chunks_gather(&game->chunks, game->cam.pos,
+		UPDATE_DISTANCE, &game->loaded_ents);
+	len = game->loaded_ents.size;
+	printf("len: %u\n", len);
 	while (len > 0)
 	{
+		ent = *(t_entity **)vector_get(&game->loaded_ents, len - 1);
 		ent->update(ent, game, dt);
 		ent->time_alive += dt;
-		ent++;
-		len--;
-	}
-}
-
-void	entities_collisions(t_data *const game)
-{
-	t_entity	*ent;
-	t_length	len;
-
-	ent = game->entities.data;
-	len = game->entities.size;
-	while (len > 0)
-	{
-		// COLLISIONS
-		
-		ent++;
+		++ent;
 		len--;
 	}
 }

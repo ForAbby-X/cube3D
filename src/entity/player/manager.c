@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 08:05:41 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/11/07 05:20:10 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/11/09 08:24:42 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,18 @@ static void	_player_update(
 	player_control(self, game, dt);
 	if (ft_mouse(game->eng, 3).pressed)
 		__door_loop(game, self);
+	if (self->collided)
+	{
+		if (ft_key(game->eng, XK_space).pressed)
+		{
+			printf("jump\n");
+			self->dir[x] = 2.5f;
+		}
+		else
+			self->dir[x] = 0.f;
+	}
+	self->dir[x] -= 9.8f * dt;
+	self->vel[y] += self->dir[x] * dt;
 }
 
 static void	_player_display(t_entity *const self, t_data *const game)
@@ -75,7 +87,7 @@ t_entity	*e_player_add(t_data *const game, t_v3f const pos)
 	ent->dir = (t_v3f){0};
 	ent->rot = (t_v2f){0};
 	ent->mesh = &game->models[5];
-	ent->aabb = (t_aabb){pos - (t_v3f){0.16f, 0.4125f, 0.16f},
+	ent->aabb = (t_aabb){pos - (t_v3f){0.16f, 0.f, 0.16f},
 	{0.32f, 0.825f, 0.32f}, AABB_MOVABLE};
 	ent->type = ENTITY_PLAYER;
 	return (ent);
