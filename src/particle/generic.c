@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/13 09:52:52 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/10/28 13:52:25 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/11/10 06:25:07 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,33 @@ t_particle	*p_block_add(
 		particle->death_time = ft_rand(0.6f, 0.8f);
 		particle->force = ft_rand(-5.0f, -3.0f);
 		particle->spr = game->sprites[0];
+	}
+	return (particle);
+}
+
+t_particle	*p_spark_add(
+				t_data *const game,
+				t_ray ray)
+{
+	t_v3f		dir;
+	t_v3f		mdir;
+	t_particle	*particle;
+	t_length	num;
+
+	dir = (t_v3f []){{1.f, 0.f, 0.f}, {-1.f, 0.f, 0.f}, {0.f, 0.f, 1.f},
+	{0.f, 0.f, -1.f}, {0.f, 1.f, 0.f}, {0.f, -1.f, 0.f}}[get_real_side(&ray)];
+	num = -1;
+	while (++num < 6)
+	{
+		mdir = v3frot(dir,
+				(t_v2f){ft_rand(-M_PI / 3.f, M_PI / 3.f),
+				ft_rand(-M_PI / 3.f, M_PI / 3.f)});
+		particle = particle_add(game, ray.end + dir * 0.001f, mdir);
+		if (particle == NULL)
+			break ;
+		particle->death_time = ft_rand(0.1f, 0.2f);
+		particle->force = ft_rand(-10.0f, -7.0f);
+		particle->spr = game->sprites[7];
 	}
 	return (particle);
 }

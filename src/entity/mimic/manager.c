@@ -6,47 +6,26 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/14 16:33:08 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/11/10 03:30:53 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/11/10 07:03:01 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "entity/all.h"
-
-// static inline float	__diff_angle(float a, float b)
-// {
-// 	return (acosf(cosf(a) * cosf(b) + sinf(a) * sinf(b)));
-// }
+#include "gameplay_utils.h"
 
 static void	_mimic_update(
 			t_entity *const self,
 			t_data *const game,
 			float const dt)
 {
-	(void)self;
-	(void)game;
+	t_entity *const	player = game->entities.data;
+	t_v3f const		self_center = self->aabb.pos + self->aabb.dim * 0.5f;
+	t_v3f const		play_center = player->aabb.pos + player->aabb.dim * 0.5f;
+
 	(void)dt;
-	// t_v3f		diff;
-	// float		r_diff;
-	// float		mag;
-	// // float const	value = fabsf(sinf(self->time_alive * 4.f)) * 1.2f;
-
-	// diff = game->cam.pos - self->aabb.pos;
-	// diff[y] = 0.f;
-	// mag = diff[x] * diff[x] + diff[z] * diff[z];
-	// diff = v3fnorm(diff, 1.f);
-
-	// r_diff = __diff_angle(atan2(diff[z], diff[x]), self->rot[x]);
-
-	// if (mag > 1.f)
-	// {
-	// 	self->rot[x] += r_diff * dt * 4.f;
-	// 	// self->vel = diff * value * dt;
-	// }
-	// else
-	// {
-	// 	self->rot[x] += (r_diff + M_PI) * dt * 4.f;
-	// 	// self->vel = -diff * value * 1.2f * dt;
-	// }
+	player_use_items(game, self);
+	if (v3fmag(play_center - self_center) < .75f)
+		player->dir[z] += dt * 1.5f;
 }
 
 static void	_mimic_display(t_entity *const self, t_data *const game)
@@ -80,7 +59,7 @@ t_entity	*e_mimic_add(
 	ent->destroy = &_mimic_destroy;
 	ent->rot = rot;
 	ent->aabb = (t_aabb){pos - (t_v3f){0.125f, 0.0f, 0.125f},
-	{0.25f, 0.25f, 0.25f}, AABB_MOVABLE};
+	{0.25f, 0.25f, 0.25f}, AABB_IMMOVABLE};
 	ent->type = ENTITY_MIMIC;
 	return (ent);
 }

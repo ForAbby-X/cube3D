@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/08 20:47:41 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/11/10 03:39:52 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/11/10 05:16:49 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,7 +131,8 @@ static inline void	__ent_loop(
 	{
 		if (self != ent && ent->aabb.type != AABB_NONE
 			&& !((self->type == ENTITY_PLAYER && ent->type == ENTITY_FIREBALL)
-			|| (ent->type == ENTITY_PLAYER && self->type == ENTITY_FIREBALL))
+				|| (ent->type == ENTITY_PLAYER
+					&& self->type == ENTITY_FIREBALL))
 			&& aabb_solve(&self->aabb, &self->vel, &ent->aabb, &ent->vel)
 			&& self->collided == ENTITY_NONE)
 		{

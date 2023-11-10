@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/13 05:54:24 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/11/10 03:21:17 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/11/10 06:44:33 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,10 @@ static int	__sprite_init(t_engine *const eng, t_data *const game)
 	game->sprites[3] = ft_sprite_p(eng, "assets/gui/hotbar/slot.xpm");
 	game->sprites[4] = ft_sprite_p(eng, "assets/gui/health/full.xpm");
 	game->sprites[5] = ft_sprite_p(eng, "assets/smoke_small.xpm");
-	game->sprites[6] = NULL;
+	game->sprites[6] = ft_sprite_p(eng, "assets/blood.xpm");
+	game->sprites[7] = ft_sprite_p(eng, "assets/spark.xpm");
+	game->sprites[8] = ft_sprite_p(eng, "assets/gui/health/empty.xpm");
+	game->sprites[9] = NULL;
 	return (0);
 }
 

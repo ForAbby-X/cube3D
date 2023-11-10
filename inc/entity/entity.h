@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 07:50:47 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/11/10 03:16:21 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/11/10 05:05:25 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,8 @@ struct s_entity
 	t_aabb		aabb;
 	t_mesh		*mesh;
 	float		time_alive;
+	float		health;
+	float		max_health;
 	int			dead;
 	t_ent_type	collided;
 	t_ent_id	uuid;

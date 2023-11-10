@@ -39,6 +39,7 @@
 		"player.h": "c",
 		"typeinfo": "c",
 		"cast_ray.h": "c",
-		"gameplay_utils.h": "c"
+		"gameplay_utils.h": "c",
+		"limits": "c"
 	}
 }

@@ -91,6 +91,7 @@ SRC		=	main.c \
 			 \
 			particle/manager.c \
 			particle/generic.c \
+			particle/others.c \
 			 \
 			gameplay_utils.c \
 

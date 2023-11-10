@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 10:36:00 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/11/10 03:16:50 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/11/10 05:25:37 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,52 +18,25 @@
 
 static inline int	__loop(t_engine *eng, t_data *game, double dt)
 {
-	static float	time = 0.f;
+	static float		time = 0.f;
 
 	time += dt;
 
-	game->cam.pos = ((t_entity *)game->entities.data)->aabb.pos
-		+ (t_v3f){0.16f, 0.7f, 0.16f};
-
 	entities_update(game, dt);
-
 	collision_ent(game, &game->entities);
 	entities_destroy(game);
-
-	holding_update(eng, &game->cam, &game->holding, dt); // TO DO IN PLAYER AI
-
 	if (game->show_settings)
 		menu_update(eng, &game->menu);
-
-	t_ray	ray = cast_ray(&game->map, game->cam.pos, v3froty(v3frotz((t_v3f){1.f}, game->cam.rot[y]), game->cam.rot[x]), 999);
-	if (!game->show_settings && ft_mouse(eng, 1).pressed
-		&& game->selected_model == 3
-		&& map_get(&game->map, ray.pos) == cell_wall)
-	{
-		p_block_add(game, v3itof(ray.pos) + (t_v3f){.5f, .5f, .5f});
-		map_set(&game->map, ray.pos, cell_air);
-	}
-
-	game->cam.pos[y] += sinf(game->holding.energy_vel * 5.f) * 0.03f;
 	camera_update(&game->cam);
 	ray_render(eng, &game->map, &game->cam);
-
-	mesh_put(eng, &game->cam, (t_transform){{time, 0.25f}, {.125f, .125f, .125f}, game->map.spawn + (t_v3f){0.0f, .125f, 0.f}}, &game->models[0]);
-	mesh_put(eng, &game->cam, (t_transform){{time, 0.25f}, {.125f, .125f, .125f}, game->map.spawn + (t_v3f){0.25f, .125f, 0.f}}, &game->models[2]);
-	mesh_put(eng, &game->cam, (t_transform){{time, 0.25f}, {.125f, .125f, .125f}, game->map.spawn + (t_v3f){0.5f, .125f, 0.f}}, &game->models[3]);
-	mesh_put(eng, &game->cam, (t_transform){{time, 0.25f}, {.125f, .125f, .125f}, game->map.spawn + (t_v3f){0.75f, .125f, 0.f}}, &game->models[4]);
-	mesh_put(eng, &game->cam, (t_transform){{time, 0.25f}, {.125f, .125f, .125f}, game->map.spawn + (t_v3f){1.0f, .125f, 0.f}}, &game->models[5]);
-
 	entities_display(game);
 	particles_update(game, dt);
-
-
 	if (game->cam.fog)
 		shader_apply_depth(&game->cam);
 	ft_memset(game->cam.depth_buffer, 0xFF, game->cam.surface->size[x]
 		* game->cam.surface->size[y] * sizeof(float));
-	holding_display(eng, &game->cam, &game->models[game->selected_model], &game->holding);
-
+	holding_display(eng, &game->cam, &game->models[game->selected_model],
+		&game->holding);
 	hotbar_put(game);
 	ft_circle(eng, eng->sel_spr->size / 2, 2, (t_color){0xFFFFFF});
 	ft_eng_sel_spr(eng, NULL);
