@@ -38,6 +38,7 @@
 		"particle.h": "c",
 		"player.h": "c",
 		"typeinfo": "c",
-		"cast_ray.h": "c"
+		"cast_ray.h": "c",
+		"gameplay_utils.h": "c"
 	}
 }

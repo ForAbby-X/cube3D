@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/14 16:33:08 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/11/07 15:22:09 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/11/10 03:25:01 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static void	_door_update(
 			self->dir[y] = .03f;
 		}
 		self->dir[y] = fmaxf(self->dir[y] - dt, 0.f);
-		self->aabb.pos[y] += dt;
+		self->vel[y] += dt;
 		self->dir[x] = fmaxf(self->dir[x] - dt, 1.0f);
 	}
 }

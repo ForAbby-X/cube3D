@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/08 21:01:42 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/11/09 06:23:37 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/11/10 03:16:53 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,6 @@ int		aabb_solve(
 
 void	collision_ent(
 			t_data *const data,
-			t_vector *const entities,
-			t_map *const map);
+			t_vector *const entities);
 
 #endif

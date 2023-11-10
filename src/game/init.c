@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/13 05:54:24 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/11/09 08:24:16 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/11/10 03:21:17 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,12 +51,6 @@ int	game_init(t_engine *const eng, t_data *const game, char **argv)
 	game->map = pars_file(eng, (char *)argv[1]);
 	if (game->map.data == NULL)
 		return (game_destroy(game), 1);
-	game->chunks = chunks_create(&game->map);
-	if (game->chunks.data == NULL)
-		return (game_destroy(game), 1);
-	game->loaded_ents = vector_create(sizeof(t_entity *));
-	if (game->loaded_ents.data == NULL)
-		return (game_destroy(game), 1);
 	game->menu = menu_create();
 	if (game->menu.data.data == NULL)
 		return (game_destroy(game), 1);
@@ -82,8 +76,6 @@ int	game_init(t_engine *const eng, t_data *const game, char **argv)
 	ft_hide_cursor(game->eng);
 
 	e_player_add(game, game->map.spawn + (t_v3f){0.0f, 0.1f, 0.0f});
-	for (int i = 0; i < 50; i++)
-		e_mimic_add(game, game->map.spawn + (t_v3f){i / 2.f}, (t_v2f){});
 	map_agrement(&game->map);
 	map_generate(game);
 

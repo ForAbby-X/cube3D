@@ -92,7 +92,7 @@ SRC		=	main.c \
 			particle/manager.c \
 			particle/generic.c \
 			 \
-			chunk.c \
+			gameplay_utils.c \
 
 INC		=	vec3.h \
 			camera.h \

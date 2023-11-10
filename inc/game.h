@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 16:17:55 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/11/09 08:33:02 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/11/10 03:34:51 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@
 # include "holding.h"
 # include "inventory.h"
 # include "minimap.h"
-# include "chunk.h"
 
 int		game_init(t_engine *const eng, t_data *const game, char **argv);
 
@@ -39,7 +38,6 @@ struct s_data
 {
 	t_engine	*eng;
 	t_map		map;
-	t_chunk		chunks;
 	t_map		*selected_map;
 	float		*depth_buffer;
 	t_sprite	*minimap;
@@ -54,8 +52,6 @@ struct s_data
 	int			selected_model;
 	t_vector	entities;
 	t_vector	particles;
-	t_vector	loaded_ents;
-	t_chunk		selected_chunk;
 };
 
 #endif

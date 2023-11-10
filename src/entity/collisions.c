@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/08 20:47:41 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/11/09 08:35:53 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/11/10 03:39:52 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,12 +123,12 @@ static inline void	__ent_loop(
 						t_entity *const self)
 {
 	t_entity		*ent;
-	t_length		len;
+	t_length		index;
 
-	len = entities->size;
-	while (len > 0)
+	ent = entities->data;
+	index = 0;
+	while (index < entities->size)
 	{
-		ent = *(t_entity **)vector_get(entities, len - 1);
 		if (self != ent && ent->aabb.type != AABB_NONE
 			&& !((self->type == ENTITY_PLAYER && ent->type == ENTITY_FIREBALL)
 			|| (ent->type == ENTITY_PLAYER && self->type == ENTITY_FIREBALL))
@@ -138,39 +138,38 @@ static inline void	__ent_loop(
 			self->collided = ent->type;
 			ent->collided = self->type;
 		}
-		ent++;
-		len--;
+		++ent;
+		++index;
 	}
 }
 
 void	collision_ent(
 			t_data *const game,
-			t_vector *const entities,
-			t_map *const map)
+			t_vector *const entities)
 {
 	t_entity	*ent;
-	t_length	len;
-	t_vector	neighbor;
+	t_length	index;
 
-	neighbor = vector_create(sizeof(t_entity *));
-	len = entities->size;
-	while (len > 0)
+	ent = entities->data;
+	index = -1;
+	while (++index < entities->size)
 	{
-		ent = *(t_entity **)vector_get(entities, len - 1);
 		ent->collided = ENTITY_NONE;
 		if (ent->aabb.type != AABB_NONE)
 		{
-			chunks_gather(&game->chunks,
-				ent->aabb.pos + ent->aabb.dim / 2.f, 1, &neighbor);
-			__ent_loop(&neighbor, ent);
-			if (__block_collision(map, &ent->aabb, &ent->vel)
+			__ent_loop(entities, ent);
+			if (__block_collision(&game->map, &ent->aabb, &ent->vel)
 				&& ent->collided == ENTITY_NONE)
 				ent->collided = ENTITY_GENERIC;
 		}
+		++ent;
+	}
+	ent = entities->data;
+	index = -1;
+	while (++index < entities->size)
+	{
 		ent->aabb.pos += ent->vel;
 		ent->vel = (t_v3f){0};
-		ent++;
-		len--;
+		++ent;
 	}
-	vector_destroy(&neighbor);
 }
