@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 10:36:00 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/11/10 05:25:37 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/11/11 11:02:39 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,11 @@
 #include "entity/all.h"
 #include "particle/particle.h"
 #include "aabb.h"
+#include "gameplay_utils.h"
 
 static inline int	__loop(t_engine *eng, t_data *game, double dt)
 {
-	static float		time = 0.f;
-
-	time += dt;
-
+	player_use_item(game, retrieve_player_hit(game));
 	entities_update(game, dt);
 	collision_ent(game, &game->entities);
 	entities_destroy(game);
@@ -53,9 +51,7 @@ static inline int	__loop(t_engine *eng, t_data *game, double dt)
 		ft_put_text(eng, (t_v2i){10, 210}, "par:", 2);
 		ft_put_nbr(eng, (t_v2i){68, 210}, vector_size(&game->particles), 2);
 	}
-	game->tick++;
 	game->holding.time_from_start += dt;
-	time += dt;
 	return (1);
 }
 

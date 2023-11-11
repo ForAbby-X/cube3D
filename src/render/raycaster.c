@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 13:49:15 by vmuller           #+#    #+#             */
-/*   Updated: 2023/10/29 16:32:33 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/11/11 10:33:10 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,10 +94,12 @@ t_color	ray_to_pixel(
 	t_cell			block;
 
 	block = map_get(map, ray->pos);
-	if (block == cell_void)
-		return ((t_color){0});
-	spr = map->sprites[get_real_side(ray)];
 	get_tex_pos(ray, &tex_pos);
+	if (block == cell_void)
+		return (ft_color_f(0.f, ray->delta_dist[x] * 6.f,
+			ray->delta_dist[y] * 6.f,
+			ray->delta_dist[z] * 6.f));
+	spr = map->sprites[get_real_side(ray)];
 	if (block == cell_wall)
 		color = ft_get_color(spr,
 				(t_v2i){tex_pos[x] * spr->size[x], tex_pos[y] * spr->size[y]});
@@ -107,10 +109,8 @@ t_color	ray_to_pixel(
 	else if (block == cell_door_z)
 		color = ft_color_f(0.f, fabsf(tex_pos[x] - .5f),
 				0.f, fabsf(tex_pos[y] - .5f) * 4.f);
-	else if (block >= 2048)
-		color = ft_color(0, (block - 2048), 126, 255 - (block - 2048) * 10);
 	else
-		color = (t_color){0};
+		color = ft_color_f(0.f, ray->side_dist[x], ray->side_dist[y], ray->side_dist[z]);
 	if (color.a > 0 && reflections < 2)
 		color = ray_reflection(map, ray, color, reflections + 1);
 	return (color);

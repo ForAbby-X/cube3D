@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/13 09:52:52 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/11/10 06:25:07 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/11/11 09:19:22 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,9 +110,10 @@ t_particle	*p_spark_add(
 	num = -1;
 	while (++num < 6)
 	{
-		mdir = v3frot(dir,
-				(t_v2f){ft_rand(-M_PI / 3.f, M_PI / 3.f),
-				ft_rand(-M_PI / 3.f, M_PI / 3.f)});
+		mdir = dir + (t_v3f){
+			ft_rand(-.5f, .5f) * (dir[x] == 0.f),
+			ft_rand(-.5f, .5f) * (dir[y] == 0.f),
+			ft_rand(-.5f, .5f) * (dir[z] == 0.f)};
 		particle = particle_add(game, ray.end + dir * 0.001f, mdir);
 		if (particle == NULL)
 			break ;

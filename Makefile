@@ -94,6 +94,7 @@ SRC		=	main.c \
 			particle/others.c \
 			 \
 			gameplay_utils.c \
+			gameplay_use_items.c \
 
 INC		=	vec3.h \
 			camera.h \

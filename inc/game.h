@@ -6,14 +6,12 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 16:17:55 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/11/10 06:28:37 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/11/11 09:21:50 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef GAME_H
 # define GAME_H
-
-# define UPDATE_DISTANCE (5)
 
 # include "engine.h"
 
@@ -38,12 +36,9 @@ struct s_data
 {
 	t_engine	*eng;
 	t_map		map;
-	t_map		*selected_map;
-	float		*depth_buffer;
 	t_sprite	*minimap;
 	t_camera	cam;
 	t_menu		menu;
-	size_t		tick;
 	float		sensitivity;
 	t_holding	holding;
 	int			show_settings;

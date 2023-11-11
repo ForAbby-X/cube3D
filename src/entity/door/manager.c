@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/14 16:33:08 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/11/10 07:26:45 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/11/11 10:06:45 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ static void	_door_update(
 	t_v3f		center;
 	t_particle	*part;
 
-	player_use_items(game, self);
 	if (self->dir[x] > 1.f)
 	{
 		if (self->dir[y] == 0.0f)

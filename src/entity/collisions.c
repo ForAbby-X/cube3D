@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/08 20:47:41 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/11/10 05:16:49 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/11/11 10:18:25 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,7 @@ static inline int	__block_collision(
 	while (++index < 26)
 	{
 		block = player_pos + g_off_pos[index];
-		if (map_get(map, block) != cell_wall)
+		if (map_get(map, block) == cell_air)
 			continue ;
 		block_box = (t_aabb){v3itof(block), {1.0f, 1.0f, 1.0f}, 2};
 		ret += aabb_solve(box, vel, &block_box, &(t_v3f){0});

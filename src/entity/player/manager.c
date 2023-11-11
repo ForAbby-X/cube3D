@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 08:05:41 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/11/10 07:03:15 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/11/11 10:46:30 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,62 +15,21 @@
 #include "particle/particle.h"
 #include "gameplay_utils.h"
 
-static inline void	__door_loop(
-						t_data *const game,
-						t_entity *const self)
-{
-	t_v3f const	dir = v3frot((t_v3f){1.f}, game->cam.rot);
-	t_entity	*ent;
-	t_length	len;
-
-	ent = game->entities.data;
-	len = game->entities.size;
-	while (len > 0)
-	{
-		if (self != ent && ent->type == ENTITY_DOOR
-			&& ray_hit_box(&game->map, game->cam.pos, dir, &ent->aabb))
-		{
-			ent->dir[x] = 2.f;
-			return ;
-		}
-		++ent;
-		--len;
-	}
-}
-
 static void	_player_update(
 				t_entity *const self,
 				t_data *const game,
 				float const dt)
 {
-	t_v3f const	dir = v3frot((t_v3f){1.f}, game->cam.rot);
-	t_ray		ray;
-
 	player_control(self, game, dt);
-	if (ft_mouse(game->eng, 3).pressed)
-		__door_loop(game, self);
 	if (self->collided)
 	{
 		if (ft_key(game->eng, XK_space).pressed)
-			self->dir[x] = 2.5f;
-		else
+			self->dir[x] = 5.5f;
+		else if (self->vel[y] == 0.0f)
 			self->dir[x] = 0.f;
 	}
 	self->dir[x] -= 9.8f * dt;
 	self->vel[y] += self->dir[x] * dt;
-	ray = cast_ray(&game->map, game->cam.pos, dir, 9999.f);
-	if (!game->show_settings && ft_mouse(game->eng, 1).pressed
-		&& game->selected_model == 3 && ray.dist < 1.f
-		&& map_get(&game->map, ray.pos) == cell_wall)
-	{
-		if (ray.pos[y] == 3)
-		{
-			p_block_add(game, v3itof(ray.pos) + (t_v3f){.5f, .5f, .5f});
-			map_set(&game->map, ray.pos, cell_air);
-		}
-		else
-			p_spark_add(game, ray);
-	}
 	if (self->dir[z] > 0.0f)
 	{
 		if (self->dir[y] <= 0.0f)
