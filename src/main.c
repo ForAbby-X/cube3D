@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 10:36:00 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/11/11 11:02:39 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/11/11 11:10:27 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,8 @@
 
 static inline int	__loop(t_engine *eng, t_data *game, double dt)
 {
-	player_use_item(game, retrieve_player_hit(game));
+	if (!game->show_settings)
+		player_use_item(game, retrieve_player_hit(game));
 	entities_update(game, dt);
 	collision_ent(game, &game->entities);
 	entities_destroy(game);
