@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 08:05:41 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/11/07 14:46:21 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/11/12 05:30:58 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ static void	_fireball_update(
 				&& self->collided != ENTITY_FIREBALL));
 	if (self->dead)
 		p_fire_explosion_add(game, self->aabb.pos + self->aabb.dim / 2.f);
-	self->vel = v3frot((t_v3f){4.f * dt}, self->rot);
 	if (self->dir[x] == 0.f)
 	{
 		p_fire_add(game, self->aabb.pos + self->aabb.dim / 2.f + eff * 0.05f,

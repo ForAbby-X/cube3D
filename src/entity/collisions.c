@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/08 20:47:41 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/11/11 10:18:25 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/11/12 05:27:32 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,18 +157,16 @@ void	collision_ent(
 	{
 		ent->collided = ENTITY_NONE;
 		if (ent->aabb.type != AABB_NONE)
-		{
 			__ent_loop(entities, ent);
-			if (__block_collision(&game->map, &ent->aabb, &ent->vel)
-				&& ent->collided == ENTITY_NONE)
-				ent->collided = ENTITY_GENERIC;
-		}
 		++ent;
 	}
 	ent = entities->data;
 	index = -1;
 	while (++index < entities->size)
 	{
+		if (__block_collision(&game->map, &ent->aabb, &ent->vel)
+				&& ent->collided == ENTITY_NONE)
+				ent->collided = ENTITY_GENERIC;
 		ent->aabb.pos += ent->vel;
 		ent->vel = (t_v3f){0};
 		++ent;

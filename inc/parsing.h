@@ -50,3 +50,4 @@ int			pars_to_map(
 int			is_map_closed(t_map *const map);
 
 #endif
+

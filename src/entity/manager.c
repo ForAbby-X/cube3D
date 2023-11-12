@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/13 05:50:21 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/11/10 03:18:47 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/11/12 05:43:23 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,12 @@ void	entities_update(t_data *const game, float const dt)
 	while (index < game->entities.size)
 	{
 		ent->update(ent, game, dt);
+		float	mass;
+		mass = ent->aabb.dim[x] * ent->aabb.dim[y] * ent->aabb.dim[z];
+		ent->vel += ent->imp / mass * dt;
+		ent->imp = ent->imp - ent->imp * dt * dt;
+		if (ent->aabb.type == AABB_MOVABLE)
+			ent->imp[y] -= 9.8f * dt;
 		ent->time_alive += dt;
 		++ent;
 		++index;
@@ -38,8 +44,6 @@ void	entities_display(t_data *const game)
 	while (index < game->entities.size)
 	{
 		ent->display(ent, game);
-		put_3d_point(game->eng, &game->cam, ent->aabb.pos, 0.05f);
-		put_3d_point(game->eng, &game->cam, ent->aabb.pos + ent->aabb.dim, 0.05f);
 		++ent;
 		++index;
 	}

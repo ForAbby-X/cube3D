@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/14 16:33:08 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/11/11 10:47:16 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/11/12 05:25:26 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ t_entity	*e_mimic_add(
 	ent->destroy = &_mimic_destroy;
 	ent->rot = rot;
 	ent->aabb = (t_aabb){pos - (t_v3f){0.125f, 0.0f, 0.125f},
-	{0.25f, 0.45f, 0.25f}, AABB_IMMOVABLE};
+	{0.25f, 0.45f, 0.25f}, AABB_MOVABLE};
 	ent->type = ENTITY_MIMIC;
 	return (ent);
 }

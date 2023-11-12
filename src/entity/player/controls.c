@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 14:30:00 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/11/09 05:30:32 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/11/12 05:33:30 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static inline void	__player_move(
 		vel += (t_v3f){-dir[z], 0.f, dir[x]};
 	if (eng->keys[K_LEFT])
 		vel -= (t_v3f){-dir[z], 0.f, dir[x]};
-	self->vel += v3fnorm(vel, dt * 2.f);
+	self->vel = v3fnorm(vel, dt * 2.f);
 	if (eng->keys[XK_Right])
 		game->cam.rot[x] += dt * 2.f;
 	if (eng->keys[XK_Left])
@@ -76,8 +76,4 @@ void	player_control(
 			ft_show_cursor(game->eng);
 		game->show_settings = !game->show_settings;
 	}
-	if (ft_mouse(game->eng, 1).pressed && game->selected_model == 0
-		&& !game->show_settings)
-		e_fireball_add(game, game->cam.pos + v3froty(v3frotz((t_v3f){0.2f},
-					game->cam.rot[y]), game->cam.rot[x]), game->cam.rot);
 }

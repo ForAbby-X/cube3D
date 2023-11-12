@@ -2,9 +2,9 @@
 static char * spark_xpm[] = {
 "10 10 4 1",
 " 	c None",
-".	c #FFEB13",
-"+	c #FF9F13",
-"@	c #FF6313",
+".	c #FFEE11",
+"+	c #FF9911",
+"@	c #FF6611",
 "          ",
 "          ",
 "          ",

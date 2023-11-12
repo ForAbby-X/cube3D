@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 08:05:41 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/11/11 10:46:30 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/11/12 05:42:02 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,25 +22,8 @@ static void	_player_update(
 {
 	player_control(self, game, dt);
 	if (self->collided)
-	{
 		if (ft_key(game->eng, XK_space).pressed)
-			self->dir[x] = 5.5f;
-		else if (self->vel[y] == 0.0f)
-			self->dir[x] = 0.f;
-	}
-	self->dir[x] -= 9.8f * dt;
-	self->vel[y] += self->dir[x] * dt;
-	if (self->dir[z] > 0.0f)
-	{
-		if (self->dir[y] <= 0.0f)
-		{
-			p_blood_add(game, self->aabb, 5);
-			self->dir[y] = 0.2f;
-		}
-		self->health -= dt * 5.f;
-		self->dir[y] -= dt;
-		self->dir[z] -= dt;
-	}
+			self->imp[y] = 1.f;
 	holding_update(game->eng, &game->cam, &game->holding, dt);
 	game->cam.pos = self->aabb.pos + (t_v3f){0.16f, 0.7f, 0.16f};
 	game->cam.pos[y] += sinf(game->holding.energy_vel * 5.f) * 0.03f;
