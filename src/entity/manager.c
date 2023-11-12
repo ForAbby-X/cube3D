@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/13 05:50:21 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/11/12 05:43:23 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/11/12 05:44:53 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ void	entities_destroy(t_data *const game)
 	index = 0;
 	while (index < game->entities.size)
 	{
-		ent = vector_get(&game->entities, index);
+		ent = &((t_entity *)game->entities.data)[index];
 		if (ent->dead)
 		{
 			ent->destroy(ent, game);
