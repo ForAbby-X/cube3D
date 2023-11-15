@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 08:05:41 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/11/12 02:40:25 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/11/13 08:12:10 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,6 @@ t_entity	*entity_add(t_data *const game, t_v3f const pos)
 	ent->destroy = &_entity_destroy;
 	ent->data = NULL;
 	ent->vel = (t_v3f){0};
-	ent->imp = (t_v3f){0};
 	ent->dir = (t_v3f){0};
 	ent->rot = (t_v2f){0};
 	ent->aabb = (t_aabb){pos, {0}, AABB_NONE};

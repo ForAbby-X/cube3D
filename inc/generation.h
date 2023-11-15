@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/28 14:50:35 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/10/28 15:10:10 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/11/13 18:35:55 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,5 +21,7 @@
 void	map_generate(t_data *const game);
 
 void	generate_room(t_data *const game, t_v3i const pos);
+
+int		generate_rope(t_data *const game);
 
 #endif

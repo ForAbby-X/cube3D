@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 11:00:48 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/10/29 11:42:06 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/11/13 17:22:36 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ t_gui	gui_create(
 	if (gui.surface == NULL)
 		return (vector_destroy(&gui.objects), free(gui.title), (t_gui){0});
 	gui.title_len = ft_strlen(title);
-	gui.fixed = 0;
+	gui.fixed = 1;
 	return (gui);
 }
 

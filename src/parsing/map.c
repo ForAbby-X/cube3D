@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 22:22:01 by vmuller           #+#    #+#             */
-/*   Updated: 2023/07/10 22:15:52 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/11/13 09:17:50 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,9 @@ static inline int	__line_get_map(char *str, t_pars *pars)
 	if (*str == '\n')
 		return (pars_error(pars, "map data end on a carriage return"));
 	ptr = str;
-	while (*ptr && ft_strchr(" 01NOWE", *ptr))
+	while (*ptr && ft_strchr(" 01NSWE", *ptr))
 	{
-		if (*ptr && ft_strchr("NOWE", *ptr))
+		if (*ptr && ft_strchr("NSWE", *ptr))
 		{
 			if (pars->rotation)
 				return (pars_error(pars, "two or more spawn locations"));
@@ -37,7 +37,7 @@ static inline int	__line_get_map(char *str, t_pars *pars)
 		}
 		ptr++;
 	}
-	if (!ft_strchr(" 01NOWE\n\0", *ptr))
+	if (!ft_strchr(" 01NSWE\n\0", *ptr))
 		return (pars_error(pars, "unknown map data"));
 	if (ptr - str > pars->size[x])
 		pars->size[x] = ptr - str;

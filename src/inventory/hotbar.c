@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/13 04:54:17 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/11/10 23:07:27 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/11/14 15:31:50 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,4 +25,5 @@ void	hotbar_put(t_data *const game)
 	ft_put_sprite_part(game->eng, game->sprites[8],
 		(t_v2i){0, game->eng->sel_spr->size[y] - 53},
 		(t_rect){{0, 0}, {53, 53 * (1.f - ratio)}});
+	ft_circle(game->eng, game->eng->sel_spr->size / 2, 2, (t_color){0xFFFFFF});
 }

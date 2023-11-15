@@ -10,7 +10,7 @@
 #                                                                              #
 # **************************************************************************** #
 
-NAME	= cube3d
+NAME	= cub3D
 
 # directories
 SRCDIR	=	./src
@@ -19,6 +19,7 @@ OBJDIR	=	./obj
 
 # src / includes / obj files
 SRC		=	main.c \
+			main2.c \
 			 \
 			game/init.c \
 			game/destroy.c \
@@ -47,6 +48,7 @@ SRC		=	main.c \
 			map/agrement/elevate.c \
 			map/generation/all.c \
 			map/generation/rooms.c \
+			map/generation/rope.c \
 			 \
 			render/raycaster.c \
 			render/reflection.c \
@@ -62,10 +64,14 @@ SRC		=	main.c \
 			 \
 			holding/holding.c \
 			 \
+			title/manager.c \
+			 \
 			camera.c \
 			 \
 			menu/manager.c \
 			menu/settings.c \
+			menu/small_func1.c \
+			menu/small_func2.c \
 			 \
 			minimap.c \
 			 \
@@ -82,12 +88,20 @@ SRC		=	main.c \
 			 \
 			entity/manager.c \
 			entity/collisions.c \
+			entity/aabb_screen.c \
 			entity/generic/manager.c \
 			entity/player/manager.c \
 			entity/player/controls.c \
 			entity/fireball/manager.c \
 			entity/mimic/manager.c \
 			entity/door/manager.c \
+			entity/rope/manager.c \
+			entity/hook/manager.c \
+			entity/enemy/enemy_attack.c \
+			entity/enemy/manager_scp.c \
+			entity/enemy/manager_fish.c \
+			entity/enemy/manager_creep.c \
+			entity/enemy/manager_nest.c \
 			 \
 			particle/manager.c \
 			particle/generic.c \

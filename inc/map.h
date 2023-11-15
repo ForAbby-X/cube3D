@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 10:37:59 by vmuller           #+#    #+#             */
-/*   Updated: 2023/10/28 15:15:35 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/11/13 08:17:11 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ struct s_map
 	t_cell		***data;
 	t_v3i		size;
 	t_v3f		spawn;
+	t_v2f		spawn_dir;
 	t_sprite	*sprites[6];
 	t_color		sky_color;
 	t_color		ground_color;

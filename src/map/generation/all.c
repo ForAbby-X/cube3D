@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/28 14:49:50 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/10/28 15:45:57 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/11/13 18:33:43 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,15 @@ static inline void	__foreach_block(t_data *const game, t_v3i const pos)
 	t_v3f const		center = v3itof(pos) + (t_v3f){.5f, 2.f, .5f};
 
 	if (block == cell_door_z)
+	{
 		e_door_add(game, center, (t_v2f){0.f, 0.f});
+		map_set(&game->map, pos, cell_air);
+	}
 	else if (block == cell_door_x)
+	{
 		e_door_add(game, center, (t_v2f){M_PI_2, 0.f});
+		map_set(&game->map, pos, cell_air);
+	}
 	else if (block >= cell_zone)
 		generate_room(game, pos);
 }
@@ -41,4 +47,5 @@ void	map_generate(t_data *const game)
 		}
 		++pos[x];
 	}
+	generate_rope(game);
 }

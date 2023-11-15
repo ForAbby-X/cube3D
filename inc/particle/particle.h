@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/13 09:31:26 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/11/11 10:39:12 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/11/13 14:49:44 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,15 +41,23 @@ t_particle	*p_spark_add(
 				t_data *const game,
 				t_ray const ray);
 
-t_particle	*p_blood_add(
+t_particle	*p_zone_add(
 				t_data *const game,
 				t_aabb const box,
-				t_length const quantity);
+				t_length const quantity,
+				t_sprite *const spr);
 
-t_particle	*p_blood_exp(
+t_particle	*p_small_exp(
 				t_data *const game,
 				t_v3f const pos,
-				t_length const quantity);
+				t_length const quantity,
+				t_sprite *const spr);
+
+void		particle_line(
+				t_data *const game,
+				t_v3f start,
+				t_v3f end,
+				t_sprite *const spr);
 
 struct s_particle
 {

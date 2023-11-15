@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 08:05:41 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/11/12 05:30:58 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/11/13 17:01:15 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,11 @@ static void	_fireball_update(
 	t_v3f const	eff = v3frot((t_v3f){0.f, sinf(self->time_alive * speed),
 			cosf(self->time_alive * speed)}, self->rot);
 
-	self->dead = (self->time_alive >= 2.f || (self->collided != ENTITY_PLAYER
+	self->dead = (self->time_alive >= 1.25f || (self->collided != ENTITY_PLAYER
 				&& self->collided != ENTITY_NONE
 				&& self->collided != ENTITY_FIREBALL));
 	if (self->dead)
-		p_fire_explosion_add(game, self->aabb.pos + self->aabb.dim / 2.f);
+		effect_explosion(game, self->aabb.pos + self->aabb.dim / 2.f);
 	if (self->dir[x] == 0.f)
 	{
 		p_fire_add(game, self->aabb.pos + self->aabb.dim / 2.f + eff * 0.05f,
@@ -34,6 +34,7 @@ static void	_fireball_update(
 		self->dir[x] = 0.05f;
 	}
 	self->dir[x] = fmaxf(self->dir[x] - dt, 0.f);
+	self->vel = v3frot((t_v3f){5.f * dt}, self->rot);
 }
 
 static void	_fireball_display(t_entity *const self, t_data *const game)

@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 17:24:53 by vmuller           #+#    #+#             */
-/*   Updated: 2023/11/02 18:29:51 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/11/14 08:02:00 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,5 +122,8 @@ int	pars_to_map(
 	if (__pars_set_colors(eng, pars, map))
 		return (1);
 	__pars_to_data(pars, map);
+	pars->last_line = "NSEW";
+	map->spawn_dir[x] = (ft_strchr(pars->last_line, pars->rotation)
+			- pars->last_line) * M_PI_2 - M_PI_2;
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/08 20:47:41 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/11/12 05:27:32 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/11/14 13:29:42 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,33 +65,20 @@ int	aabb_solve(
 	return (1);
 }
 
-static t_v3i const g_off_pos[] = {
-{-1, 0, 0},
-{1, 0, 0},
-{0, -1, 0},
-{0, 1, 0},
-{0, 0, -1},
-{0, 0, 1},
-{-1, -1, 0},
-{-1, 1, 0},
-{1, -1, 0},
-{1, 1, 0},
-{-1, 0, -1},
-{-1, 0, 1},
-{1, 0, -1},
-{1, 0, 1},
-{0, -1, -1},
-{0, -1, 1},
-{0, 1, -1},
-{0, 1, 1},
-{-1, -1, -1},
-{-1, -1, 1},
-{-1, 1, -1},
-{-1, 1, 1},
-{1, -1, -1},
-{1, -1, 1},
-{1, 1, -1},
-{1, 1, 1}
+static t_v3i const	g_off_pos[] = {
+{-1, 0, 0}, {1, 0, 0},
+{0, -1, 0}, {0, 1, 0},
+{0, 0, -1}, {0, 0, 1},
+{-1, -1, 0}, {-1, 1, 0},
+{1, -1, 0}, {1, 1, 0},
+{-1, 0, -1}, {-1, 0, 1},
+{1, 0, -1}, {1, 0, 1},
+{0, -1, -1}, {0, -1, 1},
+{0, 1, -1}, {0, 1, 1},
+{-1, -1, -1}, {-1, -1, 1},
+{-1, 1, -1}, {-1, 1, 1},
+{1, -1, -1}, {1, -1, 1},
+{1, 1, -1}, {1, 1, 1}
 };
 
 static inline int	__block_collision(
@@ -132,12 +119,14 @@ static inline void	__ent_loop(
 		if (self != ent && ent->aabb.type != AABB_NONE
 			&& !((self->type == ENTITY_PLAYER && ent->type == ENTITY_FIREBALL)
 				|| (ent->type == ENTITY_PLAYER
-					&& self->type == ENTITY_FIREBALL))
-			&& aabb_solve(&self->aabb, &self->vel, &ent->aabb, &ent->vel)
-			&& self->collided == ENTITY_NONE)
+					&& self->type == ENTITY_FIREBALL)))
 		{
-			self->collided = ent->type;
-			ent->collided = self->type;
+			if (aabb_solve(&self->aabb, &self->vel, &ent->aabb, &ent->vel)
+				&& self->collided == ENTITY_NONE)
+			{
+				self->collided = ent->type;
+				ent->collided = self->type;
+			}
 		}
 		++ent;
 		++index;
@@ -164,8 +153,9 @@ void	collision_ent(
 	index = -1;
 	while (++index < entities->size)
 	{
-		if (__block_collision(&game->map, &ent->aabb, &ent->vel)
-				&& ent->collided == ENTITY_NONE)
+		if (ent->type != ENTITY_ENNEMY_FISH
+			&& __block_collision(&game->map, &ent->aabb, &ent->vel)
+			&& ent->collided == ENTITY_NONE)
 				ent->collided = ENTITY_GENERIC;
 		ent->aabb.pos += ent->vel;
 		ent->vel = (t_v3f){0};

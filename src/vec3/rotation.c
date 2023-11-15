@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/13 09:24:41 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/10/14 23:39:03 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/11/14 11:12:52 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,4 +61,15 @@ t_v3f	v3frot(t_v3f vec, t_v2f rot)
 		res[x] * vx_cosf - res[z] * vx_sinf,
 		res[y],
 		res[x] * vx_sinf + res[z] * vx_cosf});
+}
+
+t_v2f	v3flook(t_v3f from, t_v3f to)
+{
+	t_v3f const	diff = to - from;
+	float const	dist = v3fmag(diff);
+	t_v2f		ret;
+
+	ret[x] = atan2(diff[z], diff[x]);
+	ret[y] = asinf(diff[y]) / dist;
+	return (ret);
 }

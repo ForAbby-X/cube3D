@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/15 16:02:01 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/10/28 16:21:57 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/11/14 13:30:16 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ void	put_spr_scale(
 		while (pix[x] < border[x])
 		{
 			color = ft_get_color(spr.spr,
-				(t_v2i){pix[x] / scale, pix[y] / scale});
+					(t_v2i){pix[x] / scale, pix[y] / scale});
 			if (color.a == 0)
 				__depth_rect(eng, cam, (t_rect){spr.pos + pix,
 				{ft_max(scale, 1), 0}},
@@ -108,7 +108,6 @@ void	put_3d_point(
 	pix = (t_v2i){proj[x], proj[y]};
 	if (proj[z] > camera_get_depth(cam, pix))
 		return ;
-	// size = proj[z] * cam->screen_dist * ssize;
 	size = (1.0f / proj[z]) * cam->screen_dist * ssize;
 	ft_eng_sel_spr(eng, cam->surface);
 	if (size > 1.f)

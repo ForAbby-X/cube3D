@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 16:17:55 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/11/11 09:21:50 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/11/14 18:08:30 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,12 +25,18 @@
 # include "holding.h"
 # include "inventory.h"
 # include "minimap.h"
+# include "title.h"
+# include "fog_manager.h"
 
 int		game_init(t_engine *const eng, t_data *const game, char **argv);
 
 void	game_sprites_destroy(t_data *const game);
 void	game_models_destroy(t_data *const game);
 void	game_destroy(t_data *const game);
+
+int		loop_la_vrai(t_engine *eng, t_data *game, float const dt);
+
+void	effect_explosion(t_data *const game, t_v3f const pos);
 
 struct s_data
 {
@@ -47,6 +53,12 @@ struct s_data
 	int			selected_model;
 	t_vector	entities;
 	t_vector	particles;
+	t_title		title;
+	t_fog		fog;
+	void		*target_death;
+	t_v3f		death_pos;
+	int			state;
+	float		hard_time;
 };
 
 #endif

@@ -6,22 +6,19 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/12 13:22:15 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/10/13 05:02:53 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/11/14 19:10:42 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "holding.h"
 
 void	holding_update(
-			t_engine *const eng,
 			t_camera *const cam,
 			t_holding *const hold,
 			float const dt)
 {
 	hold->energy_vel += v3fmag(cam->pos - hold->last_pos);
 	hold->last_pos = cam->pos;
-	if (ft_mouse(eng, 1).pressed)
-		hold->click_energy = 0.5f;
 	hold->click_energy -= dt / 1.2f;
 	hold->click_energy = fmaxf(hold->click_energy, 0.0f);
 }

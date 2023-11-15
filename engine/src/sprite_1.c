@@ -6,26 +6,11 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/23 11:48:37 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/10/26 17:15:22 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/11/14 07:47:04 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "engine.h"
-
-// static inline t_sprite	*__clear_path(char *const path)
-// {
-// 	char	*ptr1;
-// 	char	*ptr2;
-
-// 	ptr1 = path;
-// 	ptr2 = path;
-// 	while (*ptr1)
-// 	{
-// 		if (*ptr1 == '/' && *ptr2 == '/')
-// 			ft_memmove(ptr2, ptr1, ft_strlen(ptr1));
-// 		++ptr1;
-// 	}
-// }
 
 static inline t_sprite	*__is_sprite_present(
 						t_engine const *const eng,
@@ -87,22 +72,22 @@ t_sprite	*ft_sprite_p(t_engine *eng, char *path)
 	int			tab[3];
 	int			xy[2];
 
-	ret = __is_sprite_present(eng, path);
-	if (ret)
-		return (ret);
+	if (__is_sprite_present(eng, path))
+		return (__is_sprite_present(eng, path));
 	spr.name = ft_strdup(path);
 	if (spr.name == NULL)
 		return (NULL);
 	spr.img.image = mlx_xpm_file_to_image(eng->mlx, path, &xy[0], &xy[1]);
 	if (spr.img.image == NULL)
-		return (NULL);
+		return (free(spr.name), NULL);
 	spr.size = (t_v2i){xy[0], xy[1]};
 	spr.img.data
 		= mlx_get_data_addr(spr.img.image, &tab[0], &tab[1], &tab[2]);
 	spr.data = (t_color *)(uint32_t *)spr.img.data;
 	ret = vector_addback(&eng->textures, &spr);
 	if (ret == NULL)
-		return (mlx_destroy_image(eng->mlx, spr.img.image), NULL);
+		return (free(spr.name), mlx_destroy_image(eng->mlx, spr.img.image),
+			NULL);
 	ft_putstr_fd("Added sprite #", 1);
 	ft_putnbr_fd(eng->textures.size - 1, 1);
 	ft_putstr_fd(" - [", 1);

@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 23:28:54 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/10/13 09:22:58 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/11/14 12:07:49 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,19 +43,17 @@ static inline void	__minimap_crop(
 	}
 }
 
-void	minimap_display(
-			t_engine *const eng,
-			t_map *const map,
-			t_camera *const cam,
-			t_sprite *const minimap)
+static inline void	minimap_display_while(
+					t_engine *const eng,
+					t_map *const map,
+					t_camera *const cam)
 {
 	t_v2i		pxpos;
-	t_v3i const	bcam = (t_v3i){cam->pos[x] + .5f, cam->pos[y], cam->pos[z] + .5f};
+	t_v3i const	bcam = (t_v3i){cam->pos[x]
+		+ .5f, cam->pos[y], cam->pos[z] + .5f};
 	t_v2i const	off = (t_v2i){(cam->pos[x] - roundf(cam->pos[x])) * 10,
-					(cam->pos[z] - roundf(cam->pos[z])) * 10};
+		(cam->pos[z] - roundf(cam->pos[z])) * 10};
 
-	ft_eng_sel_spr(eng, minimap);
-	ft_clear(eng, (t_color){0});
 	pxpos[y] = -7;
 	while (pxpos[y] < 7)
 	{
@@ -63,15 +61,29 @@ void	minimap_display(
 		while (pxpos[x] < 7)
 		{
 			if (map_get(map, bcam + (t_v3i){pxpos[x], 0, pxpos[y]}))
-				ft_rect(eng, ((t_v2i){6, 6} + pxpos) * 10 - off, (t_v2i){10, 10}, (t_color){0x1f0005});
+				ft_rect(eng, ((t_v2i){6, 6} + pxpos) \
+				* 10 - off, (t_v2i){10, 10}, (t_color){0x1f0005});
 			else
-				ft_put_sprite_part(eng, map->sprites[4], ((t_v2i){6, 6} + pxpos) * 10 - off, (t_rect){{0}, {10, 10}});
+				ft_put_sprite_part(eng, map->sprites[4], ((t_v2i){6, 6} \
+				+ pxpos) * 10 - off, (t_rect){{0}, {10, 10}});
 			pxpos[x]++;
 		}
 		pxpos[y]++;
 	}
+}
+
+void	minimap_display(
+			t_engine *const eng,
+			t_map *const map,
+			t_camera *const cam,
+			t_sprite *const minimap)
+{
+	ft_eng_sel_spr(eng, minimap);
+	ft_clear(eng, (t_color){0});
+	minimap_display_while(eng, map, cam);
 	ft_eng_sel_spr(eng, NULL);
 	__minimap_crop(minimap, cam);
-	ft_put_sprite_r(eng, minimap, (t_rect){{60, 60}, {60, 60}}, -cam->rot[x] - M_PI_2);
+	ft_put_sprite_r(eng, minimap,
+		(t_rect){{60, 60}, {60, 60}}, -cam->rot[x] - M_PI_2);
 	ft_circle(eng, (t_v2i){6, 6} * 10, 4, (t_color){0xba1004});
 }

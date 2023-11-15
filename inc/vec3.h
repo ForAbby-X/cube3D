@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 10:44:52 by vmuller           #+#    #+#             */
-/*   Updated: 2023/10/14 23:31:42 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/11/14 11:12:49 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,5 +38,6 @@ t_v3f	v3frotx(t_v3f vec, float phi);
 t_v3f	v3froty(t_v3f vec, float phi);
 t_v3f	v3frotz(t_v3f vec, float phi);
 t_v3f	v3frot(t_v3f vec, t_v2f rot);
+t_v2f	v3flook(t_v3f from, t_v3f to);
 
 #endif

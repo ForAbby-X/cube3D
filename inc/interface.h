@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 15:23:29 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/10/26 13:43:31 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/11/14 13:36:34 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,9 @@ typedef struct s_gui_data		t_gui_data;
 typedef struct s_gui_obj		t_gui_obj;
 typedef void					(*t_obj_meth)(void *const data);
 
-static t_v2i const	g_gui_offset = {2, 24};
-static t_v2i const	g_gui_obj_size = {0, 22};
-static t_v2i const	g_gui_obj_offset = {2, 2};
+static t_v2i const				g_gui_offset = {2, 24};
+static t_v2i const				g_gui_obj_size = {0, 22};
+static t_v2i const				g_gui_obj_offset = {2, 2};
 
 struct s_gui_container
 {
@@ -117,5 +117,12 @@ t_gui_obj	*gui_add_button(
 
 void		gui_update(t_engine *const eng, t_gui *const gui);
 void		gui_display(t_engine *const eng, t_gui *const gui);
+
+void		__menu_to_fog(void *const data);
+void		__menu_to_control(void *const data);
+void		__menu_to_player(void *const data);
+void		__menu_to_settings(void *const data);
+void		__menu_launch(void *const data);
+void		__menu_quit(void *const data);
 
 #endif

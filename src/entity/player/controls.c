@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 14:30:00 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/11/12 05:33:30 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/11/14 17:58:01 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,14 +31,34 @@ static inline void	__player_move(
 	if (eng->keys[K_LEFT])
 		vel -= (t_v3f){-dir[z], 0.f, dir[x]};
 	self->vel = v3fnorm(vel, dt * 2.f);
+}
+
+static inline void	__player_rotate(
+	t_entity *const self,
+	t_engine *const eng,
+	t_data *const game,
+	float const dt)
+{
 	if (eng->keys[XK_Right])
-		game->cam.rot[x] += dt * 2.f;
+		self->rot[x] += dt * 2.f;
 	if (eng->keys[XK_Left])
-		game->cam.rot[x] -= dt * 2.f;
+		self->rot[x] -= dt * 2.f;
 	if (eng->keys[XK_Down])
-		game->cam.rot[y] -= dt * 2.f;
+		self->rot[y] -= dt * 2.f;
 	if (eng->keys[XK_Up])
-		game->cam.rot[y] += dt * 2.f;
+		self->rot[y] += dt * 2.f;
+	if (!game->show_settings)
+	{
+		self->rot[x] += ((float)game->eng->mouse_x - 500)
+			* (game->sensitivity / 100.f);
+		self->rot[y] -= ((float)game->eng->mouse_y - 260)
+			* (game->sensitivity / 100.f);
+		mlx_mouse_move(game->eng->mlx, game->eng->win, 500, 260);
+	}
+	if (self->rot[y] < -M_PI_2)
+		self->rot[y] = -M_PI_2;
+	else if (self->rot[y] > M_PI_2)
+		self->rot[y] = M_PI_2;
 }
 
 void	player_control(
@@ -46,23 +66,11 @@ void	player_control(
 			t_data *const game,
 			double const dt)
 {
-	__player_move(self, game->eng, game, dt);
-	if (!game->show_settings)
+	if (game->state != 2)
 	{
-		game->cam.rot[x] += ((float)game->eng->mouse_x - 500)
-			* (game->sensitivity / 100.f);
-		game->cam.rot[y] -= ((float)game->eng->mouse_y - 260)
-			* (game->sensitivity / 100.f);
-		mlx_mouse_move(game->eng->mlx, game->eng->win, 500, 260);
+		__player_move(self, game->eng, game, dt);
+		__player_rotate(self, game->eng, game, dt);
 	}
-	if (game->cam.rot[x] < -M_PI)
-		game->cam.rot[x] += M_PI * 2;
-	else if (game->cam.rot[x] > M_PI)
-		game->cam.rot[x] -= M_PI * 2;
-	if (game->cam.rot[y] < -M_PI_2)
-		game->cam.rot[y] = -M_PI_2;
-	else if (game->cam.rot[y] > M_PI_2)
-		game->cam.rot[y] = M_PI_2;
 	if (ft_key(game->eng, XK_Tab).pressed)
 	{
 		if (game->show_settings)

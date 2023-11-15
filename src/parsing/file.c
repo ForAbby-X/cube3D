@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 22:20:24 by vmuller           #+#    #+#             */
-/*   Updated: 2023/11/02 17:39:38 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/11/14 17:58:54 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,15 +36,13 @@ int	pars_error(t_pars *const pars, char *const str)
 	return (1);
 }
 
-t_map	pars_file(
-	t_engine *const eng,
-	char *const path)
+t_map	pars_file(t_engine *const eng, char *const path)
 {
 	t_pars	pars;
 	t_map	map;
 	int		fd;
 
-	if (!ft_strrchr(path, '.')
+	if (ft_strlen(path) <= 4 || !ft_strrchr(path, '.')
 		|| ft_strncmp(ft_strrchr(path, '.'), ".cub", 5))
 		return (ft_putstr_fd("Error\nparsing error : wrong extension\n", 2),
 			(t_map){0});
@@ -54,14 +52,15 @@ t_map	pars_file(
 	pars = (t_pars){0};
 	pars.data = vector_create(sizeof(char *));
 	if (pars.data.data == NULL)
-		return (get_next_line(-1), vector_destroy(&pars.data), (t_map){0});
+		return (get_next_line(-1), close(fd), vector_destroy(&pars.data),
+			(t_map){0});
 	if (pars_elements(fd, &pars) || pars_map(fd, &pars))
-		return (get_next_line(-1), vector_destroy(&pars.data), (t_map){0});
+		return (get_next_line(-1), close(fd), vector_destroy(&pars.data),
+			(t_map){0});
 	get_next_line(-1);
 	if (pars_to_map(eng, &pars, &map)
 		|| (!is_map_closed(&map) && __pars_clear(&pars)))
-		return (vector_destroy(&pars.data), (t_map){0});
+		return (close(fd), vector_destroy(&pars.data), (t_map){0});
 	__pars_clear(&pars);
-	vector_destroy(&pars.data);
-	return (map);
+	return (close(fd), vector_destroy(&pars.data), map);
 }
