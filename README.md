@@ -1,6 +1,6 @@
 ## Duo:
-* Forabby / alde-fre ->	[Git](https://github.com/ForAbby-X) / [42.intra](https://profile.intra.42.fr/users/alde-fre)
-* Wolran / vmuller ->	[Git](https://github.com/Wolran) / [42.intra](https://profile.intra.42.fr/users/vmuller)
+* Forabby / alde-fre ->	[Git](https://github.com/ForAbby-X)
+* Wolran / vmuller ->	[Git](https://github.com/Wolran)
 
 ### The game:
 Cub3D is a horror roguelike game, developed in our 3D raycaster and rasterizer.
