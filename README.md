@@ -1,17 +1,10 @@
-# cub3D
-
 ## Duo:
 * Forabby / alde-fre ->	[Git](https://github.com/ForAbby-X) / [42.intra](https://profile.intra.42.fr/users/alde-fre)
 * Wolran / vmuller ->	[Git](https://github.com/Wolran) / [42.intra](https://profile.intra.42.fr/users/vmuller)
 
-
-
-
-### Description:
-Cub3D is a 3D horror RPG game designed using raycasting, within which we developed our own rasterizer to incorporate custom 3D models into the game.
-
-## Screenshot:
-
+### The game:
+Cub3D is a horror roguelike game.
+In wich we implemented our own 3D raycaster and rasterizer.
 
 ## Features:
 
@@ -25,6 +18,9 @@ Cub3D is a 3D horror RPG game designed using raycasting, within which we develop
 - **Map loading:** You can load custom ".cub" files.
 - **Procedural Generation:** The game generates doors, items and enemies procedurally in the map.
 
-## Feedback
+## Screenshot:
 
-If you have any feedback, please reach out to me at alde-fre@student.42.fr.
+
+## Get in touch
+
+**mail:** alde-fre@student.42.fr.
