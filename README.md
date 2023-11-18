@@ -18,8 +18,8 @@ Cub3D is a horror roguelike game, developed in our 3D raycaster and rasterizer.
 - **Procedural Generation:** The game generates doors, items, and enemies procedurally in the map.
 
 ## Screenshots:
-![](gif/gameplay1.gif) ![](gif/gameplay2.gif)
-![](gif/gameplay3.gif) ![](gif/gameplay4.gif)
+![](gif/gameplay1.gif | width=100) ![](gif/gameplay2.gif | width=100)
+![](gif/gameplay3.gif | width=100) ![](gif/gameplay4.gif | width=100)
 
 ## Get in touch:
 
