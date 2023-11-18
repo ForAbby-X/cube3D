@@ -3,19 +3,19 @@
 * Wolran / vmuller ->	[Git](https://github.com/Wolran) / [42.intra](https://profile.intra.42.fr/users/vmuller)
 
 ### The game:
-Cub3D is a horror roguelike game, developed in our own 3D raycaster and rasterizer.
+Cub3D is a horror roguelike game, developed in our 3D raycaster and rasterizer.
 
 ## Features:
 
 - **Raycaster:** The walls are rendered using an optimised 3D ray casting algorithm.
 - **3D Models:** The in-game objects are rendered using a homemade rasterizer.
 - **Particles:** The particles are rendered as billboard images and collide with the walls.
-- **Ennemy AI:** Each enemies have their own custom AI that interact with the player.
+- **Enemy AI:** Each enemy has their custom AI that interacts with the player.
 - **Collisions:** There are collisions between every object in the world: enemies, walls, items...
-- **User Interface:** There is a custom user interface that handle interactive sliders, clickable button, and text.
+- **User Interface:** There is a custom user interface that handles interactive sliders, clickable buttons, and text.
 - **OBJ parsing:** There is a homemade ".obj" parser.
 - **Map loading:** You can load custom ".cub" files.
-- **Procedural Generation:** The game generates doors, items and enemies procedurally in the map.
+- **Procedural Generation:** The game generates doors, items, and enemies procedurally in the map.
 
 ## Screenshot:
 
