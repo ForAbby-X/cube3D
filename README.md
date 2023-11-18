@@ -1,9 +1,9 @@
+### The game:
+Cub3D is a horror roguelike game, developed in our 3D raycaster and rasterizer.
+
 ### Duo:
 *  [Forabby / alde-fre](https://github.com/ForAbby-X)
 *  [Wolran / vmuller](https://github.com/Wolran)
-
-### The game:
-Cub3D is a horror roguelike game, developed in our 3D raycaster and rasterizer.
 
 ## Features:
 
