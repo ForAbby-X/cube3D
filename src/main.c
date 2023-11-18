@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 10:36:00 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/11/14 19:21:59 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/11/18 11:49:35 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ static inline int	__loop(t_engine *eng, t_data *game, double dt)
 	{
 		ret = __main_menu(game->eng, game, dt);
 		ft_put_text(eng, (t_v2i){3, eng->sel_spr->size[y] - 28},
-			"creators: vmuller/aldefre", 2);
+			"creators: vmuller/alde-fre", 2);
 		return (ret);
 	}
 	if (!game->show_settings && game->holding.click_energy < 0.1f)
