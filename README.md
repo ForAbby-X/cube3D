@@ -22,4 +22,4 @@ Cub3D is a horror roguelike game, developed in our 3D raycaster and rasterizer.
 
 ## Get in touch
 
-**mail:** alde-fre@student.42.fr.
+**mail:** alde-fre@student.42.fr
