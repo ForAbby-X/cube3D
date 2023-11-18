@@ -3,7 +3,7 @@
 * Wolran / vmuller ->	[Git](https://github.com/Wolran) / [42.intra](https://profile.intra.42.fr/users/vmuller)
 
 ### The game:
-Cub3D is a horror roguelike game, in wich we implemented our own 3D raycaster and rasterizer.
+Cub3D is a horror roguelike game, developed in our own 3D raycaster and rasterizer.
 
 ## Features:
 
