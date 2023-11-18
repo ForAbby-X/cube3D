@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/10 03:40:20 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/11/14 19:22:14 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/11/18 17:27:01 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,9 +136,10 @@ static inline void	__use(t_data *const game, t_entity *const ent)
 
 void	player_use_item(t_data *const game, t_hit const hit)
 {
-	float	hit_dist;
+	float const	hit_dist = g_reach[game->selected_model];
 
-	hit_dist = g_reach[game->selected_model];
+	if (game->state == 2)
+		return ;
 	if (ft_mouse(game->eng, 1).pressed)
 		game->holding.click_energy = 0.5f;
 	if (ft_mouse(game->eng, 1).pressed && game->selected_model == 0)
