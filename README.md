@@ -1,9 +1,9 @@
 ### The game:
-Cub3D is a horror roguelike game, developed in our 3D raycaster and rasterizer.
+Cub3D is a horror roguelike game, developed in a homemade 3D raycaster and rasterizer.
 
-### Duo:
-*  [Forabby / alde-fre](https://github.com/ForAbby-X)
+### The team:
 *  [Wolran / vmuller](https://github.com/Wolran)
+*  [Forabby / alde-fre](https://github.com/ForAbby-X)
 
 ## Features:
 
@@ -18,8 +18,12 @@ Cub3D is a horror roguelike game, developed in our 3D raycaster and rasterizer.
 - **Procedural Generation:** The game generates doors, items, and enemies procedurally in the map.
 
 ## Screenshots:
-![](gif/gameplay1.gif) ![](gif/gameplay2.gif)
-![](gif/gameplay3.gif) ![](gif/gameplay4.gif)
+<h3 align="center">
+  <img width="400" src="https://github.com/ForAbby-X/cube3D/blob/main/gif/gameplay1.gif">
+  <img width="400" src="https://github.com/ForAbby-X/cube3D/blob/main/gif/gameplay2.gif"><br>
+  <img width="400" src="https://github.com/ForAbby-X/cube3D/blob/main/gif/gameplay3.gif">
+  <img width="400" src="https://github.com/ForAbby-X/cube3D/blob/main/gif/gameplay4.gif">
+</h3>
 
 ## Get in touch:
 
